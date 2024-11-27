@@ -1,11 +1,11 @@
 
-# **Mobile Controller Home**
+# **Mobile Controlled Home**
 
 ![SmartHomeDPart](https://github.com/user-attachments/assets/6f3cb4b8-e80b-4984-b60b-79b6b341aaa4)
 
 
 ## **Introduction**
-The **Mobile Controller Home** project implements a smart home system that enables users to control home appliances remotely using a mobile application. By integrating hardware and software components, this system enhances security, comfort, and energy efficiency. It is designed to provide low cost, flexibility, ease of use, and reliability.  
+The **Mobile Controlled Home** project implements a smart home system that enables users to control home appliances remotely using a mobile application. By integrating hardware and software components, this system enhances security, comfort, and energy efficiency. It is designed to provide low cost, flexibility, ease of use, and reliability.  
 
 ## **Features**
 - **Remote Device Control**: Manage devices like LEDs, AC, and motors using mobile commands.
