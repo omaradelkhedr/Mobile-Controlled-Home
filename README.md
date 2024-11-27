@@ -26,7 +26,12 @@ The project is divided into three layers:
 3. **Microcontroller Abstraction Layer (MCAL)**:
    - Low-level interaction with microcontroller peripherals (DIO, USART, ADC, Timer).
 
+---
+
+
 **Project Flowchart:**
+
+
 ![Project Flowchart](https://github.com/user-attachments/assets/c6d59b95-ee2f-4bf7-8d72-c8aaf2725b39)
 
 
