@@ -1,0 +1,4008 @@
+
+MobileControlledHome.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00001728  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000406  00800060  00001728  000017bc  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000026  00800466  00800466  00001bc2  2**0
+                  ALLOC
+  3 .stab         00002b98  00000000  00000000  00001bc4  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  4 .stabstr      000010dd  00000000  00000000  0000475c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+       0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+       4:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+       8:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+       c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+      10:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+      14:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+      18:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+      1c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+      20:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+      24:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+      28:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+      2c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+      30:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+      34:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+      38:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+      3c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+      40:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+      44:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+      48:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+      4c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+      50:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+
+00000054 <__ctors_end>:
+      54:	11 24       	eor	r1, r1
+      56:	1f be       	out	0x3f, r1	; 63
+      58:	cf e5       	ldi	r28, 0x5F	; 95
+      5a:	d8 e0       	ldi	r29, 0x08	; 8
+      5c:	de bf       	out	0x3e, r29	; 62
+      5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_copy_data>:
+      60:	14 e0       	ldi	r17, 0x04	; 4
+      62:	a0 e6       	ldi	r26, 0x60	; 96
+      64:	b0 e0       	ldi	r27, 0x00	; 0
+      66:	e8 e2       	ldi	r30, 0x28	; 40
+      68:	f7 e1       	ldi	r31, 0x17	; 23
+      6a:	02 c0       	rjmp	.+4      	; 0x70 <.do_copy_data_start>
+
+0000006c <.do_copy_data_loop>:
+      6c:	05 90       	lpm	r0, Z+
+      6e:	0d 92       	st	X+, r0
+
+00000070 <.do_copy_data_start>:
+      70:	a6 36       	cpi	r26, 0x66	; 102
+      72:	b1 07       	cpc	r27, r17
+      74:	d9 f7       	brne	.-10     	; 0x6c <.do_copy_data_loop>
+
+00000076 <__do_clear_bss>:
+      76:	14 e0       	ldi	r17, 0x04	; 4
+      78:	a6 e6       	ldi	r26, 0x66	; 102
+      7a:	b4 e0       	ldi	r27, 0x04	; 4
+      7c:	01 c0       	rjmp	.+2      	; 0x80 <.do_clear_bss_start>
+
+0000007e <.do_clear_bss_loop>:
+      7e:	1d 92       	st	X+, r1
+
+00000080 <.do_clear_bss_start>:
+      80:	ac 38       	cpi	r26, 0x8C	; 140
+      82:	b1 07       	cpc	r27, r17
+      84:	e1 f7       	brne	.-8      	; 0x7e <.do_clear_bss_loop>
+      86:	0e 94 2a 0b 	call	0x1654	; 0x1654 <main>
+      8a:	0c 94 92 0b 	jmp	0x1724	; 0x1724 <_exit>
+
+0000008e <__bad_interrupt>:
+      8e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000092 <MUSART_VoidInit>:
+ * Return value: None
+ * Description: Function to initialize the USART module and set the baud rate
+ ************************************************************************************/
+
+void MUSART_VoidInit(u16 Copy_u16BaudRate)
+{
+      92:	0f 93       	push	r16
+      94:	1f 93       	push	r17
+      96:	df 93       	push	r29
+      98:	cf 93       	push	r28
+      9a:	00 d0       	rcall	.+0      	; 0x9c <MUSART_VoidInit+0xa>
+      9c:	0f 92       	push	r0
+      9e:	cd b7       	in	r28, 0x3d	; 61
+      a0:	de b7       	in	r29, 0x3e	; 62
+      a2:	9b 83       	std	Y+3, r25	; 0x03
+      a4:	8a 83       	std	Y+2, r24	; 0x02
+	/*  local variable to assign bits' values to UCSRC Register */
+	u8 LOC_u8RRegVal=0;
+      a6:	19 82       	std	Y+1, r1	; 0x01
+
+	/*set bit 7 to select writing in register UCSRC not UBRRH */
+	SET_BIT(LOC_u8RRegVal,USART_UCSRC_URSEL);
+      a8:	89 81       	ldd	r24, Y+1	; 0x01
+      aa:	80 68       	ori	r24, 0x80	; 128
+      ac:	89 83       	std	Y+1, r24	; 0x01
+
+	/* Select Asyncronous Mode of UASRT  */
+	CLR_BIT(LOC_u8RRegVal,USART_UCSRC_UMSEL);
+      ae:	89 81       	ldd	r24, Y+1	; 0x01
+      b0:	8f 7b       	andi	r24, 0xBF	; 191
+      b2:	89 83       	std	Y+1, r24	; 0x01
+
+	/*Select Parity Disable Mode*/
+	CLR_BIT(LOC_u8RRegVal,USART_UCSRC_UPM1);
+      b4:	89 81       	ldd	r24, Y+1	; 0x01
+      b6:	8f 7d       	andi	r24, 0xDF	; 223
+      b8:	89 83       	std	Y+1, r24	; 0x01
+	CLR_BIT(LOC_u8RRegVal,USART_UCSRC_UPM0);
+      ba:	89 81       	ldd	r24, Y+1	; 0x01
+      bc:	8f 7e       	andi	r24, 0xEF	; 239
+      be:	89 83       	std	Y+1, r24	; 0x01
+
+	/* select one stop bit  */
+	CLR_BIT(LOC_u8RRegVal,USART_UCSRC_USBS);
+      c0:	89 81       	ldd	r24, Y+1	; 0x01
+      c2:	87 7f       	andi	r24, 0xF7	; 247
+      c4:	89 83       	std	Y+1, r24	; 0x01
+
+	/*Select Char Size [8 bit] */
+	CLR_BIT(LOC_u8RRegVal,USART_UCSRB_UCSZ2);
+      c6:	89 81       	ldd	r24, Y+1	; 0x01
+      c8:	8b 7f       	andi	r24, 0xFB	; 251
+      ca:	89 83       	std	Y+1, r24	; 0x01
+	SET_BIT(LOC_u8RRegVal,USART_UCSRC_UCSZ0);
+      cc:	89 81       	ldd	r24, Y+1	; 0x01
+      ce:	82 60       	ori	r24, 0x02	; 2
+      d0:	89 83       	std	Y+1, r24	; 0x01
+	SET_BIT(LOC_u8RRegVal,USART_UCSRC_UCSZ1);
+      d2:	89 81       	ldd	r24, Y+1	; 0x01
+      d4:	84 60       	ori	r24, 0x04	; 4
+      d6:	89 83       	std	Y+1, r24	; 0x01
+
+
+	/*Assign Value To Register  */
+	USART_UCSRC=LOC_u8RRegVal;
+      d8:	e0 e4       	ldi	r30, 0x40	; 64
+      da:	f0 e0       	ldi	r31, 0x00	; 0
+      dc:	89 81       	ldd	r24, Y+1	; 0x01
+      de:	80 83       	st	Z, r24
+
+	/*Select Baud Rate in bps*/
+	USART_UBRRL=((MCU_FREQ)/(16*(u32)Copy_u16BaudRate)) -1;
+      e0:	09 e2       	ldi	r16, 0x29	; 41
+      e2:	10 e0       	ldi	r17, 0x00	; 0
+      e4:	8a 81       	ldd	r24, Y+2	; 0x02
+      e6:	9b 81       	ldd	r25, Y+3	; 0x03
+      e8:	cc 01       	movw	r24, r24
+      ea:	a0 e0       	ldi	r26, 0x00	; 0
+      ec:	b0 e0       	ldi	r27, 0x00	; 0
+      ee:	88 0f       	add	r24, r24
+      f0:	99 1f       	adc	r25, r25
+      f2:	aa 1f       	adc	r26, r26
+      f4:	bb 1f       	adc	r27, r27
+      f6:	88 0f       	add	r24, r24
+      f8:	99 1f       	adc	r25, r25
+      fa:	aa 1f       	adc	r26, r26
+      fc:	bb 1f       	adc	r27, r27
+      fe:	88 0f       	add	r24, r24
+     100:	99 1f       	adc	r25, r25
+     102:	aa 1f       	adc	r26, r26
+     104:	bb 1f       	adc	r27, r27
+     106:	88 0f       	add	r24, r24
+     108:	99 1f       	adc	r25, r25
+     10a:	aa 1f       	adc	r26, r26
+     10c:	bb 1f       	adc	r27, r27
+     10e:	9c 01       	movw	r18, r24
+     110:	ad 01       	movw	r20, r26
+     112:	80 e0       	ldi	r24, 0x00	; 0
+     114:	92 e1       	ldi	r25, 0x12	; 18
+     116:	aa e7       	ldi	r26, 0x7A	; 122
+     118:	b0 e0       	ldi	r27, 0x00	; 0
+     11a:	bc 01       	movw	r22, r24
+     11c:	cd 01       	movw	r24, r26
+     11e:	0e 94 70 0b 	call	0x16e0	; 0x16e0 <__udivmodsi4>
+     122:	da 01       	movw	r26, r20
+     124:	c9 01       	movw	r24, r18
+     126:	81 50       	subi	r24, 0x01	; 1
+     128:	f8 01       	movw	r30, r16
+     12a:	80 83       	st	Z, r24
+
+	/*Enable Rx and Tx*/
+	SET_BIT(USART_UCSRB,USART_UCSRB_RXEN);
+     12c:	aa e2       	ldi	r26, 0x2A	; 42
+     12e:	b0 e0       	ldi	r27, 0x00	; 0
+     130:	ea e2       	ldi	r30, 0x2A	; 42
+     132:	f0 e0       	ldi	r31, 0x00	; 0
+     134:	80 81       	ld	r24, Z
+     136:	80 61       	ori	r24, 0x10	; 16
+     138:	8c 93       	st	X, r24
+	SET_BIT(USART_UCSRB,USART_UCSRB_TXEN);
+     13a:	aa e2       	ldi	r26, 0x2A	; 42
+     13c:	b0 e0       	ldi	r27, 0x00	; 0
+     13e:	ea e2       	ldi	r30, 0x2A	; 42
+     140:	f0 e0       	ldi	r31, 0x00	; 0
+     142:	80 81       	ld	r24, Z
+     144:	88 60       	ori	r24, 0x08	; 8
+     146:	8c 93       	st	X, r24
+}
+     148:	0f 90       	pop	r0
+     14a:	0f 90       	pop	r0
+     14c:	0f 90       	pop	r0
+     14e:	cf 91       	pop	r28
+     150:	df 91       	pop	r29
+     152:	1f 91       	pop	r17
+     154:	0f 91       	pop	r16
+     156:	08 95       	ret
+
+00000158 <MUSART_VoidSendChar>:
+ * Return value: None
+ * Description: Function to send a character
+ ************************************************************************************/
+
+void MUSART_VoidSendChar(u8 Copy_u8SentChar)
+{
+     158:	df 93       	push	r29
+     15a:	cf 93       	push	r28
+     15c:	0f 92       	push	r0
+     15e:	cd b7       	in	r28, 0x3d	; 61
+     160:	de b7       	in	r29, 0x3e	; 62
+     162:	89 83       	std	Y+1, r24	; 0x01
+	/* Check the UDRE flag to know whether the UDR buffer is empty or not*/
+	while(GET_BIT(USART_UCSRA,USART_UCSRA_UDRE)==0)
+     164:	eb e2       	ldi	r30, 0x2B	; 43
+     166:	f0 e0       	ldi	r31, 0x00	; 0
+     168:	80 81       	ld	r24, Z
+     16a:	82 95       	swap	r24
+     16c:	86 95       	lsr	r24
+     16e:	87 70       	andi	r24, 0x07	; 7
+     170:	88 2f       	mov	r24, r24
+     172:	90 e0       	ldi	r25, 0x00	; 0
+     174:	81 70       	andi	r24, 0x01	; 1
+     176:	90 70       	andi	r25, 0x00	; 0
+     178:	00 97       	sbiw	r24, 0x00	; 0
+     17a:	a1 f3       	breq	.-24     	; 0x164 <MUSART_VoidSendChar+0xc>
+	{
+		/*Do Nothing*/
+	}
+	USART_UDR = Copy_u8SentChar;
+     17c:	ec e2       	ldi	r30, 0x2C	; 44
+     17e:	f0 e0       	ldi	r31, 0x00	; 0
+     180:	89 81       	ldd	r24, Y+1	; 0x01
+     182:	80 83       	st	Z, r24
+}
+     184:	0f 90       	pop	r0
+     186:	cf 91       	pop	r28
+     188:	df 91       	pop	r29
+     18a:	08 95       	ret
+
+0000018c <MUSART_VoidSendString>:
+ * Return value: None
+ * Description: Function to send a string (character by character)
+ ************************************************************************************/
+
+void MUSART_VoidSendString(u8 *Copy_u8SentString)
+{
+     18c:	df 93       	push	r29
+     18e:	cf 93       	push	r28
+     190:	00 d0       	rcall	.+0      	; 0x192 <MUSART_VoidSendString+0x6>
+     192:	00 d0       	rcall	.+0      	; 0x194 <MUSART_VoidSendString+0x8>
+     194:	cd b7       	in	r28, 0x3d	; 61
+     196:	de b7       	in	r29, 0x3e	; 62
+     198:	9c 83       	std	Y+4, r25	; 0x04
+     19a:	8b 83       	std	Y+3, r24	; 0x03
+	u16 LOC_u16Counter= 0;
+     19c:	1a 82       	std	Y+2, r1	; 0x02
+     19e:	19 82       	std	Y+1, r1	; 0x01
+     1a0:	0f c0       	rjmp	.+30     	; 0x1c0 <MUSART_VoidSendString+0x34>
+
+	while(Copy_u8SentString[LOC_u16Counter] != '\0')
+	{
+		MUSART_VoidSendChar(Copy_u8SentString[LOC_u16Counter]);
+     1a2:	2b 81       	ldd	r18, Y+3	; 0x03
+     1a4:	3c 81       	ldd	r19, Y+4	; 0x04
+     1a6:	89 81       	ldd	r24, Y+1	; 0x01
+     1a8:	9a 81       	ldd	r25, Y+2	; 0x02
+     1aa:	f9 01       	movw	r30, r18
+     1ac:	e8 0f       	add	r30, r24
+     1ae:	f9 1f       	adc	r31, r25
+     1b0:	80 81       	ld	r24, Z
+     1b2:	0e 94 ac 00 	call	0x158	; 0x158 <MUSART_VoidSendChar>
+		LOC_u16Counter++;
+     1b6:	89 81       	ldd	r24, Y+1	; 0x01
+     1b8:	9a 81       	ldd	r25, Y+2	; 0x02
+     1ba:	01 96       	adiw	r24, 0x01	; 1
+     1bc:	9a 83       	std	Y+2, r25	; 0x02
+     1be:	89 83       	std	Y+1, r24	; 0x01
+
+void MUSART_VoidSendString(u8 *Copy_u8SentString)
+{
+	u16 LOC_u16Counter= 0;
+
+	while(Copy_u8SentString[LOC_u16Counter] != '\0')
+     1c0:	2b 81       	ldd	r18, Y+3	; 0x03
+     1c2:	3c 81       	ldd	r19, Y+4	; 0x04
+     1c4:	89 81       	ldd	r24, Y+1	; 0x01
+     1c6:	9a 81       	ldd	r25, Y+2	; 0x02
+     1c8:	f9 01       	movw	r30, r18
+     1ca:	e8 0f       	add	r30, r24
+     1cc:	f9 1f       	adc	r31, r25
+     1ce:	80 81       	ld	r24, Z
+     1d0:	88 23       	and	r24, r24
+     1d2:	39 f7       	brne	.-50     	; 0x1a2 <MUSART_VoidSendString+0x16>
+	{
+		MUSART_VoidSendChar(Copy_u8SentString[LOC_u16Counter]);
+		LOC_u16Counter++;
+	}
+}
+     1d4:	0f 90       	pop	r0
+     1d6:	0f 90       	pop	r0
+     1d8:	0f 90       	pop	r0
+     1da:	0f 90       	pop	r0
+     1dc:	cf 91       	pop	r28
+     1de:	df 91       	pop	r29
+     1e0:	08 95       	ret
+
+000001e2 <MUSART_u8ReceiveChar>:
+ * Return value: None
+ * Description: Function to recieve a character
+ ************************************************************************************/
+
+u8 MUSART_u8ReceiveChar(void)
+{
+     1e2:	df 93       	push	r29
+     1e4:	cf 93       	push	r28
+     1e6:	0f 92       	push	r0
+     1e8:	cd b7       	in	r28, 0x3d	; 61
+     1ea:	de b7       	in	r29, 0x3e	; 62
+	u8 LOC_U8RetVal;
+	/* Check the RXC flag to know whether there is unread data in the receive buffer or not*/
+	while (GET_BIT(USART_UCSRA,USART_UCSRA_RXC)==0)
+     1ec:	eb e2       	ldi	r30, 0x2B	; 43
+     1ee:	f0 e0       	ldi	r31, 0x00	; 0
+     1f0:	80 81       	ld	r24, Z
+     1f2:	88 23       	and	r24, r24
+     1f4:	dc f7       	brge	.-10     	; 0x1ec <MUSART_u8ReceiveChar+0xa>
+	{
+		/*Do Nothing*/
+	}
+	LOC_U8RetVal = USART_UDR;
+     1f6:	ec e2       	ldi	r30, 0x2C	; 44
+     1f8:	f0 e0       	ldi	r31, 0x00	; 0
+     1fa:	80 81       	ld	r24, Z
+     1fc:	89 83       	std	Y+1, r24	; 0x01
+	return LOC_U8RetVal;
+     1fe:	89 81       	ldd	r24, Y+1	; 0x01
+}
+     200:	0f 90       	pop	r0
+     202:	cf 91       	pop	r28
+     204:	df 91       	pop	r29
+     206:	08 95       	ret
+
+00000208 <MUSART_u8ReceiveString>:
+ * Return value: None
+ * Description: Function to recieve a string (character by character)
+ ************************************************************************************/
+
+u8 * MUSART_u8ReceiveString(void)
+{
+     208:	df 93       	push	r29
+     20a:	cf 93       	push	r28
+     20c:	00 d0       	rcall	.+0      	; 0x20e <MUSART_u8ReceiveString+0x6>
+     20e:	cd b7       	in	r28, 0x3d	; 61
+     210:	de b7       	in	r29, 0x3e	; 62
+	u8 LOC_RXChar ;
+	static u8 LOC_RXString[32];
+	u8 LOC_u8Counter =0;
+     212:	19 82       	std	Y+1, r1	; 0x01
+	/* Waiting till receiving flag is set*/
+	while (GET_BIT(USART_UCSRA,USART_UCSRA_RXC)==0);
+     214:	eb e2       	ldi	r30, 0x2B	; 43
+     216:	f0 e0       	ldi	r31, 0x00	; 0
+     218:	80 81       	ld	r24, Z
+     21a:	88 23       	and	r24, r24
+     21c:	dc f7       	brge	.-10     	; 0x214 <MUSART_u8ReceiveString+0xc>
+     21e:	0b c0       	rjmp	.+22     	; 0x236 <MUSART_u8ReceiveString+0x2e>
+	{
+		while ((LOC_RXChar=MUSART_u8ReceiveChar())!='\r')     /* Receive characters untill ENTER is pressed (ASCII OF ENTER IS 13) */
+		{
+			LOC_RXString[LOC_u8Counter++]=LOC_RXChar;
+     220:	89 81       	ldd	r24, Y+1	; 0x01
+     222:	88 2f       	mov	r24, r24
+     224:	90 e0       	ldi	r25, 0x00	; 0
+     226:	fc 01       	movw	r30, r24
+     228:	ea 59       	subi	r30, 0x9A	; 154
+     22a:	fb 4f       	sbci	r31, 0xFB	; 251
+     22c:	8a 81       	ldd	r24, Y+2	; 0x02
+     22e:	80 83       	st	Z, r24
+     230:	89 81       	ldd	r24, Y+1	; 0x01
+     232:	8f 5f       	subi	r24, 0xFF	; 255
+     234:	89 83       	std	Y+1, r24	; 0x01
+	static u8 LOC_RXString[32];
+	u8 LOC_u8Counter =0;
+	/* Waiting till receiving flag is set*/
+	while (GET_BIT(USART_UCSRA,USART_UCSRA_RXC)==0);
+	{
+		while ((LOC_RXChar=MUSART_u8ReceiveChar())!='\r')     /* Receive characters untill ENTER is pressed (ASCII OF ENTER IS 13) */
+     236:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <MUSART_u8ReceiveChar>
+     23a:	8a 83       	std	Y+2, r24	; 0x02
+     23c:	8a 81       	ldd	r24, Y+2	; 0x02
+     23e:	8d 30       	cpi	r24, 0x0D	; 13
+     240:	79 f7       	brne	.-34     	; 0x220 <MUSART_u8ReceiveString+0x18>
+		{
+			LOC_RXString[LOC_u8Counter++]=LOC_RXChar;
+
+		}
+		LOC_RXString[LOC_u8Counter]='\0';
+     242:	89 81       	ldd	r24, Y+1	; 0x01
+     244:	88 2f       	mov	r24, r24
+     246:	90 e0       	ldi	r25, 0x00	; 0
+     248:	fc 01       	movw	r30, r24
+     24a:	ea 59       	subi	r30, 0x9A	; 154
+     24c:	fb 4f       	sbci	r31, 0xFB	; 251
+     24e:	10 82       	st	Z, r1
+		return LOC_RXString;
+     250:	86 e6       	ldi	r24, 0x66	; 102
+     252:	94 e0       	ldi	r25, 0x04	; 4
+	}
+}
+     254:	0f 90       	pop	r0
+     256:	0f 90       	pop	r0
+     258:	cf 91       	pop	r28
+     25a:	df 91       	pop	r29
+     25c:	08 95       	ret
+
+0000025e <MUSART_VOIDSendNumber>:
+ * Return value: None
+ * Description: Function to send a number
+ ************************************************************************************/
+
+void MUSART_VOIDSendNumber (u32 Copy_U32Number)
+{
+     25e:	ef 92       	push	r14
+     260:	ff 92       	push	r15
+     262:	0f 93       	push	r16
+     264:	1f 93       	push	r17
+     266:	df 93       	push	r29
+     268:	cf 93       	push	r28
+     26a:	cd b7       	in	r28, 0x3d	; 61
+     26c:	de b7       	in	r29, 0x3e	; 62
+     26e:	2c 97       	sbiw	r28, 0x0c	; 12
+     270:	0f b6       	in	r0, 0x3f	; 63
+     272:	f8 94       	cli
+     274:	de bf       	out	0x3e, r29	; 62
+     276:	0f be       	out	0x3f, r0	; 63
+     278:	cd bf       	out	0x3d, r28	; 61
+     27a:	69 87       	std	Y+9, r22	; 0x09
+     27c:	7a 87       	std	Y+10, r23	; 0x0a
+     27e:	8b 87       	std	Y+11, r24	; 0x0b
+     280:	9c 87       	std	Y+12, r25	; 0x0c
+	u32 LOC_U32Reversed =1,LOC_U32SentCharacter;
+     282:	81 e0       	ldi	r24, 0x01	; 1
+     284:	90 e0       	ldi	r25, 0x00	; 0
+     286:	a0 e0       	ldi	r26, 0x00	; 0
+     288:	b0 e0       	ldi	r27, 0x00	; 0
+     28a:	8d 83       	std	Y+5, r24	; 0x05
+     28c:	9e 83       	std	Y+6, r25	; 0x06
+     28e:	af 83       	std	Y+7, r26	; 0x07
+     290:	b8 87       	std	Y+8, r27	; 0x08
+	if(0==Copy_U32Number)
+     292:	89 85       	ldd	r24, Y+9	; 0x09
+     294:	9a 85       	ldd	r25, Y+10	; 0x0a
+     296:	ab 85       	ldd	r26, Y+11	; 0x0b
+     298:	bc 85       	ldd	r27, Y+12	; 0x0c
+     29a:	00 97       	sbiw	r24, 0x00	; 0
+     29c:	a1 05       	cpc	r26, r1
+     29e:	b1 05       	cpc	r27, r1
+     2a0:	d1 f5       	brne	.+116    	; 0x316 <MUSART_VOIDSendNumber+0xb8>
+	{
+		MUSART_VoidSendChar ('0');
+     2a2:	80 e3       	ldi	r24, 0x30	; 48
+     2a4:	0e 94 ac 00 	call	0x158	; 0x158 <MUSART_VoidSendChar>
+     2a8:	36 c0       	rjmp	.+108    	; 0x316 <MUSART_VOIDSendNumber+0xb8>
+	}
+	while (Copy_U32Number>0)
+	{
+		LOC_U32Reversed= (LOC_U32Reversed*10) + (Copy_U32Number%10);
+     2aa:	8d 81       	ldd	r24, Y+5	; 0x05
+     2ac:	9e 81       	ldd	r25, Y+6	; 0x06
+     2ae:	af 81       	ldd	r26, Y+7	; 0x07
+     2b0:	b8 85       	ldd	r27, Y+8	; 0x08
+     2b2:	2a e0       	ldi	r18, 0x0A	; 10
+     2b4:	30 e0       	ldi	r19, 0x00	; 0
+     2b6:	40 e0       	ldi	r20, 0x00	; 0
+     2b8:	50 e0       	ldi	r21, 0x00	; 0
+     2ba:	bc 01       	movw	r22, r24
+     2bc:	cd 01       	movw	r24, r26
+     2be:	0e 94 31 0b 	call	0x1662	; 0x1662 <__mulsi3>
+     2c2:	7b 01       	movw	r14, r22
+     2c4:	8c 01       	movw	r16, r24
+     2c6:	89 85       	ldd	r24, Y+9	; 0x09
+     2c8:	9a 85       	ldd	r25, Y+10	; 0x0a
+     2ca:	ab 85       	ldd	r26, Y+11	; 0x0b
+     2cc:	bc 85       	ldd	r27, Y+12	; 0x0c
+     2ce:	2a e0       	ldi	r18, 0x0A	; 10
+     2d0:	30 e0       	ldi	r19, 0x00	; 0
+     2d2:	40 e0       	ldi	r20, 0x00	; 0
+     2d4:	50 e0       	ldi	r21, 0x00	; 0
+     2d6:	bc 01       	movw	r22, r24
+     2d8:	cd 01       	movw	r24, r26
+     2da:	0e 94 70 0b 	call	0x16e0	; 0x16e0 <__udivmodsi4>
+     2de:	dc 01       	movw	r26, r24
+     2e0:	cb 01       	movw	r24, r22
+     2e2:	8e 0d       	add	r24, r14
+     2e4:	9f 1d       	adc	r25, r15
+     2e6:	a0 1f       	adc	r26, r16
+     2e8:	b1 1f       	adc	r27, r17
+     2ea:	8d 83       	std	Y+5, r24	; 0x05
+     2ec:	9e 83       	std	Y+6, r25	; 0x06
+     2ee:	af 83       	std	Y+7, r26	; 0x07
+     2f0:	b8 87       	std	Y+8, r27	; 0x08
+		Copy_U32Number=Copy_U32Number/10;
+     2f2:	89 85       	ldd	r24, Y+9	; 0x09
+     2f4:	9a 85       	ldd	r25, Y+10	; 0x0a
+     2f6:	ab 85       	ldd	r26, Y+11	; 0x0b
+     2f8:	bc 85       	ldd	r27, Y+12	; 0x0c
+     2fa:	2a e0       	ldi	r18, 0x0A	; 10
+     2fc:	30 e0       	ldi	r19, 0x00	; 0
+     2fe:	40 e0       	ldi	r20, 0x00	; 0
+     300:	50 e0       	ldi	r21, 0x00	; 0
+     302:	bc 01       	movw	r22, r24
+     304:	cd 01       	movw	r24, r26
+     306:	0e 94 70 0b 	call	0x16e0	; 0x16e0 <__udivmodsi4>
+     30a:	da 01       	movw	r26, r20
+     30c:	c9 01       	movw	r24, r18
+     30e:	89 87       	std	Y+9, r24	; 0x09
+     310:	9a 87       	std	Y+10, r25	; 0x0a
+     312:	ab 87       	std	Y+11, r26	; 0x0b
+     314:	bc 87       	std	Y+12, r27	; 0x0c
+	u32 LOC_U32Reversed =1,LOC_U32SentCharacter;
+	if(0==Copy_U32Number)
+	{
+		MUSART_VoidSendChar ('0');
+	}
+	while (Copy_U32Number>0)
+     316:	89 85       	ldd	r24, Y+9	; 0x09
+     318:	9a 85       	ldd	r25, Y+10	; 0x0a
+     31a:	ab 85       	ldd	r26, Y+11	; 0x0b
+     31c:	bc 85       	ldd	r27, Y+12	; 0x0c
+     31e:	00 97       	sbiw	r24, 0x00	; 0
+     320:	a1 05       	cpc	r26, r1
+     322:	b1 05       	cpc	r27, r1
+     324:	11 f6       	brne	.-124    	; 0x2aa <MUSART_VOIDSendNumber+0x4c>
+     326:	28 c0       	rjmp	.+80     	; 0x378 <MUSART_VOIDSendNumber+0x11a>
+		LOC_U32Reversed= (LOC_U32Reversed*10) + (Copy_U32Number%10);
+		Copy_U32Number=Copy_U32Number/10;
+	}
+	while (LOC_U32Reversed>1)
+	{
+		LOC_U32SentCharacter=LOC_U32Reversed%10;
+     328:	8d 81       	ldd	r24, Y+5	; 0x05
+     32a:	9e 81       	ldd	r25, Y+6	; 0x06
+     32c:	af 81       	ldd	r26, Y+7	; 0x07
+     32e:	b8 85       	ldd	r27, Y+8	; 0x08
+     330:	2a e0       	ldi	r18, 0x0A	; 10
+     332:	30 e0       	ldi	r19, 0x00	; 0
+     334:	40 e0       	ldi	r20, 0x00	; 0
+     336:	50 e0       	ldi	r21, 0x00	; 0
+     338:	bc 01       	movw	r22, r24
+     33a:	cd 01       	movw	r24, r26
+     33c:	0e 94 70 0b 	call	0x16e0	; 0x16e0 <__udivmodsi4>
+     340:	dc 01       	movw	r26, r24
+     342:	cb 01       	movw	r24, r22
+     344:	89 83       	std	Y+1, r24	; 0x01
+     346:	9a 83       	std	Y+2, r25	; 0x02
+     348:	ab 83       	std	Y+3, r26	; 0x03
+     34a:	bc 83       	std	Y+4, r27	; 0x04
+		MUSART_VoidSendChar(LOC_U32SentCharacter+'0');
+     34c:	89 81       	ldd	r24, Y+1	; 0x01
+     34e:	80 5d       	subi	r24, 0xD0	; 208
+     350:	0e 94 ac 00 	call	0x158	; 0x158 <MUSART_VoidSendChar>
+		LOC_U32Reversed=LOC_U32Reversed/10;
+     354:	8d 81       	ldd	r24, Y+5	; 0x05
+     356:	9e 81       	ldd	r25, Y+6	; 0x06
+     358:	af 81       	ldd	r26, Y+7	; 0x07
+     35a:	b8 85       	ldd	r27, Y+8	; 0x08
+     35c:	2a e0       	ldi	r18, 0x0A	; 10
+     35e:	30 e0       	ldi	r19, 0x00	; 0
+     360:	40 e0       	ldi	r20, 0x00	; 0
+     362:	50 e0       	ldi	r21, 0x00	; 0
+     364:	bc 01       	movw	r22, r24
+     366:	cd 01       	movw	r24, r26
+     368:	0e 94 70 0b 	call	0x16e0	; 0x16e0 <__udivmodsi4>
+     36c:	da 01       	movw	r26, r20
+     36e:	c9 01       	movw	r24, r18
+     370:	8d 83       	std	Y+5, r24	; 0x05
+     372:	9e 83       	std	Y+6, r25	; 0x06
+     374:	af 83       	std	Y+7, r26	; 0x07
+     376:	b8 87       	std	Y+8, r27	; 0x08
+	while (Copy_U32Number>0)
+	{
+		LOC_U32Reversed= (LOC_U32Reversed*10) + (Copy_U32Number%10);
+		Copy_U32Number=Copy_U32Number/10;
+	}
+	while (LOC_U32Reversed>1)
+     378:	8d 81       	ldd	r24, Y+5	; 0x05
+     37a:	9e 81       	ldd	r25, Y+6	; 0x06
+     37c:	af 81       	ldd	r26, Y+7	; 0x07
+     37e:	b8 85       	ldd	r27, Y+8	; 0x08
+     380:	82 30       	cpi	r24, 0x02	; 2
+     382:	91 05       	cpc	r25, r1
+     384:	a1 05       	cpc	r26, r1
+     386:	b1 05       	cpc	r27, r1
+     388:	78 f6       	brcc	.-98     	; 0x328 <MUSART_VOIDSendNumber+0xca>
+	{
+		LOC_U32SentCharacter=LOC_U32Reversed%10;
+		MUSART_VoidSendChar(LOC_U32SentCharacter+'0');
+		LOC_U32Reversed=LOC_U32Reversed/10;
+	}
+}
+     38a:	2c 96       	adiw	r28, 0x0c	; 12
+     38c:	0f b6       	in	r0, 0x3f	; 63
+     38e:	f8 94       	cli
+     390:	de bf       	out	0x3e, r29	; 62
+     392:	0f be       	out	0x3f, r0	; 63
+     394:	cd bf       	out	0x3d, r28	; 61
+     396:	cf 91       	pop	r28
+     398:	df 91       	pop	r29
+     39a:	1f 91       	pop	r17
+     39c:	0f 91       	pop	r16
+     39e:	ff 90       	pop	r15
+     3a0:	ef 90       	pop	r14
+     3a2:	08 95       	ret
+
+000003a4 <MTMR0_VOIDFastPWMInit>:
+ * Return value: None
+ * Description: Function to initialize the PWM mode
+ ************************************************************************************/
+
+void MTMR0_VOIDFastPWMInit (void)
+{
+     3a4:	df 93       	push	r29
+     3a6:	cf 93       	push	r28
+     3a8:	cd b7       	in	r28, 0x3d	; 61
+     3aa:	de b7       	in	r29, 0x3e	; 62
+	/*Select Fast PWM  Mode*/
+	SET_BIT(TCCR0_REG,WGM00);
+     3ac:	a3 e5       	ldi	r26, 0x53	; 83
+     3ae:	b0 e0       	ldi	r27, 0x00	; 0
+     3b0:	e3 e5       	ldi	r30, 0x53	; 83
+     3b2:	f0 e0       	ldi	r31, 0x00	; 0
+     3b4:	80 81       	ld	r24, Z
+     3b6:	80 64       	ori	r24, 0x40	; 64
+     3b8:	8c 93       	st	X, r24
+	SET_BIT(TCCR0_REG,WGM01);
+     3ba:	a3 e5       	ldi	r26, 0x53	; 83
+     3bc:	b0 e0       	ldi	r27, 0x00	; 0
+     3be:	e3 e5       	ldi	r30, 0x53	; 83
+     3c0:	f0 e0       	ldi	r31, 0x00	; 0
+     3c2:	80 81       	ld	r24, Z
+     3c4:	88 60       	ori	r24, 0x08	; 8
+     3c6:	8c 93       	st	X, r24
+	/*Compare match output behavior depends on fast PWM mode*/
+	SET_BIT(TCCR0_REG,COM01);
+     3c8:	a3 e5       	ldi	r26, 0x53	; 83
+     3ca:	b0 e0       	ldi	r27, 0x00	; 0
+     3cc:	e3 e5       	ldi	r30, 0x53	; 83
+     3ce:	f0 e0       	ldi	r31, 0x00	; 0
+     3d0:	80 81       	ld	r24, Z
+     3d2:	80 62       	ori	r24, 0x20	; 32
+     3d4:	8c 93       	st	X, r24
+	CLR_BIT(TCCR0_REG,COM00);
+     3d6:	a3 e5       	ldi	r26, 0x53	; 83
+     3d8:	b0 e0       	ldi	r27, 0x00	; 0
+     3da:	e3 e5       	ldi	r30, 0x53	; 83
+     3dc:	f0 e0       	ldi	r31, 0x00	; 0
+     3de:	80 81       	ld	r24, Z
+     3e0:	8f 7e       	andi	r24, 0xEF	; 239
+     3e2:	8c 93       	st	X, r24
+	/*Choose clock source: /256 from pre-scalar --> Select frequency=3906.25Hz*/
+	SET_BIT(TCCR0_REG,CS02);
+     3e4:	a3 e5       	ldi	r26, 0x53	; 83
+     3e6:	b0 e0       	ldi	r27, 0x00	; 0
+     3e8:	e3 e5       	ldi	r30, 0x53	; 83
+     3ea:	f0 e0       	ldi	r31, 0x00	; 0
+     3ec:	80 81       	ld	r24, Z
+     3ee:	84 60       	ori	r24, 0x04	; 4
+     3f0:	8c 93       	st	X, r24
+	CLR_BIT(TCCR0_REG,CS01);
+     3f2:	a3 e5       	ldi	r26, 0x53	; 83
+     3f4:	b0 e0       	ldi	r27, 0x00	; 0
+     3f6:	e3 e5       	ldi	r30, 0x53	; 83
+     3f8:	f0 e0       	ldi	r31, 0x00	; 0
+     3fa:	80 81       	ld	r24, Z
+     3fc:	8d 7f       	andi	r24, 0xFD	; 253
+     3fe:	8c 93       	st	X, r24
+	CLR_BIT(TCCR0_REG,CS00);
+     400:	a3 e5       	ldi	r26, 0x53	; 83
+     402:	b0 e0       	ldi	r27, 0x00	; 0
+     404:	e3 e5       	ldi	r30, 0x53	; 83
+     406:	f0 e0       	ldi	r31, 0x00	; 0
+     408:	80 81       	ld	r24, Z
+     40a:	8e 7f       	andi	r24, 0xFE	; 254
+     40c:	8c 93       	st	X, r24
+	/*Disable OCIE0*/
+	CLR_BIT(TIMSK_REG,OCIE0);
+     40e:	a9 e5       	ldi	r26, 0x59	; 89
+     410:	b0 e0       	ldi	r27, 0x00	; 0
+     412:	e9 e5       	ldi	r30, 0x59	; 89
+     414:	f0 e0       	ldi	r31, 0x00	; 0
+     416:	80 81       	ld	r24, Z
+     418:	8d 7f       	andi	r24, 0xFD	; 253
+     41a:	8c 93       	st	X, r24
+}
+     41c:	cf 91       	pop	r28
+     41e:	df 91       	pop	r29
+     420:	08 95       	ret
+
+00000422 <MTMR0_VOIDSetDutyCycle>:
+ * Return value: None
+ * Description: Function to Set the value of the duty cycle for the PWM
+ ************************************************************************************/
+
+void MTMR0_VOIDSetDutyCycle (u8 Copy_U8DutyCycle)
+{
+     422:	0f 93       	push	r16
+     424:	1f 93       	push	r17
+     426:	df 93       	push	r29
+     428:	cf 93       	push	r28
+     42a:	0f 92       	push	r0
+     42c:	cd b7       	in	r28, 0x3d	; 61
+     42e:	de b7       	in	r29, 0x3e	; 62
+     430:	89 83       	std	Y+1, r24	; 0x01
+	OCR0_REG= ((u32)Copy_U8DutyCycle*OCR0_MAX)/100 ;
+     432:	0c e5       	ldi	r16, 0x5C	; 92
+     434:	10 e0       	ldi	r17, 0x00	; 0
+     436:	89 81       	ldd	r24, Y+1	; 0x01
+     438:	88 2f       	mov	r24, r24
+     43a:	90 e0       	ldi	r25, 0x00	; 0
+     43c:	a0 e0       	ldi	r26, 0x00	; 0
+     43e:	b0 e0       	ldi	r27, 0x00	; 0
+     440:	2f ef       	ldi	r18, 0xFF	; 255
+     442:	30 e0       	ldi	r19, 0x00	; 0
+     444:	40 e0       	ldi	r20, 0x00	; 0
+     446:	50 e0       	ldi	r21, 0x00	; 0
+     448:	bc 01       	movw	r22, r24
+     44a:	cd 01       	movw	r24, r26
+     44c:	0e 94 31 0b 	call	0x1662	; 0x1662 <__mulsi3>
+     450:	dc 01       	movw	r26, r24
+     452:	cb 01       	movw	r24, r22
+     454:	24 e6       	ldi	r18, 0x64	; 100
+     456:	30 e0       	ldi	r19, 0x00	; 0
+     458:	40 e0       	ldi	r20, 0x00	; 0
+     45a:	50 e0       	ldi	r21, 0x00	; 0
+     45c:	bc 01       	movw	r22, r24
+     45e:	cd 01       	movw	r24, r26
+     460:	0e 94 70 0b 	call	0x16e0	; 0x16e0 <__udivmodsi4>
+     464:	da 01       	movw	r26, r20
+     466:	c9 01       	movw	r24, r18
+     468:	f8 01       	movw	r30, r16
+     46a:	80 83       	st	Z, r24
+}
+     46c:	0f 90       	pop	r0
+     46e:	cf 91       	pop	r28
+     470:	df 91       	pop	r29
+     472:	1f 91       	pop	r17
+     474:	0f 91       	pop	r16
+     476:	08 95       	ret
+
+00000478 <MTMR0_VOIDPWMOff>:
+ * Return value: None
+ * Description: Function to stop the clock and disable OC0 Pin
+ ************************************************************************************/
+
+void MTMR0_VOIDPWMOff (void)
+{
+     478:	df 93       	push	r29
+     47a:	cf 93       	push	r28
+     47c:	cd b7       	in	r28, 0x3d	; 61
+     47e:	de b7       	in	r29, 0x3e	; 62
+	/*Disconnect OC0*/
+	CLR_BIT(TCCR0_REG,COM01);
+     480:	a3 e5       	ldi	r26, 0x53	; 83
+     482:	b0 e0       	ldi	r27, 0x00	; 0
+     484:	e3 e5       	ldi	r30, 0x53	; 83
+     486:	f0 e0       	ldi	r31, 0x00	; 0
+     488:	80 81       	ld	r24, Z
+     48a:	8f 7d       	andi	r24, 0xDF	; 223
+     48c:	8c 93       	st	X, r24
+	CLR_BIT(TCCR0_REG,COM00);
+     48e:	a3 e5       	ldi	r26, 0x53	; 83
+     490:	b0 e0       	ldi	r27, 0x00	; 0
+     492:	e3 e5       	ldi	r30, 0x53	; 83
+     494:	f0 e0       	ldi	r31, 0x00	; 0
+     496:	80 81       	ld	r24, Z
+     498:	8f 7e       	andi	r24, 0xEF	; 239
+     49a:	8c 93       	st	X, r24
+	/*Disable clock source*/
+	CLR_BIT(TCCR0_REG,CS02);
+     49c:	a3 e5       	ldi	r26, 0x53	; 83
+     49e:	b0 e0       	ldi	r27, 0x00	; 0
+     4a0:	e3 e5       	ldi	r30, 0x53	; 83
+     4a2:	f0 e0       	ldi	r31, 0x00	; 0
+     4a4:	80 81       	ld	r24, Z
+     4a6:	8b 7f       	andi	r24, 0xFB	; 251
+     4a8:	8c 93       	st	X, r24
+	CLR_BIT(TCCR0_REG,CS01);
+     4aa:	a3 e5       	ldi	r26, 0x53	; 83
+     4ac:	b0 e0       	ldi	r27, 0x00	; 0
+     4ae:	e3 e5       	ldi	r30, 0x53	; 83
+     4b0:	f0 e0       	ldi	r31, 0x00	; 0
+     4b2:	80 81       	ld	r24, Z
+     4b4:	8d 7f       	andi	r24, 0xFD	; 253
+     4b6:	8c 93       	st	X, r24
+	CLR_BIT(TCCR0_REG,CS00);
+     4b8:	a3 e5       	ldi	r26, 0x53	; 83
+     4ba:	b0 e0       	ldi	r27, 0x00	; 0
+     4bc:	e3 e5       	ldi	r30, 0x53	; 83
+     4be:	f0 e0       	ldi	r31, 0x00	; 0
+     4c0:	80 81       	ld	r24, Z
+     4c2:	8e 7f       	andi	r24, 0xFE	; 254
+     4c4:	8c 93       	st	X, r24
+}
+     4c6:	cf 91       	pop	r28
+     4c8:	df 91       	pop	r29
+     4ca:	08 95       	ret
+
+000004cc <MTMR2_VOIDNormalInit>:
+ * Return value: None
+ * Description: Function to Initialize Timer 2 on normal (overflow) mode
+ ************************************************************************************/
+
+void MTMR2_VOIDNormalInit (void)
+{
+     4cc:	df 93       	push	r29
+     4ce:	cf 93       	push	r28
+     4d0:	cd b7       	in	r28, 0x3d	; 61
+     4d2:	de b7       	in	r29, 0x3e	; 62
+	/*Select Normal (Overflow)  Mode*/
+	CLR_BIT(TCCR2_REG,WGM20);
+     4d4:	a5 e4       	ldi	r26, 0x45	; 69
+     4d6:	b0 e0       	ldi	r27, 0x00	; 0
+     4d8:	e5 e4       	ldi	r30, 0x45	; 69
+     4da:	f0 e0       	ldi	r31, 0x00	; 0
+     4dc:	80 81       	ld	r24, Z
+     4de:	8f 7b       	andi	r24, 0xBF	; 191
+     4e0:	8c 93       	st	X, r24
+	CLR_BIT(TCCR2_REG,WGM21);
+     4e2:	a5 e4       	ldi	r26, 0x45	; 69
+     4e4:	b0 e0       	ldi	r27, 0x00	; 0
+     4e6:	e5 e4       	ldi	r30, 0x45	; 69
+     4e8:	f0 e0       	ldi	r31, 0x00	; 0
+     4ea:	80 81       	ld	r24, Z
+     4ec:	87 7f       	andi	r24, 0xF7	; 247
+     4ee:	8c 93       	st	X, r24
+	/*Disconnecting OC2 Register*/
+	CLR_BIT(TCCR2_REG,COM21);
+     4f0:	a5 e4       	ldi	r26, 0x45	; 69
+     4f2:	b0 e0       	ldi	r27, 0x00	; 0
+     4f4:	e5 e4       	ldi	r30, 0x45	; 69
+     4f6:	f0 e0       	ldi	r31, 0x00	; 0
+     4f8:	80 81       	ld	r24, Z
+     4fa:	8f 7d       	andi	r24, 0xDF	; 223
+     4fc:	8c 93       	st	X, r24
+	CLR_BIT(TCCR2_REG,COM20);
+     4fe:	a5 e4       	ldi	r26, 0x45	; 69
+     500:	b0 e0       	ldi	r27, 0x00	; 0
+     502:	e5 e4       	ldi	r30, 0x45	; 69
+     504:	f0 e0       	ldi	r31, 0x00	; 0
+     506:	80 81       	ld	r24, Z
+     508:	8f 7e       	andi	r24, 0xEF	; 239
+     50a:	8c 93       	st	X, r24
+	/*Disable TOIE0*/
+	CLR_BIT(TIMSK_REG,TOIE2);
+     50c:	a9 e5       	ldi	r26, 0x59	; 89
+     50e:	b0 e0       	ldi	r27, 0x00	; 0
+     510:	e9 e5       	ldi	r30, 0x59	; 89
+     512:	f0 e0       	ldi	r31, 0x00	; 0
+     514:	80 81       	ld	r24, Z
+     516:	8f 7b       	andi	r24, 0xBF	; 191
+     518:	8c 93       	st	X, r24
+}
+     51a:	cf 91       	pop	r28
+     51c:	df 91       	pop	r29
+     51e:	08 95       	ret
+
+00000520 <MTMR2_VOIDNormalStart>:
+ * Return value: None
+ * Description: Function to Set the wanted delay from the timer and start counting
+ ************************************************************************************/
+
+void MTMR2_VOIDNormalStart (u16 Copy_U16RequiredDelay)
+{
+     520:	df 93       	push	r29
+     522:	cf 93       	push	r28
+     524:	00 d0       	rcall	.+0      	; 0x526 <MTMR2_VOIDNormalStart+0x6>
+     526:	00 d0       	rcall	.+0      	; 0x528 <MTMR2_VOIDNormalStart+0x8>
+     528:	00 d0       	rcall	.+0      	; 0x52a <MTMR2_VOIDNormalStart+0xa>
+     52a:	cd b7       	in	r28, 0x3d	; 61
+     52c:	de b7       	in	r29, 0x3e	; 62
+     52e:	9e 83       	std	Y+6, r25	; 0x06
+     530:	8d 83       	std	Y+5, r24	; 0x05
+	/*Choose clock source: /64 from pre-scalar --> Timer Frequency = 125000 HZ */
+	SET_BIT(TCCR2_REG,CS22);
+     532:	a5 e4       	ldi	r26, 0x45	; 69
+     534:	b0 e0       	ldi	r27, 0x00	; 0
+     536:	e5 e4       	ldi	r30, 0x45	; 69
+     538:	f0 e0       	ldi	r31, 0x00	; 0
+     53a:	80 81       	ld	r24, Z
+     53c:	84 60       	ori	r24, 0x04	; 4
+     53e:	8c 93       	st	X, r24
+	CLR_BIT(TCCR2_REG,CS21);
+     540:	a5 e4       	ldi	r26, 0x45	; 69
+     542:	b0 e0       	ldi	r27, 0x00	; 0
+     544:	e5 e4       	ldi	r30, 0x45	; 69
+     546:	f0 e0       	ldi	r31, 0x00	; 0
+     548:	80 81       	ld	r24, Z
+     54a:	8d 7f       	andi	r24, 0xFD	; 253
+     54c:	8c 93       	st	X, r24
+	CLR_BIT(TCCR2_REG,CS20);
+     54e:	a5 e4       	ldi	r26, 0x45	; 69
+     550:	b0 e0       	ldi	r27, 0x00	; 0
+     552:	e5 e4       	ldi	r30, 0x45	; 69
+     554:	f0 e0       	ldi	r31, 0x00	; 0
+     556:	80 81       	ld	r24, Z
+     558:	8e 7f       	andi	r24, 0xFE	; 254
+     55a:	8c 93       	st	X, r24
+	u16 LOC_U16Count = 1;
+     55c:	81 e0       	ldi	r24, 0x01	; 1
+     55e:	90 e0       	ldi	r25, 0x00	; 0
+     560:	9c 83       	std	Y+4, r25	; 0x04
+     562:	8b 83       	std	Y+3, r24	; 0x03
+	u16 LOC_U16Calculation = (Copy_U16RequiredDelay/2) - ((Copy_U16RequiredDelay/1000)*12);
+     564:	8d 81       	ldd	r24, Y+5	; 0x05
+     566:	9e 81       	ldd	r25, Y+6	; 0x06
+     568:	fc 01       	movw	r30, r24
+     56a:	f6 95       	lsr	r31
+     56c:	e7 95       	ror	r30
+     56e:	8d 81       	ldd	r24, Y+5	; 0x05
+     570:	9e 81       	ldd	r25, Y+6	; 0x06
+     572:	28 ee       	ldi	r18, 0xE8	; 232
+     574:	33 e0       	ldi	r19, 0x03	; 3
+     576:	b9 01       	movw	r22, r18
+     578:	0e 94 5c 0b 	call	0x16b8	; 0x16b8 <__udivmodhi4>
+     57c:	cb 01       	movw	r24, r22
+     57e:	9c 01       	movw	r18, r24
+     580:	c9 01       	movw	r24, r18
+     582:	88 0f       	add	r24, r24
+     584:	99 1f       	adc	r25, r25
+     586:	82 0f       	add	r24, r18
+     588:	93 1f       	adc	r25, r19
+     58a:	88 0f       	add	r24, r24
+     58c:	99 1f       	adc	r25, r25
+     58e:	88 0f       	add	r24, r24
+     590:	99 1f       	adc	r25, r25
+     592:	9f 01       	movw	r18, r30
+     594:	28 1b       	sub	r18, r24
+     596:	39 0b       	sbc	r19, r25
+     598:	c9 01       	movw	r24, r18
+     59a:	9a 83       	std	Y+2, r25	; 0x02
+     59c:	89 83       	std	Y+1, r24	; 0x01
+     59e:	19 c0       	rjmp	.+50     	; 0x5d2 <MTMR2_VOIDNormalStart+0xb2>
+	while(LOC_U16Count!= LOC_U16Calculation)
+	{
+		if (GET_BIT(TIFR_REG,TOV2)==1)
+     5a0:	e8 e5       	ldi	r30, 0x58	; 88
+     5a2:	f0 e0       	ldi	r31, 0x00	; 0
+     5a4:	80 81       	ld	r24, Z
+     5a6:	82 95       	swap	r24
+     5a8:	86 95       	lsr	r24
+     5aa:	86 95       	lsr	r24
+     5ac:	83 70       	andi	r24, 0x03	; 3
+     5ae:	88 2f       	mov	r24, r24
+     5b0:	90 e0       	ldi	r25, 0x00	; 0
+     5b2:	81 70       	andi	r24, 0x01	; 1
+     5b4:	90 70       	andi	r25, 0x00	; 0
+     5b6:	88 23       	and	r24, r24
+     5b8:	61 f0       	breq	.+24     	; 0x5d2 <MTMR2_VOIDNormalStart+0xb2>
+		{
+			LOC_U16Count++ ;
+     5ba:	8b 81       	ldd	r24, Y+3	; 0x03
+     5bc:	9c 81       	ldd	r25, Y+4	; 0x04
+     5be:	01 96       	adiw	r24, 0x01	; 1
+     5c0:	9c 83       	std	Y+4, r25	; 0x04
+     5c2:	8b 83       	std	Y+3, r24	; 0x03
+			SET_BIT(TIFR_REG,TOV2);
+     5c4:	a8 e5       	ldi	r26, 0x58	; 88
+     5c6:	b0 e0       	ldi	r27, 0x00	; 0
+     5c8:	e8 e5       	ldi	r30, 0x58	; 88
+     5ca:	f0 e0       	ldi	r31, 0x00	; 0
+     5cc:	80 81       	ld	r24, Z
+     5ce:	80 64       	ori	r24, 0x40	; 64
+     5d0:	8c 93       	st	X, r24
+	SET_BIT(TCCR2_REG,CS22);
+	CLR_BIT(TCCR2_REG,CS21);
+	CLR_BIT(TCCR2_REG,CS20);
+	u16 LOC_U16Count = 1;
+	u16 LOC_U16Calculation = (Copy_U16RequiredDelay/2) - ((Copy_U16RequiredDelay/1000)*12);
+	while(LOC_U16Count!= LOC_U16Calculation)
+     5d2:	2b 81       	ldd	r18, Y+3	; 0x03
+     5d4:	3c 81       	ldd	r19, Y+4	; 0x04
+     5d6:	89 81       	ldd	r24, Y+1	; 0x01
+     5d8:	9a 81       	ldd	r25, Y+2	; 0x02
+     5da:	28 17       	cp	r18, r24
+     5dc:	39 07       	cpc	r19, r25
+     5de:	01 f7       	brne	.-64     	; 0x5a0 <MTMR2_VOIDNormalStart+0x80>
+		{
+			LOC_U16Count++ ;
+			SET_BIT(TIFR_REG,TOV2);
+		}
+	}
+}
+     5e0:	26 96       	adiw	r28, 0x06	; 6
+     5e2:	0f b6       	in	r0, 0x3f	; 63
+     5e4:	f8 94       	cli
+     5e6:	de bf       	out	0x3e, r29	; 62
+     5e8:	0f be       	out	0x3f, r0	; 63
+     5ea:	cd bf       	out	0x3d, r28	; 61
+     5ec:	cf 91       	pop	r28
+     5ee:	df 91       	pop	r29
+     5f0:	08 95       	ret
+
+000005f2 <MDIO_VOIDSetPinDirection>:
+ * Return value: None
+ * Description: Function to set the direction of a specific pin inside a specific port
+ ************************************************************************************/
+
+void MDIO_VOIDSetPinDirection (u8 Copy_U8Port, u8 Copy_U8Pin, u8 Copy_U8Direction)
+{
+     5f2:	df 93       	push	r29
+     5f4:	cf 93       	push	r28
+     5f6:	00 d0       	rcall	.+0      	; 0x5f8 <MDIO_VOIDSetPinDirection+0x6>
+     5f8:	00 d0       	rcall	.+0      	; 0x5fa <MDIO_VOIDSetPinDirection+0x8>
+     5fa:	0f 92       	push	r0
+     5fc:	cd b7       	in	r28, 0x3d	; 61
+     5fe:	de b7       	in	r29, 0x3e	; 62
+     600:	89 83       	std	Y+1, r24	; 0x01
+     602:	6a 83       	std	Y+2, r22	; 0x02
+     604:	4b 83       	std	Y+3, r20	; 0x03
+	/*Switch on port value */
+	switch (Copy_U8Port)
+     606:	89 81       	ldd	r24, Y+1	; 0x01
+     608:	28 2f       	mov	r18, r24
+     60a:	30 e0       	ldi	r19, 0x00	; 0
+     60c:	3d 83       	std	Y+5, r19	; 0x05
+     60e:	2c 83       	std	Y+4, r18	; 0x04
+     610:	8c 81       	ldd	r24, Y+4	; 0x04
+     612:	9d 81       	ldd	r25, Y+5	; 0x05
+     614:	81 30       	cpi	r24, 0x01	; 1
+     616:	91 05       	cpc	r25, r1
+     618:	09 f4       	brne	.+2      	; 0x61c <MDIO_VOIDSetPinDirection+0x2a>
+     61a:	47 c0       	rjmp	.+142    	; 0x6aa <MDIO_VOIDSetPinDirection+0xb8>
+     61c:	2c 81       	ldd	r18, Y+4	; 0x04
+     61e:	3d 81       	ldd	r19, Y+5	; 0x05
+     620:	22 30       	cpi	r18, 0x02	; 2
+     622:	31 05       	cpc	r19, r1
+     624:	2c f4       	brge	.+10     	; 0x630 <MDIO_VOIDSetPinDirection+0x3e>
+     626:	8c 81       	ldd	r24, Y+4	; 0x04
+     628:	9d 81       	ldd	r25, Y+5	; 0x05
+     62a:	00 97       	sbiw	r24, 0x00	; 0
+     62c:	71 f0       	breq	.+28     	; 0x64a <MDIO_VOIDSetPinDirection+0x58>
+     62e:	cb c0       	rjmp	.+406    	; 0x7c6 <MDIO_VOIDSetPinDirection+0x1d4>
+     630:	2c 81       	ldd	r18, Y+4	; 0x04
+     632:	3d 81       	ldd	r19, Y+5	; 0x05
+     634:	22 30       	cpi	r18, 0x02	; 2
+     636:	31 05       	cpc	r19, r1
+     638:	09 f4       	brne	.+2      	; 0x63c <MDIO_VOIDSetPinDirection+0x4a>
+     63a:	67 c0       	rjmp	.+206    	; 0x70a <MDIO_VOIDSetPinDirection+0x118>
+     63c:	8c 81       	ldd	r24, Y+4	; 0x04
+     63e:	9d 81       	ldd	r25, Y+5	; 0x05
+     640:	83 30       	cpi	r24, 0x03	; 3
+     642:	91 05       	cpc	r25, r1
+     644:	09 f4       	brne	.+2      	; 0x648 <MDIO_VOIDSetPinDirection+0x56>
+     646:	91 c0       	rjmp	.+290    	; 0x76a <MDIO_VOIDSetPinDirection+0x178>
+     648:	be c0       	rjmp	.+380    	; 0x7c6 <MDIO_VOIDSetPinDirection+0x1d4>
+	{
+	/*If condition inside each case to get the direction and storing the direction into the DDR register*/
+	case PORTA:
+		if (LOW == Copy_U8Direction)
+     64a:	8b 81       	ldd	r24, Y+3	; 0x03
+     64c:	88 23       	and	r24, r24
+     64e:	a9 f4       	brne	.+42     	; 0x67a <MDIO_VOIDSetPinDirection+0x88>
+		{
+			CLR_BIT(DDRA_REG,Copy_U8Pin);
+     650:	aa e3       	ldi	r26, 0x3A	; 58
+     652:	b0 e0       	ldi	r27, 0x00	; 0
+     654:	ea e3       	ldi	r30, 0x3A	; 58
+     656:	f0 e0       	ldi	r31, 0x00	; 0
+     658:	80 81       	ld	r24, Z
+     65a:	48 2f       	mov	r20, r24
+     65c:	8a 81       	ldd	r24, Y+2	; 0x02
+     65e:	28 2f       	mov	r18, r24
+     660:	30 e0       	ldi	r19, 0x00	; 0
+     662:	81 e0       	ldi	r24, 0x01	; 1
+     664:	90 e0       	ldi	r25, 0x00	; 0
+     666:	02 2e       	mov	r0, r18
+     668:	02 c0       	rjmp	.+4      	; 0x66e <MDIO_VOIDSetPinDirection+0x7c>
+     66a:	88 0f       	add	r24, r24
+     66c:	99 1f       	adc	r25, r25
+     66e:	0a 94       	dec	r0
+     670:	e2 f7       	brpl	.-8      	; 0x66a <MDIO_VOIDSetPinDirection+0x78>
+     672:	80 95       	com	r24
+     674:	84 23       	and	r24, r20
+     676:	8c 93       	st	X, r24
+     678:	a6 c0       	rjmp	.+332    	; 0x7c6 <MDIO_VOIDSetPinDirection+0x1d4>
+		}
+		else if(HIGH == Copy_U8Direction)
+     67a:	8b 81       	ldd	r24, Y+3	; 0x03
+     67c:	81 30       	cpi	r24, 0x01	; 1
+     67e:	09 f0       	breq	.+2      	; 0x682 <MDIO_VOIDSetPinDirection+0x90>
+     680:	a2 c0       	rjmp	.+324    	; 0x7c6 <MDIO_VOIDSetPinDirection+0x1d4>
+		{
+			SET_BIT(DDRA_REG,Copy_U8Pin);
+     682:	aa e3       	ldi	r26, 0x3A	; 58
+     684:	b0 e0       	ldi	r27, 0x00	; 0
+     686:	ea e3       	ldi	r30, 0x3A	; 58
+     688:	f0 e0       	ldi	r31, 0x00	; 0
+     68a:	80 81       	ld	r24, Z
+     68c:	48 2f       	mov	r20, r24
+     68e:	8a 81       	ldd	r24, Y+2	; 0x02
+     690:	28 2f       	mov	r18, r24
+     692:	30 e0       	ldi	r19, 0x00	; 0
+     694:	81 e0       	ldi	r24, 0x01	; 1
+     696:	90 e0       	ldi	r25, 0x00	; 0
+     698:	02 2e       	mov	r0, r18
+     69a:	02 c0       	rjmp	.+4      	; 0x6a0 <MDIO_VOIDSetPinDirection+0xae>
+     69c:	88 0f       	add	r24, r24
+     69e:	99 1f       	adc	r25, r25
+     6a0:	0a 94       	dec	r0
+     6a2:	e2 f7       	brpl	.-8      	; 0x69c <MDIO_VOIDSetPinDirection+0xaa>
+     6a4:	84 2b       	or	r24, r20
+     6a6:	8c 93       	st	X, r24
+     6a8:	8e c0       	rjmp	.+284    	; 0x7c6 <MDIO_VOIDSetPinDirection+0x1d4>
+		{
+			/*Do Nothing*/
+		}
+		break;
+	case PORTB:
+		if (LOW == Copy_U8Direction)
+     6aa:	8b 81       	ldd	r24, Y+3	; 0x03
+     6ac:	88 23       	and	r24, r24
+     6ae:	a9 f4       	brne	.+42     	; 0x6da <MDIO_VOIDSetPinDirection+0xe8>
+		{
+			CLR_BIT(DDRB_REG,Copy_U8Pin);
+     6b0:	a7 e3       	ldi	r26, 0x37	; 55
+     6b2:	b0 e0       	ldi	r27, 0x00	; 0
+     6b4:	e7 e3       	ldi	r30, 0x37	; 55
+     6b6:	f0 e0       	ldi	r31, 0x00	; 0
+     6b8:	80 81       	ld	r24, Z
+     6ba:	48 2f       	mov	r20, r24
+     6bc:	8a 81       	ldd	r24, Y+2	; 0x02
+     6be:	28 2f       	mov	r18, r24
+     6c0:	30 e0       	ldi	r19, 0x00	; 0
+     6c2:	81 e0       	ldi	r24, 0x01	; 1
+     6c4:	90 e0       	ldi	r25, 0x00	; 0
+     6c6:	02 2e       	mov	r0, r18
+     6c8:	02 c0       	rjmp	.+4      	; 0x6ce <MDIO_VOIDSetPinDirection+0xdc>
+     6ca:	88 0f       	add	r24, r24
+     6cc:	99 1f       	adc	r25, r25
+     6ce:	0a 94       	dec	r0
+     6d0:	e2 f7       	brpl	.-8      	; 0x6ca <MDIO_VOIDSetPinDirection+0xd8>
+     6d2:	80 95       	com	r24
+     6d4:	84 23       	and	r24, r20
+     6d6:	8c 93       	st	X, r24
+     6d8:	76 c0       	rjmp	.+236    	; 0x7c6 <MDIO_VOIDSetPinDirection+0x1d4>
+		}
+		else if(HIGH == Copy_U8Direction)
+     6da:	8b 81       	ldd	r24, Y+3	; 0x03
+     6dc:	81 30       	cpi	r24, 0x01	; 1
+     6de:	09 f0       	breq	.+2      	; 0x6e2 <MDIO_VOIDSetPinDirection+0xf0>
+     6e0:	72 c0       	rjmp	.+228    	; 0x7c6 <MDIO_VOIDSetPinDirection+0x1d4>
+		{
+			SET_BIT(DDRB_REG,Copy_U8Pin);
+     6e2:	a7 e3       	ldi	r26, 0x37	; 55
+     6e4:	b0 e0       	ldi	r27, 0x00	; 0
+     6e6:	e7 e3       	ldi	r30, 0x37	; 55
+     6e8:	f0 e0       	ldi	r31, 0x00	; 0
+     6ea:	80 81       	ld	r24, Z
+     6ec:	48 2f       	mov	r20, r24
+     6ee:	8a 81       	ldd	r24, Y+2	; 0x02
+     6f0:	28 2f       	mov	r18, r24
+     6f2:	30 e0       	ldi	r19, 0x00	; 0
+     6f4:	81 e0       	ldi	r24, 0x01	; 1
+     6f6:	90 e0       	ldi	r25, 0x00	; 0
+     6f8:	02 2e       	mov	r0, r18
+     6fa:	02 c0       	rjmp	.+4      	; 0x700 <MDIO_VOIDSetPinDirection+0x10e>
+     6fc:	88 0f       	add	r24, r24
+     6fe:	99 1f       	adc	r25, r25
+     700:	0a 94       	dec	r0
+     702:	e2 f7       	brpl	.-8      	; 0x6fc <MDIO_VOIDSetPinDirection+0x10a>
+     704:	84 2b       	or	r24, r20
+     706:	8c 93       	st	X, r24
+     708:	5e c0       	rjmp	.+188    	; 0x7c6 <MDIO_VOIDSetPinDirection+0x1d4>
+		{
+			/*Do Nothing*/
+		}
+		break;
+	case PORTC:
+		if (LOW == Copy_U8Direction)
+     70a:	8b 81       	ldd	r24, Y+3	; 0x03
+     70c:	88 23       	and	r24, r24
+     70e:	a9 f4       	brne	.+42     	; 0x73a <MDIO_VOIDSetPinDirection+0x148>
+		{
+			CLR_BIT(DDRC_REG,Copy_U8Pin);
+     710:	a4 e3       	ldi	r26, 0x34	; 52
+     712:	b0 e0       	ldi	r27, 0x00	; 0
+     714:	e4 e3       	ldi	r30, 0x34	; 52
+     716:	f0 e0       	ldi	r31, 0x00	; 0
+     718:	80 81       	ld	r24, Z
+     71a:	48 2f       	mov	r20, r24
+     71c:	8a 81       	ldd	r24, Y+2	; 0x02
+     71e:	28 2f       	mov	r18, r24
+     720:	30 e0       	ldi	r19, 0x00	; 0
+     722:	81 e0       	ldi	r24, 0x01	; 1
+     724:	90 e0       	ldi	r25, 0x00	; 0
+     726:	02 2e       	mov	r0, r18
+     728:	02 c0       	rjmp	.+4      	; 0x72e <MDIO_VOIDSetPinDirection+0x13c>
+     72a:	88 0f       	add	r24, r24
+     72c:	99 1f       	adc	r25, r25
+     72e:	0a 94       	dec	r0
+     730:	e2 f7       	brpl	.-8      	; 0x72a <MDIO_VOIDSetPinDirection+0x138>
+     732:	80 95       	com	r24
+     734:	84 23       	and	r24, r20
+     736:	8c 93       	st	X, r24
+     738:	46 c0       	rjmp	.+140    	; 0x7c6 <MDIO_VOIDSetPinDirection+0x1d4>
+		}
+		else if(HIGH == Copy_U8Direction)
+     73a:	8b 81       	ldd	r24, Y+3	; 0x03
+     73c:	81 30       	cpi	r24, 0x01	; 1
+     73e:	09 f0       	breq	.+2      	; 0x742 <MDIO_VOIDSetPinDirection+0x150>
+     740:	42 c0       	rjmp	.+132    	; 0x7c6 <MDIO_VOIDSetPinDirection+0x1d4>
+		{
+			SET_BIT(DDRC_REG,Copy_U8Pin);
+     742:	a4 e3       	ldi	r26, 0x34	; 52
+     744:	b0 e0       	ldi	r27, 0x00	; 0
+     746:	e4 e3       	ldi	r30, 0x34	; 52
+     748:	f0 e0       	ldi	r31, 0x00	; 0
+     74a:	80 81       	ld	r24, Z
+     74c:	48 2f       	mov	r20, r24
+     74e:	8a 81       	ldd	r24, Y+2	; 0x02
+     750:	28 2f       	mov	r18, r24
+     752:	30 e0       	ldi	r19, 0x00	; 0
+     754:	81 e0       	ldi	r24, 0x01	; 1
+     756:	90 e0       	ldi	r25, 0x00	; 0
+     758:	02 2e       	mov	r0, r18
+     75a:	02 c0       	rjmp	.+4      	; 0x760 <MDIO_VOIDSetPinDirection+0x16e>
+     75c:	88 0f       	add	r24, r24
+     75e:	99 1f       	adc	r25, r25
+     760:	0a 94       	dec	r0
+     762:	e2 f7       	brpl	.-8      	; 0x75c <MDIO_VOIDSetPinDirection+0x16a>
+     764:	84 2b       	or	r24, r20
+     766:	8c 93       	st	X, r24
+     768:	2e c0       	rjmp	.+92     	; 0x7c6 <MDIO_VOIDSetPinDirection+0x1d4>
+		{
+			/*Do Nothing*/
+		}
+		break;
+	case PORTD:
+		if (LOW == Copy_U8Direction)
+     76a:	8b 81       	ldd	r24, Y+3	; 0x03
+     76c:	88 23       	and	r24, r24
+     76e:	a9 f4       	brne	.+42     	; 0x79a <MDIO_VOIDSetPinDirection+0x1a8>
+		{
+			CLR_BIT(DDRD_REG,Copy_U8Pin);
+     770:	a1 e3       	ldi	r26, 0x31	; 49
+     772:	b0 e0       	ldi	r27, 0x00	; 0
+     774:	e1 e3       	ldi	r30, 0x31	; 49
+     776:	f0 e0       	ldi	r31, 0x00	; 0
+     778:	80 81       	ld	r24, Z
+     77a:	48 2f       	mov	r20, r24
+     77c:	8a 81       	ldd	r24, Y+2	; 0x02
+     77e:	28 2f       	mov	r18, r24
+     780:	30 e0       	ldi	r19, 0x00	; 0
+     782:	81 e0       	ldi	r24, 0x01	; 1
+     784:	90 e0       	ldi	r25, 0x00	; 0
+     786:	02 2e       	mov	r0, r18
+     788:	02 c0       	rjmp	.+4      	; 0x78e <MDIO_VOIDSetPinDirection+0x19c>
+     78a:	88 0f       	add	r24, r24
+     78c:	99 1f       	adc	r25, r25
+     78e:	0a 94       	dec	r0
+     790:	e2 f7       	brpl	.-8      	; 0x78a <MDIO_VOIDSetPinDirection+0x198>
+     792:	80 95       	com	r24
+     794:	84 23       	and	r24, r20
+     796:	8c 93       	st	X, r24
+     798:	16 c0       	rjmp	.+44     	; 0x7c6 <MDIO_VOIDSetPinDirection+0x1d4>
+		}
+		else if(HIGH == Copy_U8Direction)
+     79a:	8b 81       	ldd	r24, Y+3	; 0x03
+     79c:	81 30       	cpi	r24, 0x01	; 1
+     79e:	99 f4       	brne	.+38     	; 0x7c6 <MDIO_VOIDSetPinDirection+0x1d4>
+		{
+			SET_BIT(DDRD_REG,Copy_U8Pin);
+     7a0:	a1 e3       	ldi	r26, 0x31	; 49
+     7a2:	b0 e0       	ldi	r27, 0x00	; 0
+     7a4:	e1 e3       	ldi	r30, 0x31	; 49
+     7a6:	f0 e0       	ldi	r31, 0x00	; 0
+     7a8:	80 81       	ld	r24, Z
+     7aa:	48 2f       	mov	r20, r24
+     7ac:	8a 81       	ldd	r24, Y+2	; 0x02
+     7ae:	28 2f       	mov	r18, r24
+     7b0:	30 e0       	ldi	r19, 0x00	; 0
+     7b2:	81 e0       	ldi	r24, 0x01	; 1
+     7b4:	90 e0       	ldi	r25, 0x00	; 0
+     7b6:	02 2e       	mov	r0, r18
+     7b8:	02 c0       	rjmp	.+4      	; 0x7be <MDIO_VOIDSetPinDirection+0x1cc>
+     7ba:	88 0f       	add	r24, r24
+     7bc:	99 1f       	adc	r25, r25
+     7be:	0a 94       	dec	r0
+     7c0:	e2 f7       	brpl	.-8      	; 0x7ba <MDIO_VOIDSetPinDirection+0x1c8>
+     7c2:	84 2b       	or	r24, r20
+     7c4:	8c 93       	st	X, r24
+			/*Do Nothing*/
+		}
+		break;
+	default: break;
+	}
+}
+     7c6:	0f 90       	pop	r0
+     7c8:	0f 90       	pop	r0
+     7ca:	0f 90       	pop	r0
+     7cc:	0f 90       	pop	r0
+     7ce:	0f 90       	pop	r0
+     7d0:	cf 91       	pop	r28
+     7d2:	df 91       	pop	r29
+     7d4:	08 95       	ret
+
+000007d6 <MDIO_VOIDSetPortDirection>:
+ * Return value: None
+ * Description: Function to set the direction of a specific port
+ ************************************************************************************/
+
+void MDIO_VOIDSetPortDirection (u8 Copy_U8Port, u8 Copy_U8Direction)
+{
+     7d6:	df 93       	push	r29
+     7d8:	cf 93       	push	r28
+     7da:	00 d0       	rcall	.+0      	; 0x7dc <MDIO_VOIDSetPortDirection+0x6>
+     7dc:	00 d0       	rcall	.+0      	; 0x7de <MDIO_VOIDSetPortDirection+0x8>
+     7de:	cd b7       	in	r28, 0x3d	; 61
+     7e0:	de b7       	in	r29, 0x3e	; 62
+     7e2:	89 83       	std	Y+1, r24	; 0x01
+     7e4:	6a 83       	std	Y+2, r22	; 0x02
+	/*Switch on port value */
+	switch (Copy_U8Port)
+     7e6:	89 81       	ldd	r24, Y+1	; 0x01
+     7e8:	28 2f       	mov	r18, r24
+     7ea:	30 e0       	ldi	r19, 0x00	; 0
+     7ec:	3c 83       	std	Y+4, r19	; 0x04
+     7ee:	2b 83       	std	Y+3, r18	; 0x03
+     7f0:	8b 81       	ldd	r24, Y+3	; 0x03
+     7f2:	9c 81       	ldd	r25, Y+4	; 0x04
+     7f4:	81 30       	cpi	r24, 0x01	; 1
+     7f6:	91 05       	cpc	r25, r1
+     7f8:	d1 f0       	breq	.+52     	; 0x82e <MDIO_VOIDSetPortDirection+0x58>
+     7fa:	2b 81       	ldd	r18, Y+3	; 0x03
+     7fc:	3c 81       	ldd	r19, Y+4	; 0x04
+     7fe:	22 30       	cpi	r18, 0x02	; 2
+     800:	31 05       	cpc	r19, r1
+     802:	2c f4       	brge	.+10     	; 0x80e <MDIO_VOIDSetPortDirection+0x38>
+     804:	8b 81       	ldd	r24, Y+3	; 0x03
+     806:	9c 81       	ldd	r25, Y+4	; 0x04
+     808:	00 97       	sbiw	r24, 0x00	; 0
+     80a:	61 f0       	breq	.+24     	; 0x824 <MDIO_VOIDSetPortDirection+0x4e>
+     80c:	1e c0       	rjmp	.+60     	; 0x84a <MDIO_VOIDSetPortDirection+0x74>
+     80e:	2b 81       	ldd	r18, Y+3	; 0x03
+     810:	3c 81       	ldd	r19, Y+4	; 0x04
+     812:	22 30       	cpi	r18, 0x02	; 2
+     814:	31 05       	cpc	r19, r1
+     816:	81 f0       	breq	.+32     	; 0x838 <MDIO_VOIDSetPortDirection+0x62>
+     818:	8b 81       	ldd	r24, Y+3	; 0x03
+     81a:	9c 81       	ldd	r25, Y+4	; 0x04
+     81c:	83 30       	cpi	r24, 0x03	; 3
+     81e:	91 05       	cpc	r25, r1
+     820:	81 f0       	breq	.+32     	; 0x842 <MDIO_VOIDSetPortDirection+0x6c>
+     822:	13 c0       	rjmp	.+38     	; 0x84a <MDIO_VOIDSetPortDirection+0x74>
+	{
+	/*Storing the value of the direction into the DDR register*/
+	case PORTA:
+		DDRA_REG=Copy_U8Direction;
+     824:	ea e3       	ldi	r30, 0x3A	; 58
+     826:	f0 e0       	ldi	r31, 0x00	; 0
+     828:	8a 81       	ldd	r24, Y+2	; 0x02
+     82a:	80 83       	st	Z, r24
+     82c:	0e c0       	rjmp	.+28     	; 0x84a <MDIO_VOIDSetPortDirection+0x74>
+		break;
+	case PORTB:
+		DDRB_REG=Copy_U8Direction;
+     82e:	e7 e3       	ldi	r30, 0x37	; 55
+     830:	f0 e0       	ldi	r31, 0x00	; 0
+     832:	8a 81       	ldd	r24, Y+2	; 0x02
+     834:	80 83       	st	Z, r24
+     836:	09 c0       	rjmp	.+18     	; 0x84a <MDIO_VOIDSetPortDirection+0x74>
+		break;
+	case PORTC:
+		DDRC_REG=Copy_U8Direction;
+     838:	e4 e3       	ldi	r30, 0x34	; 52
+     83a:	f0 e0       	ldi	r31, 0x00	; 0
+     83c:	8a 81       	ldd	r24, Y+2	; 0x02
+     83e:	80 83       	st	Z, r24
+     840:	04 c0       	rjmp	.+8      	; 0x84a <MDIO_VOIDSetPortDirection+0x74>
+		break;
+	case PORTD:
+		DDRD_REG=Copy_U8Direction;
+     842:	e1 e3       	ldi	r30, 0x31	; 49
+     844:	f0 e0       	ldi	r31, 0x00	; 0
+     846:	8a 81       	ldd	r24, Y+2	; 0x02
+     848:	80 83       	st	Z, r24
+		break;
+	default: break;
+	}
+}
+     84a:	0f 90       	pop	r0
+     84c:	0f 90       	pop	r0
+     84e:	0f 90       	pop	r0
+     850:	0f 90       	pop	r0
+     852:	cf 91       	pop	r28
+     854:	df 91       	pop	r29
+     856:	08 95       	ret
+
+00000858 <MDIO_VOIDSetPinValue>:
+ * Return value: None
+ * Description: Function to set the value of a specific pin inside a specific port
+ ************************************************************************************/
+
+void MDIO_VOIDSetPinValue (u8 Copy_U8Port, u8 Copy_U8Pin, u8 Copy_U8Value)
+{
+     858:	df 93       	push	r29
+     85a:	cf 93       	push	r28
+     85c:	00 d0       	rcall	.+0      	; 0x85e <MDIO_VOIDSetPinValue+0x6>
+     85e:	00 d0       	rcall	.+0      	; 0x860 <__stack+0x1>
+     860:	0f 92       	push	r0
+     862:	cd b7       	in	r28, 0x3d	; 61
+     864:	de b7       	in	r29, 0x3e	; 62
+     866:	89 83       	std	Y+1, r24	; 0x01
+     868:	6a 83       	std	Y+2, r22	; 0x02
+     86a:	4b 83       	std	Y+3, r20	; 0x03
+	/*Switch on port value */
+	switch (Copy_U8Port)
+     86c:	89 81       	ldd	r24, Y+1	; 0x01
+     86e:	28 2f       	mov	r18, r24
+     870:	30 e0       	ldi	r19, 0x00	; 0
+     872:	3d 83       	std	Y+5, r19	; 0x05
+     874:	2c 83       	std	Y+4, r18	; 0x04
+     876:	8c 81       	ldd	r24, Y+4	; 0x04
+     878:	9d 81       	ldd	r25, Y+5	; 0x05
+     87a:	81 30       	cpi	r24, 0x01	; 1
+     87c:	91 05       	cpc	r25, r1
+     87e:	09 f4       	brne	.+2      	; 0x882 <__stack+0x23>
+     880:	47 c0       	rjmp	.+142    	; 0x910 <__stack+0xb1>
+     882:	2c 81       	ldd	r18, Y+4	; 0x04
+     884:	3d 81       	ldd	r19, Y+5	; 0x05
+     886:	22 30       	cpi	r18, 0x02	; 2
+     888:	31 05       	cpc	r19, r1
+     88a:	2c f4       	brge	.+10     	; 0x896 <__stack+0x37>
+     88c:	8c 81       	ldd	r24, Y+4	; 0x04
+     88e:	9d 81       	ldd	r25, Y+5	; 0x05
+     890:	00 97       	sbiw	r24, 0x00	; 0
+     892:	71 f0       	breq	.+28     	; 0x8b0 <__stack+0x51>
+     894:	cb c0       	rjmp	.+406    	; 0xa2c <__stack+0x1cd>
+     896:	2c 81       	ldd	r18, Y+4	; 0x04
+     898:	3d 81       	ldd	r19, Y+5	; 0x05
+     89a:	22 30       	cpi	r18, 0x02	; 2
+     89c:	31 05       	cpc	r19, r1
+     89e:	09 f4       	brne	.+2      	; 0x8a2 <__stack+0x43>
+     8a0:	67 c0       	rjmp	.+206    	; 0x970 <__stack+0x111>
+     8a2:	8c 81       	ldd	r24, Y+4	; 0x04
+     8a4:	9d 81       	ldd	r25, Y+5	; 0x05
+     8a6:	83 30       	cpi	r24, 0x03	; 3
+     8a8:	91 05       	cpc	r25, r1
+     8aa:	09 f4       	brne	.+2      	; 0x8ae <__stack+0x4f>
+     8ac:	91 c0       	rjmp	.+290    	; 0x9d0 <__stack+0x171>
+     8ae:	be c0       	rjmp	.+380    	; 0xa2c <__stack+0x1cd>
+	{
+	/*If condition inside each case to get the value then storing the value into the pin*/
+	case PORTA:
+		if (LOW == Copy_U8Value)
+     8b0:	8b 81       	ldd	r24, Y+3	; 0x03
+     8b2:	88 23       	and	r24, r24
+     8b4:	a9 f4       	brne	.+42     	; 0x8e0 <__stack+0x81>
+		{
+			CLR_BIT(PORTA_REG,Copy_U8Pin);
+     8b6:	ab e3       	ldi	r26, 0x3B	; 59
+     8b8:	b0 e0       	ldi	r27, 0x00	; 0
+     8ba:	eb e3       	ldi	r30, 0x3B	; 59
+     8bc:	f0 e0       	ldi	r31, 0x00	; 0
+     8be:	80 81       	ld	r24, Z
+     8c0:	48 2f       	mov	r20, r24
+     8c2:	8a 81       	ldd	r24, Y+2	; 0x02
+     8c4:	28 2f       	mov	r18, r24
+     8c6:	30 e0       	ldi	r19, 0x00	; 0
+     8c8:	81 e0       	ldi	r24, 0x01	; 1
+     8ca:	90 e0       	ldi	r25, 0x00	; 0
+     8cc:	02 2e       	mov	r0, r18
+     8ce:	02 c0       	rjmp	.+4      	; 0x8d4 <__stack+0x75>
+     8d0:	88 0f       	add	r24, r24
+     8d2:	99 1f       	adc	r25, r25
+     8d4:	0a 94       	dec	r0
+     8d6:	e2 f7       	brpl	.-8      	; 0x8d0 <__stack+0x71>
+     8d8:	80 95       	com	r24
+     8da:	84 23       	and	r24, r20
+     8dc:	8c 93       	st	X, r24
+     8de:	a6 c0       	rjmp	.+332    	; 0xa2c <__stack+0x1cd>
+		}
+		else if(HIGH == Copy_U8Value)
+     8e0:	8b 81       	ldd	r24, Y+3	; 0x03
+     8e2:	81 30       	cpi	r24, 0x01	; 1
+     8e4:	09 f0       	breq	.+2      	; 0x8e8 <__stack+0x89>
+     8e6:	a2 c0       	rjmp	.+324    	; 0xa2c <__stack+0x1cd>
+		{
+			SET_BIT(PORTA_REG,Copy_U8Pin);
+     8e8:	ab e3       	ldi	r26, 0x3B	; 59
+     8ea:	b0 e0       	ldi	r27, 0x00	; 0
+     8ec:	eb e3       	ldi	r30, 0x3B	; 59
+     8ee:	f0 e0       	ldi	r31, 0x00	; 0
+     8f0:	80 81       	ld	r24, Z
+     8f2:	48 2f       	mov	r20, r24
+     8f4:	8a 81       	ldd	r24, Y+2	; 0x02
+     8f6:	28 2f       	mov	r18, r24
+     8f8:	30 e0       	ldi	r19, 0x00	; 0
+     8fa:	81 e0       	ldi	r24, 0x01	; 1
+     8fc:	90 e0       	ldi	r25, 0x00	; 0
+     8fe:	02 2e       	mov	r0, r18
+     900:	02 c0       	rjmp	.+4      	; 0x906 <__stack+0xa7>
+     902:	88 0f       	add	r24, r24
+     904:	99 1f       	adc	r25, r25
+     906:	0a 94       	dec	r0
+     908:	e2 f7       	brpl	.-8      	; 0x902 <__stack+0xa3>
+     90a:	84 2b       	or	r24, r20
+     90c:	8c 93       	st	X, r24
+     90e:	8e c0       	rjmp	.+284    	; 0xa2c <__stack+0x1cd>
+		{
+			/*Do Nothing*/
+		}
+		break;
+	case PORTB:
+		if (LOW == Copy_U8Value)
+     910:	8b 81       	ldd	r24, Y+3	; 0x03
+     912:	88 23       	and	r24, r24
+     914:	a9 f4       	brne	.+42     	; 0x940 <__stack+0xe1>
+		{
+			CLR_BIT(PORTB_REG,Copy_U8Pin);
+     916:	a8 e3       	ldi	r26, 0x38	; 56
+     918:	b0 e0       	ldi	r27, 0x00	; 0
+     91a:	e8 e3       	ldi	r30, 0x38	; 56
+     91c:	f0 e0       	ldi	r31, 0x00	; 0
+     91e:	80 81       	ld	r24, Z
+     920:	48 2f       	mov	r20, r24
+     922:	8a 81       	ldd	r24, Y+2	; 0x02
+     924:	28 2f       	mov	r18, r24
+     926:	30 e0       	ldi	r19, 0x00	; 0
+     928:	81 e0       	ldi	r24, 0x01	; 1
+     92a:	90 e0       	ldi	r25, 0x00	; 0
+     92c:	02 2e       	mov	r0, r18
+     92e:	02 c0       	rjmp	.+4      	; 0x934 <__stack+0xd5>
+     930:	88 0f       	add	r24, r24
+     932:	99 1f       	adc	r25, r25
+     934:	0a 94       	dec	r0
+     936:	e2 f7       	brpl	.-8      	; 0x930 <__stack+0xd1>
+     938:	80 95       	com	r24
+     93a:	84 23       	and	r24, r20
+     93c:	8c 93       	st	X, r24
+     93e:	76 c0       	rjmp	.+236    	; 0xa2c <__stack+0x1cd>
+		}
+		else if(HIGH == Copy_U8Value)
+     940:	8b 81       	ldd	r24, Y+3	; 0x03
+     942:	81 30       	cpi	r24, 0x01	; 1
+     944:	09 f0       	breq	.+2      	; 0x948 <__stack+0xe9>
+     946:	72 c0       	rjmp	.+228    	; 0xa2c <__stack+0x1cd>
+		{
+			SET_BIT(PORTB_REG,Copy_U8Pin);
+     948:	a8 e3       	ldi	r26, 0x38	; 56
+     94a:	b0 e0       	ldi	r27, 0x00	; 0
+     94c:	e8 e3       	ldi	r30, 0x38	; 56
+     94e:	f0 e0       	ldi	r31, 0x00	; 0
+     950:	80 81       	ld	r24, Z
+     952:	48 2f       	mov	r20, r24
+     954:	8a 81       	ldd	r24, Y+2	; 0x02
+     956:	28 2f       	mov	r18, r24
+     958:	30 e0       	ldi	r19, 0x00	; 0
+     95a:	81 e0       	ldi	r24, 0x01	; 1
+     95c:	90 e0       	ldi	r25, 0x00	; 0
+     95e:	02 2e       	mov	r0, r18
+     960:	02 c0       	rjmp	.+4      	; 0x966 <__stack+0x107>
+     962:	88 0f       	add	r24, r24
+     964:	99 1f       	adc	r25, r25
+     966:	0a 94       	dec	r0
+     968:	e2 f7       	brpl	.-8      	; 0x962 <__stack+0x103>
+     96a:	84 2b       	or	r24, r20
+     96c:	8c 93       	st	X, r24
+     96e:	5e c0       	rjmp	.+188    	; 0xa2c <__stack+0x1cd>
+		{
+			/*Do Nothing*/
+		}
+		break;
+	case PORTC:
+		if (LOW == Copy_U8Value)
+     970:	8b 81       	ldd	r24, Y+3	; 0x03
+     972:	88 23       	and	r24, r24
+     974:	a9 f4       	brne	.+42     	; 0x9a0 <__stack+0x141>
+		{
+			CLR_BIT(PORTC_REG,Copy_U8Pin);
+     976:	a5 e3       	ldi	r26, 0x35	; 53
+     978:	b0 e0       	ldi	r27, 0x00	; 0
+     97a:	e5 e3       	ldi	r30, 0x35	; 53
+     97c:	f0 e0       	ldi	r31, 0x00	; 0
+     97e:	80 81       	ld	r24, Z
+     980:	48 2f       	mov	r20, r24
+     982:	8a 81       	ldd	r24, Y+2	; 0x02
+     984:	28 2f       	mov	r18, r24
+     986:	30 e0       	ldi	r19, 0x00	; 0
+     988:	81 e0       	ldi	r24, 0x01	; 1
+     98a:	90 e0       	ldi	r25, 0x00	; 0
+     98c:	02 2e       	mov	r0, r18
+     98e:	02 c0       	rjmp	.+4      	; 0x994 <__stack+0x135>
+     990:	88 0f       	add	r24, r24
+     992:	99 1f       	adc	r25, r25
+     994:	0a 94       	dec	r0
+     996:	e2 f7       	brpl	.-8      	; 0x990 <__stack+0x131>
+     998:	80 95       	com	r24
+     99a:	84 23       	and	r24, r20
+     99c:	8c 93       	st	X, r24
+     99e:	46 c0       	rjmp	.+140    	; 0xa2c <__stack+0x1cd>
+		}
+		else if(HIGH == Copy_U8Value)
+     9a0:	8b 81       	ldd	r24, Y+3	; 0x03
+     9a2:	81 30       	cpi	r24, 0x01	; 1
+     9a4:	09 f0       	breq	.+2      	; 0x9a8 <__stack+0x149>
+     9a6:	42 c0       	rjmp	.+132    	; 0xa2c <__stack+0x1cd>
+		{
+			SET_BIT(PORTC_REG,Copy_U8Pin);
+     9a8:	a5 e3       	ldi	r26, 0x35	; 53
+     9aa:	b0 e0       	ldi	r27, 0x00	; 0
+     9ac:	e5 e3       	ldi	r30, 0x35	; 53
+     9ae:	f0 e0       	ldi	r31, 0x00	; 0
+     9b0:	80 81       	ld	r24, Z
+     9b2:	48 2f       	mov	r20, r24
+     9b4:	8a 81       	ldd	r24, Y+2	; 0x02
+     9b6:	28 2f       	mov	r18, r24
+     9b8:	30 e0       	ldi	r19, 0x00	; 0
+     9ba:	81 e0       	ldi	r24, 0x01	; 1
+     9bc:	90 e0       	ldi	r25, 0x00	; 0
+     9be:	02 2e       	mov	r0, r18
+     9c0:	02 c0       	rjmp	.+4      	; 0x9c6 <__stack+0x167>
+     9c2:	88 0f       	add	r24, r24
+     9c4:	99 1f       	adc	r25, r25
+     9c6:	0a 94       	dec	r0
+     9c8:	e2 f7       	brpl	.-8      	; 0x9c2 <__stack+0x163>
+     9ca:	84 2b       	or	r24, r20
+     9cc:	8c 93       	st	X, r24
+     9ce:	2e c0       	rjmp	.+92     	; 0xa2c <__stack+0x1cd>
+		{
+			/*Do Nothing*/
+		}
+		break;
+	case PORTD:
+		if (LOW == Copy_U8Value)
+     9d0:	8b 81       	ldd	r24, Y+3	; 0x03
+     9d2:	88 23       	and	r24, r24
+     9d4:	a9 f4       	brne	.+42     	; 0xa00 <__stack+0x1a1>
+		{
+			CLR_BIT(PORTD_REG,Copy_U8Pin);
+     9d6:	a2 e3       	ldi	r26, 0x32	; 50
+     9d8:	b0 e0       	ldi	r27, 0x00	; 0
+     9da:	e2 e3       	ldi	r30, 0x32	; 50
+     9dc:	f0 e0       	ldi	r31, 0x00	; 0
+     9de:	80 81       	ld	r24, Z
+     9e0:	48 2f       	mov	r20, r24
+     9e2:	8a 81       	ldd	r24, Y+2	; 0x02
+     9e4:	28 2f       	mov	r18, r24
+     9e6:	30 e0       	ldi	r19, 0x00	; 0
+     9e8:	81 e0       	ldi	r24, 0x01	; 1
+     9ea:	90 e0       	ldi	r25, 0x00	; 0
+     9ec:	02 2e       	mov	r0, r18
+     9ee:	02 c0       	rjmp	.+4      	; 0x9f4 <__stack+0x195>
+     9f0:	88 0f       	add	r24, r24
+     9f2:	99 1f       	adc	r25, r25
+     9f4:	0a 94       	dec	r0
+     9f6:	e2 f7       	brpl	.-8      	; 0x9f0 <__stack+0x191>
+     9f8:	80 95       	com	r24
+     9fa:	84 23       	and	r24, r20
+     9fc:	8c 93       	st	X, r24
+     9fe:	16 c0       	rjmp	.+44     	; 0xa2c <__stack+0x1cd>
+		}
+		else if(HIGH == Copy_U8Value)
+     a00:	8b 81       	ldd	r24, Y+3	; 0x03
+     a02:	81 30       	cpi	r24, 0x01	; 1
+     a04:	99 f4       	brne	.+38     	; 0xa2c <__stack+0x1cd>
+		{
+			SET_BIT(PORTD_REG,Copy_U8Pin);
+     a06:	a2 e3       	ldi	r26, 0x32	; 50
+     a08:	b0 e0       	ldi	r27, 0x00	; 0
+     a0a:	e2 e3       	ldi	r30, 0x32	; 50
+     a0c:	f0 e0       	ldi	r31, 0x00	; 0
+     a0e:	80 81       	ld	r24, Z
+     a10:	48 2f       	mov	r20, r24
+     a12:	8a 81       	ldd	r24, Y+2	; 0x02
+     a14:	28 2f       	mov	r18, r24
+     a16:	30 e0       	ldi	r19, 0x00	; 0
+     a18:	81 e0       	ldi	r24, 0x01	; 1
+     a1a:	90 e0       	ldi	r25, 0x00	; 0
+     a1c:	02 2e       	mov	r0, r18
+     a1e:	02 c0       	rjmp	.+4      	; 0xa24 <__stack+0x1c5>
+     a20:	88 0f       	add	r24, r24
+     a22:	99 1f       	adc	r25, r25
+     a24:	0a 94       	dec	r0
+     a26:	e2 f7       	brpl	.-8      	; 0xa20 <__stack+0x1c1>
+     a28:	84 2b       	or	r24, r20
+     a2a:	8c 93       	st	X, r24
+			/*Do Nothing*/
+		}
+		break;
+	default: break;
+	}
+}
+     a2c:	0f 90       	pop	r0
+     a2e:	0f 90       	pop	r0
+     a30:	0f 90       	pop	r0
+     a32:	0f 90       	pop	r0
+     a34:	0f 90       	pop	r0
+     a36:	cf 91       	pop	r28
+     a38:	df 91       	pop	r29
+     a3a:	08 95       	ret
+
+00000a3c <MDIO_VOIDSetPortValue>:
+ * Return value: None
+ * Description: Function to store a value inside a specific port
+ ************************************************************************************/
+
+void MDIO_VOIDSetPortValue (u8 Copy_U8Port, u8 Copy_U8Value)
+{
+     a3c:	df 93       	push	r29
+     a3e:	cf 93       	push	r28
+     a40:	00 d0       	rcall	.+0      	; 0xa42 <MDIO_VOIDSetPortValue+0x6>
+     a42:	00 d0       	rcall	.+0      	; 0xa44 <MDIO_VOIDSetPortValue+0x8>
+     a44:	cd b7       	in	r28, 0x3d	; 61
+     a46:	de b7       	in	r29, 0x3e	; 62
+     a48:	89 83       	std	Y+1, r24	; 0x01
+     a4a:	6a 83       	std	Y+2, r22	; 0x02
+	/*Switch on port value */
+	switch (Copy_U8Port)
+     a4c:	89 81       	ldd	r24, Y+1	; 0x01
+     a4e:	28 2f       	mov	r18, r24
+     a50:	30 e0       	ldi	r19, 0x00	; 0
+     a52:	3c 83       	std	Y+4, r19	; 0x04
+     a54:	2b 83       	std	Y+3, r18	; 0x03
+     a56:	8b 81       	ldd	r24, Y+3	; 0x03
+     a58:	9c 81       	ldd	r25, Y+4	; 0x04
+     a5a:	81 30       	cpi	r24, 0x01	; 1
+     a5c:	91 05       	cpc	r25, r1
+     a5e:	d1 f0       	breq	.+52     	; 0xa94 <MDIO_VOIDSetPortValue+0x58>
+     a60:	2b 81       	ldd	r18, Y+3	; 0x03
+     a62:	3c 81       	ldd	r19, Y+4	; 0x04
+     a64:	22 30       	cpi	r18, 0x02	; 2
+     a66:	31 05       	cpc	r19, r1
+     a68:	2c f4       	brge	.+10     	; 0xa74 <MDIO_VOIDSetPortValue+0x38>
+     a6a:	8b 81       	ldd	r24, Y+3	; 0x03
+     a6c:	9c 81       	ldd	r25, Y+4	; 0x04
+     a6e:	00 97       	sbiw	r24, 0x00	; 0
+     a70:	61 f0       	breq	.+24     	; 0xa8a <MDIO_VOIDSetPortValue+0x4e>
+     a72:	1e c0       	rjmp	.+60     	; 0xab0 <MDIO_VOIDSetPortValue+0x74>
+     a74:	2b 81       	ldd	r18, Y+3	; 0x03
+     a76:	3c 81       	ldd	r19, Y+4	; 0x04
+     a78:	22 30       	cpi	r18, 0x02	; 2
+     a7a:	31 05       	cpc	r19, r1
+     a7c:	81 f0       	breq	.+32     	; 0xa9e <MDIO_VOIDSetPortValue+0x62>
+     a7e:	8b 81       	ldd	r24, Y+3	; 0x03
+     a80:	9c 81       	ldd	r25, Y+4	; 0x04
+     a82:	83 30       	cpi	r24, 0x03	; 3
+     a84:	91 05       	cpc	r25, r1
+     a86:	81 f0       	breq	.+32     	; 0xaa8 <MDIO_VOIDSetPortValue+0x6c>
+     a88:	13 c0       	rjmp	.+38     	; 0xab0 <MDIO_VOIDSetPortValue+0x74>
+	{
+	/*Storing the value of the port into the PORT register*/
+	case PORTA:
+		PORTA_REG=Copy_U8Value;
+     a8a:	eb e3       	ldi	r30, 0x3B	; 59
+     a8c:	f0 e0       	ldi	r31, 0x00	; 0
+     a8e:	8a 81       	ldd	r24, Y+2	; 0x02
+     a90:	80 83       	st	Z, r24
+     a92:	0e c0       	rjmp	.+28     	; 0xab0 <MDIO_VOIDSetPortValue+0x74>
+		break;
+	case PORTB:
+		PORTB_REG=Copy_U8Value;
+     a94:	e8 e3       	ldi	r30, 0x38	; 56
+     a96:	f0 e0       	ldi	r31, 0x00	; 0
+     a98:	8a 81       	ldd	r24, Y+2	; 0x02
+     a9a:	80 83       	st	Z, r24
+     a9c:	09 c0       	rjmp	.+18     	; 0xab0 <MDIO_VOIDSetPortValue+0x74>
+		break;
+	case PORTC:
+		PORTC_REG=Copy_U8Value;
+     a9e:	e5 e3       	ldi	r30, 0x35	; 53
+     aa0:	f0 e0       	ldi	r31, 0x00	; 0
+     aa2:	8a 81       	ldd	r24, Y+2	; 0x02
+     aa4:	80 83       	st	Z, r24
+     aa6:	04 c0       	rjmp	.+8      	; 0xab0 <MDIO_VOIDSetPortValue+0x74>
+		break;
+	case PORTD:
+		PORTD_REG=Copy_U8Value;
+     aa8:	e2 e3       	ldi	r30, 0x32	; 50
+     aaa:	f0 e0       	ldi	r31, 0x00	; 0
+     aac:	8a 81       	ldd	r24, Y+2	; 0x02
+     aae:	80 83       	st	Z, r24
+		break;
+	default: break;
+	}
+}
+     ab0:	0f 90       	pop	r0
+     ab2:	0f 90       	pop	r0
+     ab4:	0f 90       	pop	r0
+     ab6:	0f 90       	pop	r0
+     ab8:	cf 91       	pop	r28
+     aba:	df 91       	pop	r29
+     abc:	08 95       	ret
+
+00000abe <MDIO_VOIDTogglePinValue>:
+ * Return value: None
+ * Description: Function to complement the value of a specific pin inside a specific port
+ ************************************************************************************/
+
+void MDIO_VOIDTogglePinValue (u8 Copy_U8Port, u8 Copy_U8Pin)
+{
+     abe:	df 93       	push	r29
+     ac0:	cf 93       	push	r28
+     ac2:	00 d0       	rcall	.+0      	; 0xac4 <MDIO_VOIDTogglePinValue+0x6>
+     ac4:	00 d0       	rcall	.+0      	; 0xac6 <MDIO_VOIDTogglePinValue+0x8>
+     ac6:	cd b7       	in	r28, 0x3d	; 61
+     ac8:	de b7       	in	r29, 0x3e	; 62
+     aca:	89 83       	std	Y+1, r24	; 0x01
+     acc:	6a 83       	std	Y+2, r22	; 0x02
+	/*Switch on port value */
+	switch (Copy_U8Port)
+     ace:	89 81       	ldd	r24, Y+1	; 0x01
+     ad0:	28 2f       	mov	r18, r24
+     ad2:	30 e0       	ldi	r19, 0x00	; 0
+     ad4:	3c 83       	std	Y+4, r19	; 0x04
+     ad6:	2b 83       	std	Y+3, r18	; 0x03
+     ad8:	8b 81       	ldd	r24, Y+3	; 0x03
+     ada:	9c 81       	ldd	r25, Y+4	; 0x04
+     adc:	81 30       	cpi	r24, 0x01	; 1
+     ade:	91 05       	cpc	r25, r1
+     ae0:	49 f1       	breq	.+82     	; 0xb34 <MDIO_VOIDTogglePinValue+0x76>
+     ae2:	2b 81       	ldd	r18, Y+3	; 0x03
+     ae4:	3c 81       	ldd	r19, Y+4	; 0x04
+     ae6:	22 30       	cpi	r18, 0x02	; 2
+     ae8:	31 05       	cpc	r19, r1
+     aea:	2c f4       	brge	.+10     	; 0xaf6 <MDIO_VOIDTogglePinValue+0x38>
+     aec:	8b 81       	ldd	r24, Y+3	; 0x03
+     aee:	9c 81       	ldd	r25, Y+4	; 0x04
+     af0:	00 97       	sbiw	r24, 0x00	; 0
+     af2:	61 f0       	breq	.+24     	; 0xb0c <MDIO_VOIDTogglePinValue+0x4e>
+     af4:	5a c0       	rjmp	.+180    	; 0xbaa <MDIO_VOIDTogglePinValue+0xec>
+     af6:	2b 81       	ldd	r18, Y+3	; 0x03
+     af8:	3c 81       	ldd	r19, Y+4	; 0x04
+     afa:	22 30       	cpi	r18, 0x02	; 2
+     afc:	31 05       	cpc	r19, r1
+     afe:	71 f1       	breq	.+92     	; 0xb5c <MDIO_VOIDTogglePinValue+0x9e>
+     b00:	8b 81       	ldd	r24, Y+3	; 0x03
+     b02:	9c 81       	ldd	r25, Y+4	; 0x04
+     b04:	83 30       	cpi	r24, 0x03	; 3
+     b06:	91 05       	cpc	r25, r1
+     b08:	e9 f1       	breq	.+122    	; 0xb84 <MDIO_VOIDTogglePinValue+0xc6>
+     b0a:	4f c0       	rjmp	.+158    	; 0xbaa <MDIO_VOIDTogglePinValue+0xec>
+	{
+	/*Complementing the value of the bit*/
+	case PORTA:
+		TOGGLE_BIT(PORTA_REG,Copy_U8Pin);
+     b0c:	ab e3       	ldi	r26, 0x3B	; 59
+     b0e:	b0 e0       	ldi	r27, 0x00	; 0
+     b10:	eb e3       	ldi	r30, 0x3B	; 59
+     b12:	f0 e0       	ldi	r31, 0x00	; 0
+     b14:	80 81       	ld	r24, Z
+     b16:	48 2f       	mov	r20, r24
+     b18:	8a 81       	ldd	r24, Y+2	; 0x02
+     b1a:	28 2f       	mov	r18, r24
+     b1c:	30 e0       	ldi	r19, 0x00	; 0
+     b1e:	81 e0       	ldi	r24, 0x01	; 1
+     b20:	90 e0       	ldi	r25, 0x00	; 0
+     b22:	02 2e       	mov	r0, r18
+     b24:	02 c0       	rjmp	.+4      	; 0xb2a <MDIO_VOIDTogglePinValue+0x6c>
+     b26:	88 0f       	add	r24, r24
+     b28:	99 1f       	adc	r25, r25
+     b2a:	0a 94       	dec	r0
+     b2c:	e2 f7       	brpl	.-8      	; 0xb26 <MDIO_VOIDTogglePinValue+0x68>
+     b2e:	84 27       	eor	r24, r20
+     b30:	8c 93       	st	X, r24
+     b32:	3b c0       	rjmp	.+118    	; 0xbaa <MDIO_VOIDTogglePinValue+0xec>
+		break;
+	case PORTB:
+		TOGGLE_BIT(PORTB_REG,Copy_U8Pin);
+     b34:	a8 e3       	ldi	r26, 0x38	; 56
+     b36:	b0 e0       	ldi	r27, 0x00	; 0
+     b38:	e8 e3       	ldi	r30, 0x38	; 56
+     b3a:	f0 e0       	ldi	r31, 0x00	; 0
+     b3c:	80 81       	ld	r24, Z
+     b3e:	48 2f       	mov	r20, r24
+     b40:	8a 81       	ldd	r24, Y+2	; 0x02
+     b42:	28 2f       	mov	r18, r24
+     b44:	30 e0       	ldi	r19, 0x00	; 0
+     b46:	81 e0       	ldi	r24, 0x01	; 1
+     b48:	90 e0       	ldi	r25, 0x00	; 0
+     b4a:	02 2e       	mov	r0, r18
+     b4c:	02 c0       	rjmp	.+4      	; 0xb52 <MDIO_VOIDTogglePinValue+0x94>
+     b4e:	88 0f       	add	r24, r24
+     b50:	99 1f       	adc	r25, r25
+     b52:	0a 94       	dec	r0
+     b54:	e2 f7       	brpl	.-8      	; 0xb4e <MDIO_VOIDTogglePinValue+0x90>
+     b56:	84 27       	eor	r24, r20
+     b58:	8c 93       	st	X, r24
+     b5a:	27 c0       	rjmp	.+78     	; 0xbaa <MDIO_VOIDTogglePinValue+0xec>
+		break;
+	case PORTC:
+		TOGGLE_BIT(PORTC_REG,Copy_U8Pin);
+     b5c:	a5 e3       	ldi	r26, 0x35	; 53
+     b5e:	b0 e0       	ldi	r27, 0x00	; 0
+     b60:	e5 e3       	ldi	r30, 0x35	; 53
+     b62:	f0 e0       	ldi	r31, 0x00	; 0
+     b64:	80 81       	ld	r24, Z
+     b66:	48 2f       	mov	r20, r24
+     b68:	8a 81       	ldd	r24, Y+2	; 0x02
+     b6a:	28 2f       	mov	r18, r24
+     b6c:	30 e0       	ldi	r19, 0x00	; 0
+     b6e:	81 e0       	ldi	r24, 0x01	; 1
+     b70:	90 e0       	ldi	r25, 0x00	; 0
+     b72:	02 2e       	mov	r0, r18
+     b74:	02 c0       	rjmp	.+4      	; 0xb7a <MDIO_VOIDTogglePinValue+0xbc>
+     b76:	88 0f       	add	r24, r24
+     b78:	99 1f       	adc	r25, r25
+     b7a:	0a 94       	dec	r0
+     b7c:	e2 f7       	brpl	.-8      	; 0xb76 <MDIO_VOIDTogglePinValue+0xb8>
+     b7e:	84 27       	eor	r24, r20
+     b80:	8c 93       	st	X, r24
+     b82:	13 c0       	rjmp	.+38     	; 0xbaa <MDIO_VOIDTogglePinValue+0xec>
+		break;
+	case PORTD:
+		TOGGLE_BIT(PORTD_REG,Copy_U8Pin);
+     b84:	a2 e3       	ldi	r26, 0x32	; 50
+     b86:	b0 e0       	ldi	r27, 0x00	; 0
+     b88:	e2 e3       	ldi	r30, 0x32	; 50
+     b8a:	f0 e0       	ldi	r31, 0x00	; 0
+     b8c:	80 81       	ld	r24, Z
+     b8e:	48 2f       	mov	r20, r24
+     b90:	8a 81       	ldd	r24, Y+2	; 0x02
+     b92:	28 2f       	mov	r18, r24
+     b94:	30 e0       	ldi	r19, 0x00	; 0
+     b96:	81 e0       	ldi	r24, 0x01	; 1
+     b98:	90 e0       	ldi	r25, 0x00	; 0
+     b9a:	02 2e       	mov	r0, r18
+     b9c:	02 c0       	rjmp	.+4      	; 0xba2 <MDIO_VOIDTogglePinValue+0xe4>
+     b9e:	88 0f       	add	r24, r24
+     ba0:	99 1f       	adc	r25, r25
+     ba2:	0a 94       	dec	r0
+     ba4:	e2 f7       	brpl	.-8      	; 0xb9e <MDIO_VOIDTogglePinValue+0xe0>
+     ba6:	84 27       	eor	r24, r20
+     ba8:	8c 93       	st	X, r24
+		break;
+	default: break;
+	}
+}
+     baa:	0f 90       	pop	r0
+     bac:	0f 90       	pop	r0
+     bae:	0f 90       	pop	r0
+     bb0:	0f 90       	pop	r0
+     bb2:	cf 91       	pop	r28
+     bb4:	df 91       	pop	r29
+     bb6:	08 95       	ret
+
+00000bb8 <MDIO_U8GetPinValue>:
+ * Return value: u8 LOC_U8RetVal - to store the value of the bit (0/1)
+ * Description: Function to return the value of a specific pin inside a specific port
+ ************************************************************************************/
+
+u8 MDIO_U8GetPinValue (u8 Copy_U8Port, u8 Copy_U8Pin)
+{
+     bb8:	df 93       	push	r29
+     bba:	cf 93       	push	r28
+     bbc:	00 d0       	rcall	.+0      	; 0xbbe <MDIO_U8GetPinValue+0x6>
+     bbe:	00 d0       	rcall	.+0      	; 0xbc0 <MDIO_U8GetPinValue+0x8>
+     bc0:	0f 92       	push	r0
+     bc2:	cd b7       	in	r28, 0x3d	; 61
+     bc4:	de b7       	in	r29, 0x3e	; 62
+     bc6:	8a 83       	std	Y+2, r24	; 0x02
+     bc8:	6b 83       	std	Y+3, r22	; 0x03
+	/*Variable to store the value of the pin into then returning it*/
+	u8 LOC_U8RetVal;
+	/*Switch on port value */
+	switch (Copy_U8Port)
+     bca:	8a 81       	ldd	r24, Y+2	; 0x02
+     bcc:	28 2f       	mov	r18, r24
+     bce:	30 e0       	ldi	r19, 0x00	; 0
+     bd0:	3d 83       	std	Y+5, r19	; 0x05
+     bd2:	2c 83       	std	Y+4, r18	; 0x04
+     bd4:	4c 81       	ldd	r20, Y+4	; 0x04
+     bd6:	5d 81       	ldd	r21, Y+5	; 0x05
+     bd8:	41 30       	cpi	r20, 0x01	; 1
+     bda:	51 05       	cpc	r21, r1
+     bdc:	41 f1       	breq	.+80     	; 0xc2e <MDIO_U8GetPinValue+0x76>
+     bde:	8c 81       	ldd	r24, Y+4	; 0x04
+     be0:	9d 81       	ldd	r25, Y+5	; 0x05
+     be2:	82 30       	cpi	r24, 0x02	; 2
+     be4:	91 05       	cpc	r25, r1
+     be6:	34 f4       	brge	.+12     	; 0xbf4 <MDIO_U8GetPinValue+0x3c>
+     be8:	2c 81       	ldd	r18, Y+4	; 0x04
+     bea:	3d 81       	ldd	r19, Y+5	; 0x05
+     bec:	21 15       	cp	r18, r1
+     bee:	31 05       	cpc	r19, r1
+     bf0:	61 f0       	breq	.+24     	; 0xc0a <MDIO_U8GetPinValue+0x52>
+     bf2:	52 c0       	rjmp	.+164    	; 0xc98 <MDIO_U8GetPinValue+0xe0>
+     bf4:	4c 81       	ldd	r20, Y+4	; 0x04
+     bf6:	5d 81       	ldd	r21, Y+5	; 0x05
+     bf8:	42 30       	cpi	r20, 0x02	; 2
+     bfa:	51 05       	cpc	r21, r1
+     bfc:	51 f1       	breq	.+84     	; 0xc52 <MDIO_U8GetPinValue+0x9a>
+     bfe:	8c 81       	ldd	r24, Y+4	; 0x04
+     c00:	9d 81       	ldd	r25, Y+5	; 0x05
+     c02:	83 30       	cpi	r24, 0x03	; 3
+     c04:	91 05       	cpc	r25, r1
+     c06:	b9 f1       	breq	.+110    	; 0xc76 <MDIO_U8GetPinValue+0xbe>
+     c08:	47 c0       	rjmp	.+142    	; 0xc98 <MDIO_U8GetPinValue+0xe0>
+	{
+	/*Storing the value of the bit*/
+	case PORTA:
+		LOC_U8RetVal=GET_BIT(PINA_REG,Copy_U8Pin);
+     c0a:	e9 e3       	ldi	r30, 0x39	; 57
+     c0c:	f0 e0       	ldi	r31, 0x00	; 0
+     c0e:	80 81       	ld	r24, Z
+     c10:	28 2f       	mov	r18, r24
+     c12:	30 e0       	ldi	r19, 0x00	; 0
+     c14:	8b 81       	ldd	r24, Y+3	; 0x03
+     c16:	88 2f       	mov	r24, r24
+     c18:	90 e0       	ldi	r25, 0x00	; 0
+     c1a:	a9 01       	movw	r20, r18
+     c1c:	02 c0       	rjmp	.+4      	; 0xc22 <MDIO_U8GetPinValue+0x6a>
+     c1e:	55 95       	asr	r21
+     c20:	47 95       	ror	r20
+     c22:	8a 95       	dec	r24
+     c24:	e2 f7       	brpl	.-8      	; 0xc1e <MDIO_U8GetPinValue+0x66>
+     c26:	ca 01       	movw	r24, r20
+     c28:	81 70       	andi	r24, 0x01	; 1
+     c2a:	89 83       	std	Y+1, r24	; 0x01
+     c2c:	35 c0       	rjmp	.+106    	; 0xc98 <MDIO_U8GetPinValue+0xe0>
+		break;
+	case PORTB:
+		LOC_U8RetVal=GET_BIT(PINB_REG,Copy_U8Pin);
+     c2e:	e6 e3       	ldi	r30, 0x36	; 54
+     c30:	f0 e0       	ldi	r31, 0x00	; 0
+     c32:	80 81       	ld	r24, Z
+     c34:	28 2f       	mov	r18, r24
+     c36:	30 e0       	ldi	r19, 0x00	; 0
+     c38:	8b 81       	ldd	r24, Y+3	; 0x03
+     c3a:	88 2f       	mov	r24, r24
+     c3c:	90 e0       	ldi	r25, 0x00	; 0
+     c3e:	a9 01       	movw	r20, r18
+     c40:	02 c0       	rjmp	.+4      	; 0xc46 <MDIO_U8GetPinValue+0x8e>
+     c42:	55 95       	asr	r21
+     c44:	47 95       	ror	r20
+     c46:	8a 95       	dec	r24
+     c48:	e2 f7       	brpl	.-8      	; 0xc42 <MDIO_U8GetPinValue+0x8a>
+     c4a:	ca 01       	movw	r24, r20
+     c4c:	81 70       	andi	r24, 0x01	; 1
+     c4e:	89 83       	std	Y+1, r24	; 0x01
+     c50:	23 c0       	rjmp	.+70     	; 0xc98 <MDIO_U8GetPinValue+0xe0>
+		break;
+	case PORTC:
+		LOC_U8RetVal=GET_BIT(PINC_REG,Copy_U8Pin);
+     c52:	e3 e3       	ldi	r30, 0x33	; 51
+     c54:	f0 e0       	ldi	r31, 0x00	; 0
+     c56:	80 81       	ld	r24, Z
+     c58:	28 2f       	mov	r18, r24
+     c5a:	30 e0       	ldi	r19, 0x00	; 0
+     c5c:	8b 81       	ldd	r24, Y+3	; 0x03
+     c5e:	88 2f       	mov	r24, r24
+     c60:	90 e0       	ldi	r25, 0x00	; 0
+     c62:	a9 01       	movw	r20, r18
+     c64:	02 c0       	rjmp	.+4      	; 0xc6a <MDIO_U8GetPinValue+0xb2>
+     c66:	55 95       	asr	r21
+     c68:	47 95       	ror	r20
+     c6a:	8a 95       	dec	r24
+     c6c:	e2 f7       	brpl	.-8      	; 0xc66 <MDIO_U8GetPinValue+0xae>
+     c6e:	ca 01       	movw	r24, r20
+     c70:	81 70       	andi	r24, 0x01	; 1
+     c72:	89 83       	std	Y+1, r24	; 0x01
+     c74:	11 c0       	rjmp	.+34     	; 0xc98 <MDIO_U8GetPinValue+0xe0>
+		break;
+	case PORTD:
+		LOC_U8RetVal=GET_BIT(PIND_REG,Copy_U8Pin);
+     c76:	e0 e3       	ldi	r30, 0x30	; 48
+     c78:	f0 e0       	ldi	r31, 0x00	; 0
+     c7a:	80 81       	ld	r24, Z
+     c7c:	28 2f       	mov	r18, r24
+     c7e:	30 e0       	ldi	r19, 0x00	; 0
+     c80:	8b 81       	ldd	r24, Y+3	; 0x03
+     c82:	88 2f       	mov	r24, r24
+     c84:	90 e0       	ldi	r25, 0x00	; 0
+     c86:	a9 01       	movw	r20, r18
+     c88:	02 c0       	rjmp	.+4      	; 0xc8e <MDIO_U8GetPinValue+0xd6>
+     c8a:	55 95       	asr	r21
+     c8c:	47 95       	ror	r20
+     c8e:	8a 95       	dec	r24
+     c90:	e2 f7       	brpl	.-8      	; 0xc8a <MDIO_U8GetPinValue+0xd2>
+     c92:	ca 01       	movw	r24, r20
+     c94:	81 70       	andi	r24, 0x01	; 1
+     c96:	89 83       	std	Y+1, r24	; 0x01
+		break;
+	default: break;
+	}
+	return LOC_U8RetVal;
+     c98:	89 81       	ldd	r24, Y+1	; 0x01
+}
+     c9a:	0f 90       	pop	r0
+     c9c:	0f 90       	pop	r0
+     c9e:	0f 90       	pop	r0
+     ca0:	0f 90       	pop	r0
+     ca2:	0f 90       	pop	r0
+     ca4:	cf 91       	pop	r28
+     ca6:	df 91       	pop	r29
+     ca8:	08 95       	ret
+
+00000caa <MDIO_U8GetPortValue>:
+ * Return value: u8 LOC_U8RetVal - to store the value of the port
+ * Description: Function to return the value of a specific port
+ ************************************************************************************/
+
+u8 MDIO_U8GetPortValue (u8 Copy_U8Port)
+{
+     caa:	df 93       	push	r29
+     cac:	cf 93       	push	r28
+     cae:	00 d0       	rcall	.+0      	; 0xcb0 <MDIO_U8GetPortValue+0x6>
+     cb0:	00 d0       	rcall	.+0      	; 0xcb2 <MDIO_U8GetPortValue+0x8>
+     cb2:	cd b7       	in	r28, 0x3d	; 61
+     cb4:	de b7       	in	r29, 0x3e	; 62
+     cb6:	8a 83       	std	Y+2, r24	; 0x02
+	/*Variable to store the value of the port into then returning it*/
+	u8 LOC_U8RetVal;
+	/*Switch on port value */
+	switch (Copy_U8Port)
+     cb8:	8a 81       	ldd	r24, Y+2	; 0x02
+     cba:	28 2f       	mov	r18, r24
+     cbc:	30 e0       	ldi	r19, 0x00	; 0
+     cbe:	3c 83       	std	Y+4, r19	; 0x04
+     cc0:	2b 83       	std	Y+3, r18	; 0x03
+     cc2:	8b 81       	ldd	r24, Y+3	; 0x03
+     cc4:	9c 81       	ldd	r25, Y+4	; 0x04
+     cc6:	81 30       	cpi	r24, 0x01	; 1
+     cc8:	91 05       	cpc	r25, r1
+     cca:	d1 f0       	breq	.+52     	; 0xd00 <MDIO_U8GetPortValue+0x56>
+     ccc:	2b 81       	ldd	r18, Y+3	; 0x03
+     cce:	3c 81       	ldd	r19, Y+4	; 0x04
+     cd0:	22 30       	cpi	r18, 0x02	; 2
+     cd2:	31 05       	cpc	r19, r1
+     cd4:	2c f4       	brge	.+10     	; 0xce0 <MDIO_U8GetPortValue+0x36>
+     cd6:	8b 81       	ldd	r24, Y+3	; 0x03
+     cd8:	9c 81       	ldd	r25, Y+4	; 0x04
+     cda:	00 97       	sbiw	r24, 0x00	; 0
+     cdc:	61 f0       	breq	.+24     	; 0xcf6 <MDIO_U8GetPortValue+0x4c>
+     cde:	1e c0       	rjmp	.+60     	; 0xd1c <MDIO_U8GetPortValue+0x72>
+     ce0:	2b 81       	ldd	r18, Y+3	; 0x03
+     ce2:	3c 81       	ldd	r19, Y+4	; 0x04
+     ce4:	22 30       	cpi	r18, 0x02	; 2
+     ce6:	31 05       	cpc	r19, r1
+     ce8:	81 f0       	breq	.+32     	; 0xd0a <MDIO_U8GetPortValue+0x60>
+     cea:	8b 81       	ldd	r24, Y+3	; 0x03
+     cec:	9c 81       	ldd	r25, Y+4	; 0x04
+     cee:	83 30       	cpi	r24, 0x03	; 3
+     cf0:	91 05       	cpc	r25, r1
+     cf2:	81 f0       	breq	.+32     	; 0xd14 <MDIO_U8GetPortValue+0x6a>
+     cf4:	13 c0       	rjmp	.+38     	; 0xd1c <MDIO_U8GetPortValue+0x72>
+	{
+	/*Storing the value of the port*/
+	case PORTA:
+		LOC_U8RetVal=PINA_REG;
+     cf6:	e9 e3       	ldi	r30, 0x39	; 57
+     cf8:	f0 e0       	ldi	r31, 0x00	; 0
+     cfa:	80 81       	ld	r24, Z
+     cfc:	89 83       	std	Y+1, r24	; 0x01
+     cfe:	0e c0       	rjmp	.+28     	; 0xd1c <MDIO_U8GetPortValue+0x72>
+		break;
+	case PORTB:
+		LOC_U8RetVal=PINB_REG;
+     d00:	e6 e3       	ldi	r30, 0x36	; 54
+     d02:	f0 e0       	ldi	r31, 0x00	; 0
+     d04:	80 81       	ld	r24, Z
+     d06:	89 83       	std	Y+1, r24	; 0x01
+     d08:	09 c0       	rjmp	.+18     	; 0xd1c <MDIO_U8GetPortValue+0x72>
+		break;
+	case PORTC:
+		LOC_U8RetVal=PINC_REG;
+     d0a:	e3 e3       	ldi	r30, 0x33	; 51
+     d0c:	f0 e0       	ldi	r31, 0x00	; 0
+     d0e:	80 81       	ld	r24, Z
+     d10:	89 83       	std	Y+1, r24	; 0x01
+     d12:	04 c0       	rjmp	.+8      	; 0xd1c <MDIO_U8GetPortValue+0x72>
+		break;
+	case PORTD:
+		LOC_U8RetVal=PIND_REG;
+     d14:	e0 e3       	ldi	r30, 0x30	; 48
+     d16:	f0 e0       	ldi	r31, 0x00	; 0
+     d18:	80 81       	ld	r24, Z
+     d1a:	89 83       	std	Y+1, r24	; 0x01
+		break;
+	default: break;
+	}
+	return LOC_U8RetVal;
+     d1c:	89 81       	ldd	r24, Y+1	; 0x01
+}
+     d1e:	0f 90       	pop	r0
+     d20:	0f 90       	pop	r0
+     d22:	0f 90       	pop	r0
+     d24:	0f 90       	pop	r0
+     d26:	cf 91       	pop	r28
+     d28:	df 91       	pop	r29
+     d2a:	08 95       	ret
+
+00000d2c <MADC_VOIDInit>:
+ * Return value: None
+ * Description: Function to initialize the ADC module
+ ************************************************************************************/
+
+void MADC_VOIDInit (void)
+{
+     d2c:	df 93       	push	r29
+     d2e:	cf 93       	push	r28
+     d30:	cd b7       	in	r28, 0x3d	; 61
+     d32:	de b7       	in	r29, 0x3e	; 62
+	/*Select AVCC reference*/
+	CLR_BIT(ADMUX_REG,REFS1);
+     d34:	a7 e2       	ldi	r26, 0x27	; 39
+     d36:	b0 e0       	ldi	r27, 0x00	; 0
+     d38:	e7 e2       	ldi	r30, 0x27	; 39
+     d3a:	f0 e0       	ldi	r31, 0x00	; 0
+     d3c:	80 81       	ld	r24, Z
+     d3e:	8f 77       	andi	r24, 0x7F	; 127
+     d40:	8c 93       	st	X, r24
+	SET_BIT(ADMUX_REG,REFS0);
+     d42:	a7 e2       	ldi	r26, 0x27	; 39
+     d44:	b0 e0       	ldi	r27, 0x00	; 0
+     d46:	e7 e2       	ldi	r30, 0x27	; 39
+     d48:	f0 e0       	ldi	r31, 0x00	; 0
+     d4a:	80 81       	ld	r24, Z
+     d4c:	80 64       	ori	r24, 0x40	; 64
+     d4e:	8c 93       	st	X, r24
+	/*Select left adjustment to read one time from ADCH register*/
+	SET_BIT(ADMUX_REG,ADLAR);
+     d50:	a7 e2       	ldi	r26, 0x27	; 39
+     d52:	b0 e0       	ldi	r27, 0x00	; 0
+     d54:	e7 e2       	ldi	r30, 0x27	; 39
+     d56:	f0 e0       	ldi	r31, 0x00	; 0
+     d58:	80 81       	ld	r24, Z
+     d5a:	80 62       	ori	r24, 0x20	; 32
+     d5c:	8c 93       	st	X, r24
+	/*Select channel ADC4*/
+	CLR_BIT(ADMUX_REG,MUX4);
+     d5e:	a7 e2       	ldi	r26, 0x27	; 39
+     d60:	b0 e0       	ldi	r27, 0x00	; 0
+     d62:	e7 e2       	ldi	r30, 0x27	; 39
+     d64:	f0 e0       	ldi	r31, 0x00	; 0
+     d66:	80 81       	ld	r24, Z
+     d68:	8f 7e       	andi	r24, 0xEF	; 239
+     d6a:	8c 93       	st	X, r24
+	CLR_BIT(ADMUX_REG,MUX3);
+     d6c:	a7 e2       	ldi	r26, 0x27	; 39
+     d6e:	b0 e0       	ldi	r27, 0x00	; 0
+     d70:	e7 e2       	ldi	r30, 0x27	; 39
+     d72:	f0 e0       	ldi	r31, 0x00	; 0
+     d74:	80 81       	ld	r24, Z
+     d76:	87 7f       	andi	r24, 0xF7	; 247
+     d78:	8c 93       	st	X, r24
+	SET_BIT(ADMUX_REG,MUX2);
+     d7a:	a7 e2       	ldi	r26, 0x27	; 39
+     d7c:	b0 e0       	ldi	r27, 0x00	; 0
+     d7e:	e7 e2       	ldi	r30, 0x27	; 39
+     d80:	f0 e0       	ldi	r31, 0x00	; 0
+     d82:	80 81       	ld	r24, Z
+     d84:	84 60       	ori	r24, 0x04	; 4
+     d86:	8c 93       	st	X, r24
+	CLR_BIT(ADMUX_REG,MUX1);
+     d88:	a7 e2       	ldi	r26, 0x27	; 39
+     d8a:	b0 e0       	ldi	r27, 0x00	; 0
+     d8c:	e7 e2       	ldi	r30, 0x27	; 39
+     d8e:	f0 e0       	ldi	r31, 0x00	; 0
+     d90:	80 81       	ld	r24, Z
+     d92:	8d 7f       	andi	r24, 0xFD	; 253
+     d94:	8c 93       	st	X, r24
+	CLR_BIT(ADMUX_REG,MUX0);
+     d96:	a7 e2       	ldi	r26, 0x27	; 39
+     d98:	b0 e0       	ldi	r27, 0x00	; 0
+     d9a:	e7 e2       	ldi	r30, 0x27	; 39
+     d9c:	f0 e0       	ldi	r31, 0x00	; 0
+     d9e:	80 81       	ld	r24, Z
+     da0:	8e 7f       	andi	r24, 0xFE	; 254
+     da2:	8c 93       	st	X, r24
+	/*Enable ADC module*/
+	SET_BIT(ADCSRA_REG,ADEN);
+     da4:	a6 e2       	ldi	r26, 0x26	; 38
+     da6:	b0 e0       	ldi	r27, 0x00	; 0
+     da8:	e6 e2       	ldi	r30, 0x26	; 38
+     daa:	f0 e0       	ldi	r31, 0x00	; 0
+     dac:	80 81       	ld	r24, Z
+     dae:	80 68       	ori	r24, 0x80	; 128
+     db0:	8c 93       	st	X, r24
+	/*Selecting Pre-scalar value: 2*/
+	CLR_BIT(ADCSRA_REG,ADPS2);
+     db2:	a6 e2       	ldi	r26, 0x26	; 38
+     db4:	b0 e0       	ldi	r27, 0x00	; 0
+     db6:	e6 e2       	ldi	r30, 0x26	; 38
+     db8:	f0 e0       	ldi	r31, 0x00	; 0
+     dba:	80 81       	ld	r24, Z
+     dbc:	8b 7f       	andi	r24, 0xFB	; 251
+     dbe:	8c 93       	st	X, r24
+	CLR_BIT(ADCSRA_REG,ADPS1);
+     dc0:	a6 e2       	ldi	r26, 0x26	; 38
+     dc2:	b0 e0       	ldi	r27, 0x00	; 0
+     dc4:	e6 e2       	ldi	r30, 0x26	; 38
+     dc6:	f0 e0       	ldi	r31, 0x00	; 0
+     dc8:	80 81       	ld	r24, Z
+     dca:	8d 7f       	andi	r24, 0xFD	; 253
+     dcc:	8c 93       	st	X, r24
+	SET_BIT(ADCSRA_REG,ADPS0);
+     dce:	a6 e2       	ldi	r26, 0x26	; 38
+     dd0:	b0 e0       	ldi	r27, 0x00	; 0
+     dd2:	e6 e2       	ldi	r30, 0x26	; 38
+     dd4:	f0 e0       	ldi	r31, 0x00	; 0
+     dd6:	80 81       	ld	r24, Z
+     dd8:	81 60       	ori	r24, 0x01	; 1
+     dda:	8c 93       	st	X, r24
+}
+     ddc:	cf 91       	pop	r28
+     dde:	df 91       	pop	r29
+     de0:	08 95       	ret
+
+00000de2 <MADC_U8ReadValue>:
+ * Return value: u8 LOC_U8RetVal - to return the reading of the ADC
+ * Description: Function to get the analog reading from ADC4 pin
+ ************************************************************************************/
+
+u8 MADC_U8ReadValue (void)
+{
+     de2:	df 93       	push	r29
+     de4:	cf 93       	push	r28
+     de6:	0f 92       	push	r0
+     de8:	cd b7       	in	r28, 0x3d	; 61
+     dea:	de b7       	in	r29, 0x3e	; 62
+	u8 LOC_U8RetVal=ZERO;
+     dec:	19 82       	std	Y+1, r1	; 0x01
+	/*Start Conversion*/
+	SET_BIT(ADCSRA_REG,ADSC);
+     dee:	a6 e2       	ldi	r26, 0x26	; 38
+     df0:	b0 e0       	ldi	r27, 0x00	; 0
+     df2:	e6 e2       	ldi	r30, 0x26	; 38
+     df4:	f0 e0       	ldi	r31, 0x00	; 0
+     df6:	80 81       	ld	r24, Z
+     df8:	80 64       	ori	r24, 0x40	; 64
+     dfa:	8c 93       	st	X, r24
+	/*Polling on flag until conversion is complete*/
+	while (GET_BIT(ADCSRA_REG,ADIF) == ZERO)
+     dfc:	e6 e2       	ldi	r30, 0x26	; 38
+     dfe:	f0 e0       	ldi	r31, 0x00	; 0
+     e00:	80 81       	ld	r24, Z
+     e02:	82 95       	swap	r24
+     e04:	8f 70       	andi	r24, 0x0F	; 15
+     e06:	88 2f       	mov	r24, r24
+     e08:	90 e0       	ldi	r25, 0x00	; 0
+     e0a:	81 70       	andi	r24, 0x01	; 1
+     e0c:	90 70       	andi	r25, 0x00	; 0
+     e0e:	00 97       	sbiw	r24, 0x00	; 0
+     e10:	a9 f3       	breq	.-22     	; 0xdfc <MADC_U8ReadValue+0x1a>
+	{
+		/*Do Nothing*/
+	}
+	/*Clearing the flag manually by setting the flag bit*/
+	SET_BIT(ADCSRA_REG,ADIF);
+     e12:	a6 e2       	ldi	r26, 0x26	; 38
+     e14:	b0 e0       	ldi	r27, 0x00	; 0
+     e16:	e6 e2       	ldi	r30, 0x26	; 38
+     e18:	f0 e0       	ldi	r31, 0x00	; 0
+     e1a:	80 81       	ld	r24, Z
+     e1c:	80 61       	ori	r24, 0x10	; 16
+     e1e:	8c 93       	st	X, r24
+	/*Store the read value*/
+	LOC_U8RetVal = ADCH_REG;
+     e20:	e5 e2       	ldi	r30, 0x25	; 37
+     e22:	f0 e0       	ldi	r31, 0x00	; 0
+     e24:	80 81       	ld	r24, Z
+     e26:	89 83       	std	Y+1, r24	; 0x01
+	return LOC_U8RetVal;
+     e28:	89 81       	ldd	r24, Y+1	; 0x01
+}
+     e2a:	0f 90       	pop	r0
+     e2c:	cf 91       	pop	r28
+     e2e:	df 91       	pop	r29
+     e30:	08 95       	ret
+
+00000e32 <HTEMP_VOIDInit>:
+ * Return value: None
+ * Description: Function to Initialize the TempSensor pin  
+ ************************************************************************************/
+
+void HTEMP_VOIDInit(u8 Copy_U8Port, u8 Copy_U8Pin)
+{
+     e32:	df 93       	push	r29
+     e34:	cf 93       	push	r28
+     e36:	00 d0       	rcall	.+0      	; 0xe38 <HTEMP_VOIDInit+0x6>
+     e38:	cd b7       	in	r28, 0x3d	; 61
+     e3a:	de b7       	in	r29, 0x3e	; 62
+     e3c:	89 83       	std	Y+1, r24	; 0x01
+     e3e:	6a 83       	std	Y+2, r22	; 0x02
+	MDIO_VOIDSetPinDirection( Copy_U8Port,  Copy_U8Pin,  INPUT);
+     e40:	89 81       	ldd	r24, Y+1	; 0x01
+     e42:	6a 81       	ldd	r22, Y+2	; 0x02
+     e44:	40 e0       	ldi	r20, 0x00	; 0
+     e46:	0e 94 f9 02 	call	0x5f2	; 0x5f2 <MDIO_VOIDSetPinDirection>
+	MADC_VOIDInit();
+     e4a:	0e 94 96 06 	call	0xd2c	; 0xd2c <MADC_VOIDInit>
+}
+     e4e:	0f 90       	pop	r0
+     e50:	0f 90       	pop	r0
+     e52:	cf 91       	pop	r28
+     e54:	df 91       	pop	r29
+     e56:	08 95       	ret
+
+00000e58 <HTEMP_U8GetTemp>:
+ * Description: Function to Get the TempSensor reading
+ ************************************************************************************/
+
+
+u8 HTEMP_U8GetTemp(void)
+{
+     e58:	df 93       	push	r29
+     e5a:	cf 93       	push	r28
+     e5c:	00 d0       	rcall	.+0      	; 0xe5e <HTEMP_U8GetTemp+0x6>
+     e5e:	cd b7       	in	r28, 0x3d	; 61
+     e60:	de b7       	in	r29, 0x3e	; 62
+	u8 LOC_U8Temp ;
+	LOC_U8Temp = MADC_U8ReadValue();
+     e62:	0e 94 f1 06 	call	0xde2	; 0xde2 <MADC_U8ReadValue>
+     e66:	8a 83       	std	Y+2, r24	; 0x02
+	u8 LOC_U8Temp_Celsius = ((u32)LOC_U8Temp *5000)/256;
+     e68:	8a 81       	ldd	r24, Y+2	; 0x02
+     e6a:	88 2f       	mov	r24, r24
+     e6c:	90 e0       	ldi	r25, 0x00	; 0
+     e6e:	a0 e0       	ldi	r26, 0x00	; 0
+     e70:	b0 e0       	ldi	r27, 0x00	; 0
+     e72:	28 e8       	ldi	r18, 0x88	; 136
+     e74:	33 e1       	ldi	r19, 0x13	; 19
+     e76:	40 e0       	ldi	r20, 0x00	; 0
+     e78:	50 e0       	ldi	r21, 0x00	; 0
+     e7a:	bc 01       	movw	r22, r24
+     e7c:	cd 01       	movw	r24, r26
+     e7e:	0e 94 31 0b 	call	0x1662	; 0x1662 <__mulsi3>
+     e82:	dc 01       	movw	r26, r24
+     e84:	cb 01       	movw	r24, r22
+     e86:	89 2f       	mov	r24, r25
+     e88:	9a 2f       	mov	r25, r26
+     e8a:	ab 2f       	mov	r26, r27
+     e8c:	bb 27       	eor	r27, r27
+     e8e:	89 83       	std	Y+1, r24	; 0x01
+	LOC_U8Temp_Celsius = LOC_U8Temp_Celsius/10;
+     e90:	89 81       	ldd	r24, Y+1	; 0x01
+     e92:	9a e0       	ldi	r25, 0x0A	; 10
+     e94:	69 2f       	mov	r22, r25
+     e96:	0e 94 50 0b 	call	0x16a0	; 0x16a0 <__udivmodqi4>
+     e9a:	89 83       	std	Y+1, r24	; 0x01
+	return LOC_U8Temp_Celsius ;
+     e9c:	89 81       	ldd	r24, Y+1	; 0x01
+}
+     e9e:	0f 90       	pop	r0
+     ea0:	0f 90       	pop	r0
+     ea2:	cf 91       	pop	r28
+     ea4:	df 91       	pop	r29
+     ea6:	08 95       	ret
+
+00000ea8 <HMTR_VOIDRotateCCW>:
+ * Return value: None
+ * Description: Function to make the motor rotate in counterclockwise direction 
+ ************************************************************************************/
+
+void HMTR_VOIDRotateCCW()
+{
+     ea8:	df 93       	push	r29
+     eaa:	cf 93       	push	r28
+     eac:	00 d0       	rcall	.+0      	; 0xeae <HMTR_VOIDRotateCCW+0x6>
+     eae:	cd b7       	in	r28, 0x3d	; 61
+     eb0:	de b7       	in	r29, 0x3e	; 62
+	MDIO_VOIDSetPortDirection(PORTA , 0b00001111);
+     eb2:	80 e0       	ldi	r24, 0x00	; 0
+     eb4:	6f e0       	ldi	r22, 0x0F	; 15
+     eb6:	0e 94 eb 03 	call	0x7d6	; 0x7d6 <MDIO_VOIDSetPortDirection>
+	MTMR2_VOIDNormalInit();
+     eba:	0e 94 66 02 	call	0x4cc	; 0x4cc <MTMR2_VOIDNormalInit>
+
+	for (u16 LOC_U16Iterator = ZERO ; LOC_U16Iterator<256 ; LOC_U16Iterator++ )
+     ebe:	1a 82       	std	Y+2, r1	; 0x02
+     ec0:	19 82       	std	Y+1, r1	; 0x01
+     ec2:	25 c0       	rjmp	.+74     	; 0xf0e <HMTR_VOIDRotateCCW+0x66>
+	{
+		MDIO_VOIDSetPortValue(PORTA , 0b11111001 );
+     ec4:	80 e0       	ldi	r24, 0x00	; 0
+     ec6:	69 ef       	ldi	r22, 0xF9	; 249
+     ec8:	0e 94 1e 05 	call	0xa3c	; 0xa3c <MDIO_VOIDSetPortValue>
+		MTMR2_VOIDNormalStart (4);
+     ecc:	84 e0       	ldi	r24, 0x04	; 4
+     ece:	90 e0       	ldi	r25, 0x00	; 0
+     ed0:	0e 94 90 02 	call	0x520	; 0x520 <MTMR2_VOIDNormalStart>
+		MDIO_VOIDSetPortValue(PORTA , 0b11111010 );
+     ed4:	80 e0       	ldi	r24, 0x00	; 0
+     ed6:	6a ef       	ldi	r22, 0xFA	; 250
+     ed8:	0e 94 1e 05 	call	0xa3c	; 0xa3c <MDIO_VOIDSetPortValue>
+		MTMR2_VOIDNormalStart (4);
+     edc:	84 e0       	ldi	r24, 0x04	; 4
+     ede:	90 e0       	ldi	r25, 0x00	; 0
+     ee0:	0e 94 90 02 	call	0x520	; 0x520 <MTMR2_VOIDNormalStart>
+		MDIO_VOIDSetPortValue(PORTA , 0b11110110 );
+     ee4:	80 e0       	ldi	r24, 0x00	; 0
+     ee6:	66 ef       	ldi	r22, 0xF6	; 246
+     ee8:	0e 94 1e 05 	call	0xa3c	; 0xa3c <MDIO_VOIDSetPortValue>
+		MTMR2_VOIDNormalStart (4);
+     eec:	84 e0       	ldi	r24, 0x04	; 4
+     eee:	90 e0       	ldi	r25, 0x00	; 0
+     ef0:	0e 94 90 02 	call	0x520	; 0x520 <MTMR2_VOIDNormalStart>
+		MDIO_VOIDSetPortValue(PORTA , 0b11110101 );
+     ef4:	80 e0       	ldi	r24, 0x00	; 0
+     ef6:	65 ef       	ldi	r22, 0xF5	; 245
+     ef8:	0e 94 1e 05 	call	0xa3c	; 0xa3c <MDIO_VOIDSetPortValue>
+		MTMR2_VOIDNormalStart(4);
+     efc:	84 e0       	ldi	r24, 0x04	; 4
+     efe:	90 e0       	ldi	r25, 0x00	; 0
+     f00:	0e 94 90 02 	call	0x520	; 0x520 <MTMR2_VOIDNormalStart>
+void HMTR_VOIDRotateCCW()
+{
+	MDIO_VOIDSetPortDirection(PORTA , 0b00001111);
+	MTMR2_VOIDNormalInit();
+
+	for (u16 LOC_U16Iterator = ZERO ; LOC_U16Iterator<256 ; LOC_U16Iterator++ )
+     f04:	89 81       	ldd	r24, Y+1	; 0x01
+     f06:	9a 81       	ldd	r25, Y+2	; 0x02
+     f08:	01 96       	adiw	r24, 0x01	; 1
+     f0a:	9a 83       	std	Y+2, r25	; 0x02
+     f0c:	89 83       	std	Y+1, r24	; 0x01
+     f0e:	89 81       	ldd	r24, Y+1	; 0x01
+     f10:	9a 81       	ldd	r25, Y+2	; 0x02
+     f12:	8f 3f       	cpi	r24, 0xFF	; 255
+     f14:	91 05       	cpc	r25, r1
+     f16:	b1 f2       	breq	.-84     	; 0xec4 <HMTR_VOIDRotateCCW+0x1c>
+     f18:	a8 f2       	brcs	.-86     	; 0xec4 <HMTR_VOIDRotateCCW+0x1c>
+		MDIO_VOIDSetPortValue(PORTA , 0b11110110 );
+		MTMR2_VOIDNormalStart (4);
+		MDIO_VOIDSetPortValue(PORTA , 0b11110101 );
+		MTMR2_VOIDNormalStart(4);
+	}
+}
+     f1a:	0f 90       	pop	r0
+     f1c:	0f 90       	pop	r0
+     f1e:	cf 91       	pop	r28
+     f20:	df 91       	pop	r29
+     f22:	08 95       	ret
+
+00000f24 <HMTR_VOIDRotateCW>:
+ * Description: Function to make the motor rotate in clockwise direction
+ ************************************************************************************/
+
+
+void HMTR_VOIDRotateCW()
+{
+     f24:	df 93       	push	r29
+     f26:	cf 93       	push	r28
+     f28:	00 d0       	rcall	.+0      	; 0xf2a <HMTR_VOIDRotateCW+0x6>
+     f2a:	cd b7       	in	r28, 0x3d	; 61
+     f2c:	de b7       	in	r29, 0x3e	; 62
+	MDIO_VOIDSetPortDirection(PORTA, 0b00001111);
+     f2e:	80 e0       	ldi	r24, 0x00	; 0
+     f30:	6f e0       	ldi	r22, 0x0F	; 15
+     f32:	0e 94 eb 03 	call	0x7d6	; 0x7d6 <MDIO_VOIDSetPortDirection>
+	MTMR2_VOIDNormalInit ();
+     f36:	0e 94 66 02 	call	0x4cc	; 0x4cc <MTMR2_VOIDNormalInit>
+
+	for (u16 LOC_U16Iterator = ZERO ; LOC_U16Iterator<256 ; LOC_U16Iterator++ )
+     f3a:	1a 82       	std	Y+2, r1	; 0x02
+     f3c:	19 82       	std	Y+1, r1	; 0x01
+     f3e:	25 c0       	rjmp	.+74     	; 0xf8a <HMTR_VOIDRotateCW+0x66>
+	{
+		MDIO_VOIDSetPortValue(PORTA , 0b11111010 );
+     f40:	80 e0       	ldi	r24, 0x00	; 0
+     f42:	6a ef       	ldi	r22, 0xFA	; 250
+     f44:	0e 94 1e 05 	call	0xa3c	; 0xa3c <MDIO_VOIDSetPortValue>
+		MTMR2_VOIDNormalStart (4);
+     f48:	84 e0       	ldi	r24, 0x04	; 4
+     f4a:	90 e0       	ldi	r25, 0x00	; 0
+     f4c:	0e 94 90 02 	call	0x520	; 0x520 <MTMR2_VOIDNormalStart>
+		MDIO_VOIDSetPortValue(PORTA , 0b11111001 );
+     f50:	80 e0       	ldi	r24, 0x00	; 0
+     f52:	69 ef       	ldi	r22, 0xF9	; 249
+     f54:	0e 94 1e 05 	call	0xa3c	; 0xa3c <MDIO_VOIDSetPortValue>
+		MTMR2_VOIDNormalStart (4);
+     f58:	84 e0       	ldi	r24, 0x04	; 4
+     f5a:	90 e0       	ldi	r25, 0x00	; 0
+     f5c:	0e 94 90 02 	call	0x520	; 0x520 <MTMR2_VOIDNormalStart>
+		MDIO_VOIDSetPortValue(PORTA , 0b11110101 );
+     f60:	80 e0       	ldi	r24, 0x00	; 0
+     f62:	65 ef       	ldi	r22, 0xF5	; 245
+     f64:	0e 94 1e 05 	call	0xa3c	; 0xa3c <MDIO_VOIDSetPortValue>
+		MTMR2_VOIDNormalStart (4);
+     f68:	84 e0       	ldi	r24, 0x04	; 4
+     f6a:	90 e0       	ldi	r25, 0x00	; 0
+     f6c:	0e 94 90 02 	call	0x520	; 0x520 <MTMR2_VOIDNormalStart>
+		MDIO_VOIDSetPortValue(PORTA , 0b11110110 );
+     f70:	80 e0       	ldi	r24, 0x00	; 0
+     f72:	66 ef       	ldi	r22, 0xF6	; 246
+     f74:	0e 94 1e 05 	call	0xa3c	; 0xa3c <MDIO_VOIDSetPortValue>
+		MTMR2_VOIDNormalStart (4);
+     f78:	84 e0       	ldi	r24, 0x04	; 4
+     f7a:	90 e0       	ldi	r25, 0x00	; 0
+     f7c:	0e 94 90 02 	call	0x520	; 0x520 <MTMR2_VOIDNormalStart>
+void HMTR_VOIDRotateCW()
+{
+	MDIO_VOIDSetPortDirection(PORTA, 0b00001111);
+	MTMR2_VOIDNormalInit ();
+
+	for (u16 LOC_U16Iterator = ZERO ; LOC_U16Iterator<256 ; LOC_U16Iterator++ )
+     f80:	89 81       	ldd	r24, Y+1	; 0x01
+     f82:	9a 81       	ldd	r25, Y+2	; 0x02
+     f84:	01 96       	adiw	r24, 0x01	; 1
+     f86:	9a 83       	std	Y+2, r25	; 0x02
+     f88:	89 83       	std	Y+1, r24	; 0x01
+     f8a:	89 81       	ldd	r24, Y+1	; 0x01
+     f8c:	9a 81       	ldd	r25, Y+2	; 0x02
+     f8e:	8f 3f       	cpi	r24, 0xFF	; 255
+     f90:	91 05       	cpc	r25, r1
+     f92:	b1 f2       	breq	.-84     	; 0xf40 <HMTR_VOIDRotateCW+0x1c>
+     f94:	a8 f2       	brcs	.-86     	; 0xf40 <HMTR_VOIDRotateCW+0x1c>
+		MTMR2_VOIDNormalStart (4);
+		MDIO_VOIDSetPortValue(PORTA , 0b11110110 );
+		MTMR2_VOIDNormalStart (4);
+
+	}
+}
+     f96:	0f 90       	pop	r0
+     f98:	0f 90       	pop	r0
+     f9a:	cf 91       	pop	r28
+     f9c:	df 91       	pop	r29
+     f9e:	08 95       	ret
+
+00000fa0 <HLED_VOIDInit>:
+ * Return value: None
+ * Description: Function to initialize a specific pin to be output for LED
+ ************************************************************************************/
+
+void HLED_VOIDInit(u8 Copy_U8Port, u8 Copy_U8Pin)
+{
+     fa0:	df 93       	push	r29
+     fa2:	cf 93       	push	r28
+     fa4:	00 d0       	rcall	.+0      	; 0xfa6 <HLED_VOIDInit+0x6>
+     fa6:	cd b7       	in	r28, 0x3d	; 61
+     fa8:	de b7       	in	r29, 0x3e	; 62
+     faa:	89 83       	std	Y+1, r24	; 0x01
+     fac:	6a 83       	std	Y+2, r22	; 0x02
+	GLOB_U8Port=Copy_U8Port;
+     fae:	89 81       	ldd	r24, Y+1	; 0x01
+     fb0:	80 93 86 04 	sts	0x0486, r24
+	GLOB_U8Pin=Copy_U8Pin;
+     fb4:	8a 81       	ldd	r24, Y+2	; 0x02
+     fb6:	80 93 87 04 	sts	0x0487, r24
+	MDIO_VOIDSetPinDirection(Copy_U8Port,Copy_U8Pin,HIGH);
+     fba:	89 81       	ldd	r24, Y+1	; 0x01
+     fbc:	6a 81       	ldd	r22, Y+2	; 0x02
+     fbe:	41 e0       	ldi	r20, 0x01	; 1
+     fc0:	0e 94 f9 02 	call	0x5f2	; 0x5f2 <MDIO_VOIDSetPinDirection>
+}
+     fc4:	0f 90       	pop	r0
+     fc6:	0f 90       	pop	r0
+     fc8:	cf 91       	pop	r28
+     fca:	df 91       	pop	r29
+     fcc:	08 95       	ret
+
+00000fce <HLED_VOIDON>:
+ * Return value: None
+ * Description: Function to set the LED ON
+ ************************************************************************************/
+
+void HLED_VOIDON(void)
+{
+     fce:	df 93       	push	r29
+     fd0:	cf 93       	push	r28
+     fd2:	cd b7       	in	r28, 0x3d	; 61
+     fd4:	de b7       	in	r29, 0x3e	; 62
+	MDIO_VOIDSetPinValue(GLOB_U8Port,GLOB_U8Pin,HIGH);
+     fd6:	80 91 86 04 	lds	r24, 0x0486
+     fda:	90 91 87 04 	lds	r25, 0x0487
+     fde:	69 2f       	mov	r22, r25
+     fe0:	41 e0       	ldi	r20, 0x01	; 1
+     fe2:	0e 94 2c 04 	call	0x858	; 0x858 <MDIO_VOIDSetPinValue>
+}
+     fe6:	cf 91       	pop	r28
+     fe8:	df 91       	pop	r29
+     fea:	08 95       	ret
+
+00000fec <HLED_VOIDOFF>:
+ * Return value: None
+ * Description: Function to set the LED OFF
+ ************************************************************************************/
+
+void HLED_VOIDOFF(void)
+{
+     fec:	df 93       	push	r29
+     fee:	cf 93       	push	r28
+     ff0:	cd b7       	in	r28, 0x3d	; 61
+     ff2:	de b7       	in	r29, 0x3e	; 62
+	MDIO_VOIDSetPinValue(GLOB_U8Port,GLOB_U8Pin,LOW);
+     ff4:	80 91 86 04 	lds	r24, 0x0486
+     ff8:	90 91 87 04 	lds	r25, 0x0487
+     ffc:	69 2f       	mov	r22, r25
+     ffe:	40 e0       	ldi	r20, 0x00	; 0
+    1000:	0e 94 2c 04 	call	0x858	; 0x858 <MDIO_VOIDSetPinValue>
+}
+    1004:	cf 91       	pop	r28
+    1006:	df 91       	pop	r29
+    1008:	08 95       	ret
+
+0000100a <HBUZZER_VOIDInit>:
+ * Return value: None
+ * Description: Function to initialize a specific pin to be output for Buzzer
+ ************************************************************************************/
+
+void HBUZZER_VOIDInit(u8 Copy_U8Port, u8 Copy_U8Pin)
+{
+    100a:	df 93       	push	r29
+    100c:	cf 93       	push	r28
+    100e:	00 d0       	rcall	.+0      	; 0x1010 <HBUZZER_VOIDInit+0x6>
+    1010:	cd b7       	in	r28, 0x3d	; 61
+    1012:	de b7       	in	r29, 0x3e	; 62
+    1014:	89 83       	std	Y+1, r24	; 0x01
+    1016:	6a 83       	std	Y+2, r22	; 0x02
+	GLOB_U8Port=Copy_U8Port;
+    1018:	89 81       	ldd	r24, Y+1	; 0x01
+    101a:	80 93 88 04 	sts	0x0488, r24
+	GLOB_U8Pin=Copy_U8Pin;
+    101e:	8a 81       	ldd	r24, Y+2	; 0x02
+    1020:	80 93 89 04 	sts	0x0489, r24
+	MDIO_VOIDSetPinDirection(Copy_U8Port,Copy_U8Pin,HIGH);
+    1024:	89 81       	ldd	r24, Y+1	; 0x01
+    1026:	6a 81       	ldd	r22, Y+2	; 0x02
+    1028:	41 e0       	ldi	r20, 0x01	; 1
+    102a:	0e 94 f9 02 	call	0x5f2	; 0x5f2 <MDIO_VOIDSetPinDirection>
+}
+    102e:	0f 90       	pop	r0
+    1030:	0f 90       	pop	r0
+    1032:	cf 91       	pop	r28
+    1034:	df 91       	pop	r29
+    1036:	08 95       	ret
+
+00001038 <HBUZZER_VOIDTriggerAlarm>:
+ * Return value: None
+ * Description: Function to trigger an alarm
+ ************************************************************************************/
+
+void HBUZZER_VOIDTriggerAlarm(void)
+{
+    1038:	df 93       	push	r29
+    103a:	cf 93       	push	r28
+    103c:	cd b7       	in	r28, 0x3d	; 61
+    103e:	de b7       	in	r29, 0x3e	; 62
+	MDIO_VOIDSetPinValue(GLOB_U8Port,GLOB_U8Pin,HIGH);
+    1040:	80 91 88 04 	lds	r24, 0x0488
+    1044:	90 91 89 04 	lds	r25, 0x0489
+    1048:	69 2f       	mov	r22, r25
+    104a:	41 e0       	ldi	r20, 0x01	; 1
+    104c:	0e 94 2c 04 	call	0x858	; 0x858 <MDIO_VOIDSetPinValue>
+}
+    1050:	cf 91       	pop	r28
+    1052:	df 91       	pop	r29
+    1054:	08 95       	ret
+
+00001056 <HBUZZER_VOIDStopAlarm>:
+ * Return value: None
+ * Description: Function to stop the alarm
+ ************************************************************************************/
+
+void HBUZZER_VOIDStopAlarm(void)
+{
+    1056:	df 93       	push	r29
+    1058:	cf 93       	push	r28
+    105a:	cd b7       	in	r28, 0x3d	; 61
+    105c:	de b7       	in	r29, 0x3e	; 62
+	MDIO_VOIDSetPinValue(GLOB_U8Port,GLOB_U8Pin,LOW);
+    105e:	80 91 88 04 	lds	r24, 0x0488
+    1062:	90 91 89 04 	lds	r25, 0x0489
+    1066:	69 2f       	mov	r22, r25
+    1068:	40 e0       	ldi	r20, 0x00	; 0
+    106a:	0e 94 2c 04 	call	0x858	; 0x858 <MDIO_VOIDSetPinValue>
+}
+    106e:	cf 91       	pop	r28
+    1070:	df 91       	pop	r29
+    1072:	08 95       	ret
+
+00001074 <HAC_VOIDInit>:
+ * Return value: None
+ * Description: Function to initialize a specific pin to be output for the AC
+ ************************************************************************************/
+
+void HAC_VOIDInit(u8 Copy_U8Port, u8 Copy_U8Pin)
+{
+    1074:	df 93       	push	r29
+    1076:	cf 93       	push	r28
+    1078:	00 d0       	rcall	.+0      	; 0x107a <HAC_VOIDInit+0x6>
+    107a:	cd b7       	in	r28, 0x3d	; 61
+    107c:	de b7       	in	r29, 0x3e	; 62
+    107e:	89 83       	std	Y+1, r24	; 0x01
+    1080:	6a 83       	std	Y+2, r22	; 0x02
+	GLOB_U8Port=Copy_U8Port;
+    1082:	89 81       	ldd	r24, Y+1	; 0x01
+    1084:	80 93 8a 04 	sts	0x048A, r24
+	GLOB_U8Pin=Copy_U8Pin;
+    1088:	8a 81       	ldd	r24, Y+2	; 0x02
+    108a:	80 93 8b 04 	sts	0x048B, r24
+	MDIO_VOIDSetPinDirection(Copy_U8Port,Copy_U8Pin,HIGH);
+    108e:	89 81       	ldd	r24, Y+1	; 0x01
+    1090:	6a 81       	ldd	r22, Y+2	; 0x02
+    1092:	41 e0       	ldi	r20, 0x01	; 1
+    1094:	0e 94 f9 02 	call	0x5f2	; 0x5f2 <MDIO_VOIDSetPinDirection>
+	MDIO_VOIDSetPinValue(Copy_U8Port,Copy_U8Pin,LOW);
+    1098:	89 81       	ldd	r24, Y+1	; 0x01
+    109a:	6a 81       	ldd	r22, Y+2	; 0x02
+    109c:	40 e0       	ldi	r20, 0x00	; 0
+    109e:	0e 94 2c 04 	call	0x858	; 0x858 <MDIO_VOIDSetPinValue>
+}
+    10a2:	0f 90       	pop	r0
+    10a4:	0f 90       	pop	r0
+    10a6:	cf 91       	pop	r28
+    10a8:	df 91       	pop	r29
+    10aa:	08 95       	ret
+
+000010ac <HAC_VOIDOnOff>:
+ * Description: Function to toggle the value of the pin connected to the relay
+ * 				which is connected to the AC
+ ************************************************************************************/
+
+void HAC_VOIDOnOff(void)
+{
+    10ac:	df 93       	push	r29
+    10ae:	cf 93       	push	r28
+    10b0:	cd b7       	in	r28, 0x3d	; 61
+    10b2:	de b7       	in	r29, 0x3e	; 62
+	MDIO_VOIDTogglePinValue(GLOB_U8Port,GLOB_U8Pin);
+    10b4:	80 91 8a 04 	lds	r24, 0x048A
+    10b8:	90 91 8b 04 	lds	r25, 0x048B
+    10bc:	69 2f       	mov	r22, r25
+    10be:	0e 94 5f 05 	call	0xabe	; 0xabe <MDIO_VOIDTogglePinValue>
+}
+    10c2:	cf 91       	pop	r28
+    10c4:	df 91       	pop	r29
+    10c6:	08 95       	ret
+
+000010c8 <APP_U8StringLength>:
+ * Return value: u8 LOC_U8RetVal - to return the number of characters
+ * Description: Function to return the number of characters in a given string
+ ************************************************************************************/
+
+u8 APP_U8StringLength (u8 * Copy_U8String)
+{
+    10c8:	df 93       	push	r29
+    10ca:	cf 93       	push	r28
+    10cc:	00 d0       	rcall	.+0      	; 0x10ce <APP_U8StringLength+0x6>
+    10ce:	00 d0       	rcall	.+0      	; 0x10d0 <APP_U8StringLength+0x8>
+    10d0:	cd b7       	in	r28, 0x3d	; 61
+    10d2:	de b7       	in	r29, 0x3e	; 62
+    10d4:	9c 83       	std	Y+4, r25	; 0x04
+    10d6:	8b 83       	std	Y+3, r24	; 0x03
+	u8 LOC_U8RetVal=ZERO;
+    10d8:	1a 82       	std	Y+2, r1	; 0x02
+	u8 LOC_U8Iterator=ZERO;
+    10da:	19 82       	std	Y+1, r1	; 0x01
+    10dc:	06 c0       	rjmp	.+12     	; 0x10ea <APP_U8StringLength+0x22>
+	while (Copy_U8String[LOC_U8Iterator])
+	{
+		LOC_U8RetVal++;
+    10de:	8a 81       	ldd	r24, Y+2	; 0x02
+    10e0:	8f 5f       	subi	r24, 0xFF	; 255
+    10e2:	8a 83       	std	Y+2, r24	; 0x02
+		LOC_U8Iterator++;
+    10e4:	89 81       	ldd	r24, Y+1	; 0x01
+    10e6:	8f 5f       	subi	r24, 0xFF	; 255
+    10e8:	89 83       	std	Y+1, r24	; 0x01
+
+u8 APP_U8StringLength (u8 * Copy_U8String)
+{
+	u8 LOC_U8RetVal=ZERO;
+	u8 LOC_U8Iterator=ZERO;
+	while (Copy_U8String[LOC_U8Iterator])
+    10ea:	89 81       	ldd	r24, Y+1	; 0x01
+    10ec:	28 2f       	mov	r18, r24
+    10ee:	30 e0       	ldi	r19, 0x00	; 0
+    10f0:	8b 81       	ldd	r24, Y+3	; 0x03
+    10f2:	9c 81       	ldd	r25, Y+4	; 0x04
+    10f4:	fc 01       	movw	r30, r24
+    10f6:	e2 0f       	add	r30, r18
+    10f8:	f3 1f       	adc	r31, r19
+    10fa:	80 81       	ld	r24, Z
+    10fc:	88 23       	and	r24, r24
+    10fe:	79 f7       	brne	.-34     	; 0x10de <APP_U8StringLength+0x16>
+	{
+		LOC_U8RetVal++;
+		LOC_U8Iterator++;
+	}
+	return LOC_U8RetVal;
+    1100:	8a 81       	ldd	r24, Y+2	; 0x02
+}
+    1102:	0f 90       	pop	r0
+    1104:	0f 90       	pop	r0
+    1106:	0f 90       	pop	r0
+    1108:	0f 90       	pop	r0
+    110a:	cf 91       	pop	r28
+    110c:	df 91       	pop	r29
+    110e:	08 95       	ret
+
+00001110 <APP_S8StringCompare>:
+ * Return value: s8 LOC_S8RetVal - to return the difference of their ASCII rep.
+ * Description: Function to compare 2 strings, if equal size returns 0
+ ************************************************************************************/
+
+s8 APP_S8StringCompare (u8 * Copy_U8String1, u8* Copy_U8String2)
+{
+    1110:	df 93       	push	r29
+    1112:	cf 93       	push	r28
+    1114:	cd b7       	in	r28, 0x3d	; 61
+    1116:	de b7       	in	r29, 0x3e	; 62
+    1118:	28 97       	sbiw	r28, 0x08	; 8
+    111a:	0f b6       	in	r0, 0x3f	; 63
+    111c:	f8 94       	cli
+    111e:	de bf       	out	0x3e, r29	; 62
+    1120:	0f be       	out	0x3f, r0	; 63
+    1122:	cd bf       	out	0x3d, r28	; 61
+    1124:	9e 83       	std	Y+6, r25	; 0x06
+    1126:	8d 83       	std	Y+5, r24	; 0x05
+    1128:	78 87       	std	Y+8, r23	; 0x08
+    112a:	6f 83       	std	Y+7, r22	; 0x07
+	s8 LOC_S8RetVal;
+	u8 LOC_U8Length1=APP_U8StringLength(Copy_U8String1);
+    112c:	8d 81       	ldd	r24, Y+5	; 0x05
+    112e:	9e 81       	ldd	r25, Y+6	; 0x06
+    1130:	0e 94 64 08 	call	0x10c8	; 0x10c8 <APP_U8StringLength>
+    1134:	8b 83       	std	Y+3, r24	; 0x03
+	u8 LOC_U8Length2=APP_U8StringLength(Copy_U8String2);
+    1136:	8f 81       	ldd	r24, Y+7	; 0x07
+    1138:	98 85       	ldd	r25, Y+8	; 0x08
+    113a:	0e 94 64 08 	call	0x10c8	; 0x10c8 <APP_U8StringLength>
+    113e:	8a 83       	std	Y+2, r24	; 0x02
+	if (LOC_U8Length1 != LOC_U8Length2)
+    1140:	9b 81       	ldd	r25, Y+3	; 0x03
+    1142:	8a 81       	ldd	r24, Y+2	; 0x02
+    1144:	98 17       	cp	r25, r24
+    1146:	19 f0       	breq	.+6      	; 0x114e <APP_S8StringCompare+0x3e>
+	{
+		LOC_S8RetVal=-1;
+    1148:	8f ef       	ldi	r24, 0xFF	; 255
+    114a:	8c 83       	std	Y+4, r24	; 0x04
+    114c:	3c c0       	rjmp	.+120    	; 0x11c6 <APP_S8StringCompare+0xb6>
+	}
+	else
+	{
+		u8 LOC_U8Iterator=ZERO;
+    114e:	19 82       	std	Y+1, r1	; 0x01
+    1150:	2f c0       	rjmp	.+94     	; 0x11b0 <APP_S8StringCompare+0xa0>
+		while (Copy_U8String1[LOC_U8Iterator])
+		{
+			if ((Copy_U8String1[LOC_U8Iterator] - Copy_U8String2[LOC_U8Iterator]) != ZERO)
+    1152:	89 81       	ldd	r24, Y+1	; 0x01
+    1154:	28 2f       	mov	r18, r24
+    1156:	30 e0       	ldi	r19, 0x00	; 0
+    1158:	8d 81       	ldd	r24, Y+5	; 0x05
+    115a:	9e 81       	ldd	r25, Y+6	; 0x06
+    115c:	fc 01       	movw	r30, r24
+    115e:	e2 0f       	add	r30, r18
+    1160:	f3 1f       	adc	r31, r19
+    1162:	40 81       	ld	r20, Z
+    1164:	89 81       	ldd	r24, Y+1	; 0x01
+    1166:	28 2f       	mov	r18, r24
+    1168:	30 e0       	ldi	r19, 0x00	; 0
+    116a:	8f 81       	ldd	r24, Y+7	; 0x07
+    116c:	98 85       	ldd	r25, Y+8	; 0x08
+    116e:	fc 01       	movw	r30, r24
+    1170:	e2 0f       	add	r30, r18
+    1172:	f3 1f       	adc	r31, r19
+    1174:	80 81       	ld	r24, Z
+    1176:	48 17       	cp	r20, r24
+    1178:	b9 f0       	breq	.+46     	; 0x11a8 <APP_S8StringCompare+0x98>
+			{
+				LOC_S8RetVal=Copy_U8String1[LOC_U8Iterator]-Copy_U8String2[LOC_U8Iterator];
+    117a:	89 81       	ldd	r24, Y+1	; 0x01
+    117c:	28 2f       	mov	r18, r24
+    117e:	30 e0       	ldi	r19, 0x00	; 0
+    1180:	8d 81       	ldd	r24, Y+5	; 0x05
+    1182:	9e 81       	ldd	r25, Y+6	; 0x06
+    1184:	fc 01       	movw	r30, r24
+    1186:	e2 0f       	add	r30, r18
+    1188:	f3 1f       	adc	r31, r19
+    118a:	40 81       	ld	r20, Z
+    118c:	89 81       	ldd	r24, Y+1	; 0x01
+    118e:	28 2f       	mov	r18, r24
+    1190:	30 e0       	ldi	r19, 0x00	; 0
+    1192:	8f 81       	ldd	r24, Y+7	; 0x07
+    1194:	98 85       	ldd	r25, Y+8	; 0x08
+    1196:	fc 01       	movw	r30, r24
+    1198:	e2 0f       	add	r30, r18
+    119a:	f3 1f       	adc	r31, r19
+    119c:	80 81       	ld	r24, Z
+    119e:	94 2f       	mov	r25, r20
+    11a0:	98 1b       	sub	r25, r24
+    11a2:	89 2f       	mov	r24, r25
+    11a4:	8c 83       	std	Y+4, r24	; 0x04
+    11a6:	0f c0       	rjmp	.+30     	; 0x11c6 <APP_S8StringCompare+0xb6>
+				break;
+			}
+			else
+			{
+				LOC_S8RetVal=ZERO;
+    11a8:	1c 82       	std	Y+4, r1	; 0x04
+			}
+			LOC_U8Iterator++;
+    11aa:	89 81       	ldd	r24, Y+1	; 0x01
+    11ac:	8f 5f       	subi	r24, 0xFF	; 255
+    11ae:	89 83       	std	Y+1, r24	; 0x01
+		LOC_S8RetVal=-1;
+	}
+	else
+	{
+		u8 LOC_U8Iterator=ZERO;
+		while (Copy_U8String1[LOC_U8Iterator])
+    11b0:	89 81       	ldd	r24, Y+1	; 0x01
+    11b2:	28 2f       	mov	r18, r24
+    11b4:	30 e0       	ldi	r19, 0x00	; 0
+    11b6:	8d 81       	ldd	r24, Y+5	; 0x05
+    11b8:	9e 81       	ldd	r25, Y+6	; 0x06
+    11ba:	fc 01       	movw	r30, r24
+    11bc:	e2 0f       	add	r30, r18
+    11be:	f3 1f       	adc	r31, r19
+    11c0:	80 81       	ld	r24, Z
+    11c2:	88 23       	and	r24, r24
+    11c4:	31 f6       	brne	.-116    	; 0x1152 <APP_S8StringCompare+0x42>
+				LOC_S8RetVal=ZERO;
+			}
+			LOC_U8Iterator++;
+		}
+	}
+	return LOC_S8RetVal;
+    11c6:	8c 81       	ldd	r24, Y+4	; 0x04
+}
+    11c8:	28 96       	adiw	r28, 0x08	; 8
+    11ca:	0f b6       	in	r0, 0x3f	; 63
+    11cc:	f8 94       	cli
+    11ce:	de bf       	out	0x3e, r29	; 62
+    11d0:	0f be       	out	0x3f, r0	; 63
+    11d2:	cd bf       	out	0x3d, r28	; 61
+    11d4:	cf 91       	pop	r28
+    11d6:	df 91       	pop	r29
+    11d8:	08 95       	ret
+
+000011da <APP_VOIDStart>:
+ * Return value: None
+ * Description: Function of the required application
+ ************************************************************************************/
+
+void APP_VOIDStart (void)
+{
+    11da:	df 93       	push	r29
+    11dc:	cf 93       	push	r28
+    11de:	cd b7       	in	r28, 0x3d	; 61
+    11e0:	de b7       	in	r29, 0x3e	; 62
+    11e2:	65 97       	sbiw	r28, 0x15	; 21
+    11e4:	0f b6       	in	r0, 0x3f	; 63
+    11e6:	f8 94       	cli
+    11e8:	de bf       	out	0x3e, r29	; 62
+    11ea:	0f be       	out	0x3f, r0	; 63
+    11ec:	cd bf       	out	0x3d, r28	; 61
+
+	/*Initialize all modules*/
+	/*Setting the Buzzer on Port B, Pin 0*/
+	HBUZZER_VOIDInit(PORTB,PIN0);
+    11ee:	81 e0       	ldi	r24, 0x01	; 1
+    11f0:	60 e0       	ldi	r22, 0x00	; 0
+    11f2:	0e 94 05 08 	call	0x100a	; 0x100a <HBUZZER_VOIDInit>
+	/*Setting the LED on Port B, Pin 1*/
+	HLED_VOIDInit(PORTB,PIN3);
+    11f6:	81 e0       	ldi	r24, 0x01	; 1
+    11f8:	63 e0       	ldi	r22, 0x03	; 3
+    11fa:	0e 94 d0 07 	call	0xfa0	; 0xfa0 <HLED_VOIDInit>
+	/*Initialize Pin 0 in Port C to be output to represent the AC (On/Off)*/
+	HAC_VOIDInit(PORTC, PIN0);
+    11fe:	82 e0       	ldi	r24, 0x02	; 2
+    1200:	90 e0       	ldi	r25, 0x00	; 0
+    1202:	60 e0       	ldi	r22, 0x00	; 0
+    1204:	70 e0       	ldi	r23, 0x00	; 0
+    1206:	0e 94 3a 08 	call	0x1074	; 0x1074 <HAC_VOIDInit>
+	/*Setting the temperature sensor at Port A, Pin 4*/
+	HTEMP_VOIDInit(PORTA, PIN4);
+    120a:	80 e0       	ldi	r24, 0x00	; 0
+    120c:	64 e0       	ldi	r22, 0x04	; 4
+    120e:	0e 94 19 07 	call	0xe32	; 0xe32 <HTEMP_VOIDInit>
+	 * Speed: Normal
+	 * Parity: None
+	 * Stop Bit: 1
+	 * Baud Rate: 9600
+	 */
+	MUSART_VoidInit(DEFAULT_BAUD_RATE);
+    1212:	80 e8       	ldi	r24, 0x80	; 128
+    1214:	95 e2       	ldi	r25, 0x25	; 37
+    1216:	0e 94 49 00 	call	0x92	; 0x92 <MUSART_VoidInit>
+	/*Creating a status variable to check if username is found*/
+	u8 LOC_U8User_Status=NOT_FOUND;
+    121a:	1d 8a       	std	Y+21, r1	; 0x15
+	/*Creating a status variable to check if password is correct*/
+	u8 LOC_U8PSWD_Status=NOT_CORRECT;
+    121c:	1c 8a       	std	Y+20, r1	; 0x14
+	/*Creating a status variable to check if user is logged in or out*/
+	u8 LOC_U8Log_Status=LOGGED_OUT;
+    121e:	1b 8a       	std	Y+19, r1	; 0x13
+	/*Creating a status variable to check if alarm is trigerred or not*/
+	u8 LOC_U8Alarm_Status=ALARM_OFF;
+    1220:	1a 8a       	std	Y+18, r1	; 0x12
+	/*Creating a status variable to check if the door is locked or not*/
+	u8 LOC_U8Lock_Status=LOCKED;
+    1222:	81 e0       	ldi	r24, 0x01	; 1
+    1224:	89 8b       	std	Y+17, r24	; 0x11
+	/*Creating a local variable to be used as an entry point in the application*/
+	u8 LOC_U8Entry_Point=ZERO;
+    1226:	18 8a       	std	Y+16, r1	; 0x10
+	/*Creating a local variable to be used as the index to the found username*/
+	u8 LOC_U8User_Index=ZERO;
+    1228:	1f 86       	std	Y+15, r1	; 0x0f
+	/*Creating a local variable to be used as counter of the username trials*/
+	u8 LOC_U8User_Counter=ZERO;
+    122a:	1e 86       	std	Y+14, r1	; 0x0e
+	/*Creating a local variable to be used as counter of the password trials*/
+	u8 LOC_U8PSWD_Counter=ZERO;
+    122c:	1d 86       	std	Y+13, r1	; 0x0d
+	/*Creating a status variable to check if the AC is turned on or off*/
+	u8 LOC_U8PAC_Status=AC_OFF;
+    122e:	1c 86       	std	Y+12, r1	; 0x0c
+	/*Creating a local variable to be used as a flag*/
+	u8 LOC_U8Flag=ZERO;
+    1230:	1b 86       	std	Y+11, r1	; 0x0b
+	/*Welcome Message*/
+	MUSART_VoidSendString("\nWelcome to the Mobile Controlled Home\n");
+    1232:	80 e6       	ldi	r24, 0x60	; 96
+    1234:	90 e0       	ldi	r25, 0x00	; 0
+    1236:	0e 94 c6 00 	call	0x18c	; 0x18c <MUSART_VoidSendString>
+    123a:	0c c0       	rjmp	.+24     	; 0x1254 <APP_VOIDStart+0x7a>
+	while (1)
+	{
+		while(LOC_U8Alarm_Status== ALARM_ON)
+		{
+			HBUZZER_VOIDTriggerAlarm();
+    123c:	0e 94 1c 08 	call	0x1038	; 0x1038 <HBUZZER_VOIDTriggerAlarm>
+			MTMR2_VOIDNormalStart(ONE_SECOND);
+    1240:	88 ee       	ldi	r24, 0xE8	; 232
+    1242:	93 e0       	ldi	r25, 0x03	; 3
+    1244:	0e 94 90 02 	call	0x520	; 0x520 <MTMR2_VOIDNormalStart>
+			HBUZZER_VOIDStopAlarm();
+    1248:	0e 94 2b 08 	call	0x1056	; 0x1056 <HBUZZER_VOIDStopAlarm>
+			MTMR2_VOIDNormalStart(ONE_SECOND);
+    124c:	88 ee       	ldi	r24, 0xE8	; 232
+    124e:	93 e0       	ldi	r25, 0x03	; 3
+    1250:	0e 94 90 02 	call	0x520	; 0x520 <MTMR2_VOIDNormalStart>
+	u8 LOC_U8Flag=ZERO;
+	/*Welcome Message*/
+	MUSART_VoidSendString("\nWelcome to the Mobile Controlled Home\n");
+	while (1)
+	{
+		while(LOC_U8Alarm_Status== ALARM_ON)
+    1254:	8a 89       	ldd	r24, Y+18	; 0x12
+    1256:	81 30       	cpi	r24, 0x01	; 1
+    1258:	89 f3       	breq	.-30     	; 0x123c <APP_VOIDStart+0x62>
+			HBUZZER_VOIDTriggerAlarm();
+			MTMR2_VOIDNormalStart(ONE_SECOND);
+			HBUZZER_VOIDStopAlarm();
+			MTMR2_VOIDNormalStart(ONE_SECOND);
+		}
+		if(LOC_U8Entry_Point == ZERO)
+    125a:	88 89       	ldd	r24, Y+16	; 0x10
+    125c:	88 23       	and	r24, r24
+    125e:	09 f0       	breq	.+2      	; 0x1262 <APP_VOIDStart+0x88>
+    1260:	73 c0       	rjmp	.+230    	; 0x1348 <APP_VOIDStart+0x16e>
+		{
+			/*Request the user to enter his username*/
+			MUSART_VoidSendString("Please enter your username: \n");
+    1262:	88 e8       	ldi	r24, 0x88	; 136
+    1264:	90 e0       	ldi	r25, 0x00	; 0
+    1266:	0e 94 c6 00 	call	0x18c	; 0x18c <MUSART_VoidSendString>
+			/*Scan the username from the user*/
+			u8 *LOC_RecievedUsername= MUSART_u8ReceiveString();
+    126a:	0e 94 04 01 	call	0x208	; 0x208 <MUSART_u8ReceiveString>
+    126e:	9a 87       	std	Y+10, r25	; 0x0a
+    1270:	89 87       	std	Y+9, r24	; 0x09
+			/*Increment the username trials counter*/
+			LOC_U8User_Counter++;
+    1272:	8e 85       	ldd	r24, Y+14	; 0x0e
+    1274:	8f 5f       	subi	r24, 0xFF	; 255
+    1276:	8e 87       	std	Y+14, r24	; 0x0e
+			/*For loop that iterates only 3 times and sets the FOUND flag if the username is found*/
+			for (u8 LOC_U8Iterator =ZERO; (LOC_U8Iterator<MAXIMUM_TRIALS) || (LOC_U8Flag==ONE) ; LOC_U8Iterator++ )
+    1278:	18 86       	std	Y+8, r1	; 0x08
+    127a:	53 c0       	rjmp	.+166    	; 0x1322 <APP_VOIDStart+0x148>
+			{
+				/*Iterate on the DB to search for the username*/
+				for (u8 LOC_U8Iterator = ZERO ; (LOC_U8Iterator < MAXIMUM_USERS) && !(LOC_U8User_Status== FOUND) ; LOC_U8Iterator++ )
+    127c:	1f 82       	std	Y+7, r1	; 0x07
+    127e:	23 c0       	rjmp	.+70     	; 0x12c6 <APP_VOIDStart+0xec>
+				{
+					/*If it is found save the index, set the flag to be found and increment the entry point to ask for the password*/
+					if(APP_S8StringCompare(Users[LOC_U8Iterator].User_Name,LOC_RecievedUsername) == ZERO )
+    1280:	8f 81       	ldd	r24, Y+7	; 0x07
+    1282:	88 2f       	mov	r24, r24
+    1284:	90 e0       	ldi	r25, 0x00	; 0
+    1286:	88 0f       	add	r24, r24
+    1288:	99 1f       	adc	r25, r25
+    128a:	88 0f       	add	r24, r24
+    128c:	99 1f       	adc	r25, r25
+    128e:	88 0f       	add	r24, r24
+    1290:	99 1f       	adc	r25, r25
+    1292:	9c 01       	movw	r18, r24
+    1294:	22 0f       	add	r18, r18
+    1296:	33 1f       	adc	r19, r19
+    1298:	22 0f       	add	r18, r18
+    129a:	33 1f       	adc	r19, r19
+    129c:	82 0f       	add	r24, r18
+    129e:	93 1f       	adc	r25, r19
+    12a0:	8b 52       	subi	r24, 0x2B	; 43
+    12a2:	9d 4f       	sbci	r25, 0xFD	; 253
+    12a4:	29 85       	ldd	r18, Y+9	; 0x09
+    12a6:	3a 85       	ldd	r19, Y+10	; 0x0a
+    12a8:	b9 01       	movw	r22, r18
+    12aa:	0e 94 88 08 	call	0x1110	; 0x1110 <APP_S8StringCompare>
+    12ae:	88 23       	and	r24, r24
+    12b0:	39 f4       	brne	.+14     	; 0x12c0 <APP_VOIDStart+0xe6>
+					{
+						LOC_U8User_Status=FOUND;
+    12b2:	81 e0       	ldi	r24, 0x01	; 1
+    12b4:	8d 8b       	std	Y+21, r24	; 0x15
+						LOC_U8User_Index=LOC_U8Iterator;
+    12b6:	8f 81       	ldd	r24, Y+7	; 0x07
+    12b8:	8f 87       	std	Y+15, r24	; 0x0f
+						LOC_U8Entry_Point=ONE;
+    12ba:	81 e0       	ldi	r24, 0x01	; 1
+    12bc:	88 8b       	std	Y+16, r24	; 0x10
+						LOC_U8Flag=ZERO;
+    12be:	1b 86       	std	Y+11, r1	; 0x0b
+			LOC_U8User_Counter++;
+			/*For loop that iterates only 3 times and sets the FOUND flag if the username is found*/
+			for (u8 LOC_U8Iterator =ZERO; (LOC_U8Iterator<MAXIMUM_TRIALS) || (LOC_U8Flag==ONE) ; LOC_U8Iterator++ )
+			{
+				/*Iterate on the DB to search for the username*/
+				for (u8 LOC_U8Iterator = ZERO ; (LOC_U8Iterator < MAXIMUM_USERS) && !(LOC_U8User_Status== FOUND) ; LOC_U8Iterator++ )
+    12c0:	8f 81       	ldd	r24, Y+7	; 0x07
+    12c2:	8f 5f       	subi	r24, 0xFF	; 255
+    12c4:	8f 83       	std	Y+7, r24	; 0x07
+    12c6:	8f 81       	ldd	r24, Y+7	; 0x07
+    12c8:	8a 30       	cpi	r24, 0x0A	; 10
+    12ca:	18 f4       	brcc	.+6      	; 0x12d2 <APP_VOIDStart+0xf8>
+    12cc:	8d 89       	ldd	r24, Y+21	; 0x15
+    12ce:	81 30       	cpi	r24, 0x01	; 1
+    12d0:	b9 f6       	brne	.-82     	; 0x1280 <APP_VOIDStart+0xa6>
+					{
+						/*Do Nothing*/
+					}
+				}
+				/*he can try 3 times*/
+				if (LOC_U8User_Status == NOT_FOUND)
+    12d2:	8d 89       	ldd	r24, Y+21	; 0x15
+    12d4:	88 23       	and	r24, r24
+    12d6:	11 f5       	brne	.+68     	; 0x131c <APP_VOIDStart+0x142>
+				{
+					if (LOC_U8Iterator<ONE)
+    12d8:	88 85       	ldd	r24, Y+8	; 0x08
+    12da:	88 23       	and	r24, r24
+    12dc:	69 f4       	brne	.+26     	; 0x12f8 <APP_VOIDStart+0x11e>
+					{
+						MUSART_VoidSendString("\nWrong Username, Please enter a valid username: \n");
+    12de:	86 ea       	ldi	r24, 0xA6	; 166
+    12e0:	90 e0       	ldi	r25, 0x00	; 0
+    12e2:	0e 94 c6 00 	call	0x18c	; 0x18c <MUSART_VoidSendString>
+						/*Scan the username from the user*/
+						LOC_RecievedUsername= MUSART_u8ReceiveString();
+    12e6:	0e 94 04 01 	call	0x208	; 0x208 <MUSART_u8ReceiveString>
+    12ea:	9a 87       	std	Y+10, r25	; 0x0a
+    12ec:	89 87       	std	Y+9, r24	; 0x09
+						LOC_U8User_Counter++;
+    12ee:	8e 85       	ldd	r24, Y+14	; 0x0e
+    12f0:	8f 5f       	subi	r24, 0xFF	; 255
+    12f2:	8e 87       	std	Y+14, r24	; 0x0e
+						LOC_U8Flag=ZERO;
+    12f4:	1b 86       	std	Y+11, r1	; 0x0b
+    12f6:	12 c0       	rjmp	.+36     	; 0x131c <APP_VOIDStart+0x142>
+
+					}
+					else if(LOC_U8Iterator==TWO)
+    12f8:	88 85       	ldd	r24, Y+8	; 0x08
+    12fa:	82 30       	cpi	r24, 0x02	; 2
+    12fc:	11 f4       	brne	.+4      	; 0x1302 <APP_VOIDStart+0x128>
+					{
+						LOC_U8Flag=0;
+    12fe:	1b 86       	std	Y+11, r1	; 0x0b
+    1300:	18 c0       	rjmp	.+48     	; 0x1332 <APP_VOIDStart+0x158>
+						break;
+					}
+					else
+					{
+						MUSART_VoidSendString("\nWrong Username, Please enter a valid username: \n");
+    1302:	86 ea       	ldi	r24, 0xA6	; 166
+    1304:	90 e0       	ldi	r25, 0x00	; 0
+    1306:	0e 94 c6 00 	call	0x18c	; 0x18c <MUSART_VoidSendString>
+						/*Scan the username from the user*/
+						LOC_RecievedUsername= MUSART_u8ReceiveString();
+    130a:	0e 94 04 01 	call	0x208	; 0x208 <MUSART_u8ReceiveString>
+    130e:	9a 87       	std	Y+10, r25	; 0x0a
+    1310:	89 87       	std	Y+9, r24	; 0x09
+						LOC_U8User_Counter++;
+    1312:	8e 85       	ldd	r24, Y+14	; 0x0e
+    1314:	8f 5f       	subi	r24, 0xFF	; 255
+    1316:	8e 87       	std	Y+14, r24	; 0x0e
+						LOC_U8Flag=ONE;
+    1318:	81 e0       	ldi	r24, 0x01	; 1
+    131a:	8b 87       	std	Y+11, r24	; 0x0b
+			/*Scan the username from the user*/
+			u8 *LOC_RecievedUsername= MUSART_u8ReceiveString();
+			/*Increment the username trials counter*/
+			LOC_U8User_Counter++;
+			/*For loop that iterates only 3 times and sets the FOUND flag if the username is found*/
+			for (u8 LOC_U8Iterator =ZERO; (LOC_U8Iterator<MAXIMUM_TRIALS) || (LOC_U8Flag==ONE) ; LOC_U8Iterator++ )
+    131c:	88 85       	ldd	r24, Y+8	; 0x08
+    131e:	8f 5f       	subi	r24, 0xFF	; 255
+    1320:	88 87       	std	Y+8, r24	; 0x08
+    1322:	88 85       	ldd	r24, Y+8	; 0x08
+    1324:	82 30       	cpi	r24, 0x02	; 2
+    1326:	08 f4       	brcc	.+2      	; 0x132a <APP_VOIDStart+0x150>
+    1328:	a9 cf       	rjmp	.-174    	; 0x127c <APP_VOIDStart+0xa2>
+    132a:	8b 85       	ldd	r24, Y+11	; 0x0b
+    132c:	81 30       	cpi	r24, 0x01	; 1
+    132e:	09 f4       	brne	.+2      	; 0x1332 <APP_VOIDStart+0x158>
+    1330:	a5 cf       	rjmp	.-182    	; 0x127c <APP_VOIDStart+0xa2>
+						LOC_U8Flag=ONE;
+					}
+				}
+			}
+			/*The user exceeded the number of allowed trials -> Fire an alarm*/
+			if ((LOC_U8User_Counter == THREE) && (LOC_U8User_Status==NOT_FOUND))
+    1332:	8e 85       	ldd	r24, Y+14	; 0x0e
+    1334:	83 30       	cpi	r24, 0x03	; 3
+    1336:	09 f0       	breq	.+2      	; 0x133a <APP_VOIDStart+0x160>
+    1338:	8d cf       	rjmp	.-230    	; 0x1254 <APP_VOIDStart+0x7a>
+    133a:	8d 89       	ldd	r24, Y+21	; 0x15
+    133c:	88 23       	and	r24, r24
+    133e:	09 f0       	breq	.+2      	; 0x1342 <APP_VOIDStart+0x168>
+    1340:	89 cf       	rjmp	.-238    	; 0x1254 <APP_VOIDStart+0x7a>
+			{
+				LOC_U8Alarm_Status=ALARM_ON;
+    1342:	81 e0       	ldi	r24, 0x01	; 1
+    1344:	8a 8b       	std	Y+18, r24	; 0x12
+    1346:	86 cf       	rjmp	.-244    	; 0x1254 <APP_VOIDStart+0x7a>
+			{
+				/*Do Nothing*/
+			}
+		}
+		/*Correct Username -> Check Password*/
+		else if (LOC_U8Entry_Point == ONE)
+    1348:	88 89       	ldd	r24, Y+16	; 0x10
+    134a:	81 30       	cpi	r24, 0x01	; 1
+    134c:	09 f0       	breq	.+2      	; 0x1350 <APP_VOIDStart+0x176>
+    134e:	64 c0       	rjmp	.+200    	; 0x1418 <APP_VOIDStart+0x23e>
+		{
+			/*Request the user to enter his password*/
+			MUSART_VoidSendString("\nPlease enter your password: \n");
+    1350:	88 ed       	ldi	r24, 0xD8	; 216
+    1352:	90 e0       	ldi	r25, 0x00	; 0
+    1354:	0e 94 c6 00 	call	0x18c	; 0x18c <MUSART_VoidSendString>
+			/*Scan the password from the user*/
+			u8 *LOC_RecievedPassword = MUSART_u8ReceiveString();
+    1358:	0e 94 04 01 	call	0x208	; 0x208 <MUSART_u8ReceiveString>
+    135c:	9e 83       	std	Y+6, r25	; 0x06
+    135e:	8d 83       	std	Y+5, r24	; 0x05
+			LOC_U8PSWD_Counter++;
+    1360:	8d 85       	ldd	r24, Y+13	; 0x0d
+    1362:	8f 5f       	subi	r24, 0xFF	; 255
+    1364:	8d 87       	std	Y+13, r24	; 0x0d
+			/*For loop that iterates only 3 times and sets the CORRECT flag if the password is correct*/
+			for (u8 LOC_U8Iterator =ZERO; (LOC_U8Iterator<MAXIMUM_TRIALS) || (LOC_U8Flag==ONE); LOC_U8Iterator++ )
+    1366:	1c 82       	std	Y+4, r1	; 0x04
+    1368:	44 c0       	rjmp	.+136    	; 0x13f2 <APP_VOIDStart+0x218>
+			{
+				/*If it is correct then set the CORRECT flag and increment the entry point to allow him to use the commands*/
+				if (APP_S8StringCompare(Users[LOC_U8User_Index].Password,LOC_RecievedPassword) ==ZERO)
+    136a:	8f 85       	ldd	r24, Y+15	; 0x0f
+    136c:	88 2f       	mov	r24, r24
+    136e:	90 e0       	ldi	r25, 0x00	; 0
+    1370:	88 0f       	add	r24, r24
+    1372:	99 1f       	adc	r25, r25
+    1374:	88 0f       	add	r24, r24
+    1376:	99 1f       	adc	r25, r25
+    1378:	88 0f       	add	r24, r24
+    137a:	99 1f       	adc	r25, r25
+    137c:	9c 01       	movw	r18, r24
+    137e:	22 0f       	add	r18, r18
+    1380:	33 1f       	adc	r19, r19
+    1382:	22 0f       	add	r18, r18
+    1384:	33 1f       	adc	r19, r19
+    1386:	82 0f       	add	r24, r18
+    1388:	93 1f       	adc	r25, r19
+    138a:	44 96       	adiw	r24, 0x14	; 20
+    138c:	8b 52       	subi	r24, 0x2B	; 43
+    138e:	9d 4f       	sbci	r25, 0xFD	; 253
+    1390:	2d 81       	ldd	r18, Y+5	; 0x05
+    1392:	3e 81       	ldd	r19, Y+6	; 0x06
+    1394:	b9 01       	movw	r22, r18
+    1396:	0e 94 88 08 	call	0x1110	; 0x1110 <APP_S8StringCompare>
+    139a:	88 23       	and	r24, r24
+    139c:	31 f4       	brne	.+12     	; 0x13aa <APP_VOIDStart+0x1d0>
+				{
+					LOC_U8PSWD_Status=CORRECT;
+    139e:	81 e0       	ldi	r24, 0x01	; 1
+    13a0:	8c 8b       	std	Y+20, r24	; 0x14
+					LOC_U8Entry_Point=TWO;
+    13a2:	82 e0       	ldi	r24, 0x02	; 2
+    13a4:	88 8b       	std	Y+16, r24	; 0x10
+					LOC_U8Flag=ZERO;
+    13a6:	1b 86       	std	Y+11, r1	; 0x0b
+    13a8:	21 c0       	rjmp	.+66     	; 0x13ec <APP_VOIDStart+0x212>
+				}
+				/*He can try 3 times*/
+				else
+				{
+					if (LOC_U8Iterator<ONE)
+    13aa:	8c 81       	ldd	r24, Y+4	; 0x04
+    13ac:	88 23       	and	r24, r24
+    13ae:	61 f4       	brne	.+24     	; 0x13c8 <APP_VOIDStart+0x1ee>
+					{
+						MUSART_VoidSendString("Wrong Password, Please Enter the Correct Password: \n");
+    13b0:	87 ef       	ldi	r24, 0xF7	; 247
+    13b2:	90 e0       	ldi	r25, 0x00	; 0
+    13b4:	0e 94 c6 00 	call	0x18c	; 0x18c <MUSART_VoidSendString>
+						LOC_RecievedPassword = MUSART_u8ReceiveString();
+    13b8:	0e 94 04 01 	call	0x208	; 0x208 <MUSART_u8ReceiveString>
+    13bc:	9e 83       	std	Y+6, r25	; 0x06
+    13be:	8d 83       	std	Y+5, r24	; 0x05
+						LOC_U8PSWD_Counter++;
+    13c0:	8d 85       	ldd	r24, Y+13	; 0x0d
+    13c2:	8f 5f       	subi	r24, 0xFF	; 255
+    13c4:	8d 87       	std	Y+13, r24	; 0x0d
+    13c6:	12 c0       	rjmp	.+36     	; 0x13ec <APP_VOIDStart+0x212>
+					}
+					else if (LOC_U8Iterator==TWO)
+    13c8:	8c 81       	ldd	r24, Y+4	; 0x04
+    13ca:	82 30       	cpi	r24, 0x02	; 2
+    13cc:	11 f4       	brne	.+4      	; 0x13d2 <APP_VOIDStart+0x1f8>
+					{
+						LOC_U8Flag=0;
+    13ce:	1b 86       	std	Y+11, r1	; 0x0b
+    13d0:	18 c0       	rjmp	.+48     	; 0x1402 <APP_VOIDStart+0x228>
+						break;
+					}
+					else
+					{
+						MUSART_VoidSendString("Wrong Password, Please Enter the Correct Password: \n");
+    13d2:	87 ef       	ldi	r24, 0xF7	; 247
+    13d4:	90 e0       	ldi	r25, 0x00	; 0
+    13d6:	0e 94 c6 00 	call	0x18c	; 0x18c <MUSART_VoidSendString>
+						LOC_RecievedPassword = MUSART_u8ReceiveString();
+    13da:	0e 94 04 01 	call	0x208	; 0x208 <MUSART_u8ReceiveString>
+    13de:	9e 83       	std	Y+6, r25	; 0x06
+    13e0:	8d 83       	std	Y+5, r24	; 0x05
+						LOC_U8PSWD_Counter++;
+    13e2:	8d 85       	ldd	r24, Y+13	; 0x0d
+    13e4:	8f 5f       	subi	r24, 0xFF	; 255
+    13e6:	8d 87       	std	Y+13, r24	; 0x0d
+						LOC_U8Flag=ONE;
+    13e8:	81 e0       	ldi	r24, 0x01	; 1
+    13ea:	8b 87       	std	Y+11, r24	; 0x0b
+			MUSART_VoidSendString("\nPlease enter your password: \n");
+			/*Scan the password from the user*/
+			u8 *LOC_RecievedPassword = MUSART_u8ReceiveString();
+			LOC_U8PSWD_Counter++;
+			/*For loop that iterates only 3 times and sets the CORRECT flag if the password is correct*/
+			for (u8 LOC_U8Iterator =ZERO; (LOC_U8Iterator<MAXIMUM_TRIALS) || (LOC_U8Flag==ONE); LOC_U8Iterator++ )
+    13ec:	8c 81       	ldd	r24, Y+4	; 0x04
+    13ee:	8f 5f       	subi	r24, 0xFF	; 255
+    13f0:	8c 83       	std	Y+4, r24	; 0x04
+    13f2:	8c 81       	ldd	r24, Y+4	; 0x04
+    13f4:	82 30       	cpi	r24, 0x02	; 2
+    13f6:	08 f4       	brcc	.+2      	; 0x13fa <APP_VOIDStart+0x220>
+    13f8:	b8 cf       	rjmp	.-144    	; 0x136a <APP_VOIDStart+0x190>
+    13fa:	8b 85       	ldd	r24, Y+11	; 0x0b
+    13fc:	81 30       	cpi	r24, 0x01	; 1
+    13fe:	09 f4       	brne	.+2      	; 0x1402 <APP_VOIDStart+0x228>
+    1400:	b4 cf       	rjmp	.-152    	; 0x136a <APP_VOIDStart+0x190>
+					}
+
+				}
+			}
+			/*User exceeded the number of trials-> fire an alarm*/
+			if((LOC_U8PSWD_Counter == THREE) && (LOC_U8PSWD_Status == NOT_CORRECT))
+    1402:	8d 85       	ldd	r24, Y+13	; 0x0d
+    1404:	83 30       	cpi	r24, 0x03	; 3
+    1406:	09 f0       	breq	.+2      	; 0x140a <APP_VOIDStart+0x230>
+    1408:	25 cf       	rjmp	.-438    	; 0x1254 <APP_VOIDStart+0x7a>
+    140a:	8c 89       	ldd	r24, Y+20	; 0x14
+    140c:	88 23       	and	r24, r24
+    140e:	09 f0       	breq	.+2      	; 0x1412 <APP_VOIDStart+0x238>
+    1410:	21 cf       	rjmp	.-446    	; 0x1254 <APP_VOIDStart+0x7a>
+			{
+				LOC_U8Alarm_Status=ALARM_ON;
+    1412:	81 e0       	ldi	r24, 0x01	; 1
+    1414:	8a 8b       	std	Y+18, r24	; 0x12
+    1416:	1e cf       	rjmp	.-452    	; 0x1254 <APP_VOIDStart+0x7a>
+			}
+		}
+		/*Correct Password -> Control your home*/
+		else if (LOC_U8Entry_Point == TWO || LOC_U8Entry_Point == THREE)
+    1418:	88 89       	ldd	r24, Y+16	; 0x10
+    141a:	82 30       	cpi	r24, 0x02	; 2
+    141c:	21 f0       	breq	.+8      	; 0x1426 <APP_VOIDStart+0x24c>
+    141e:	88 89       	ldd	r24, Y+16	; 0x10
+    1420:	83 30       	cpi	r24, 0x03	; 3
+    1422:	09 f0       	breq	.+2      	; 0x1426 <APP_VOIDStart+0x24c>
+    1424:	17 cf       	rjmp	.-466    	; 0x1254 <APP_VOIDStart+0x7a>
+		{
+			/*This if condition enables the user for continuous entry of commands untill he log out*/
+			if(LOC_U8Entry_Point == TWO)
+    1426:	88 89       	ldd	r24, Y+16	; 0x10
+    1428:	82 30       	cpi	r24, 0x02	; 2
+    142a:	49 f4       	brne	.+18     	; 0x143e <APP_VOIDStart+0x264>
+			{
+				/*User can control his home by pressing the buttons in the mobile app*/
+				MUSART_VoidSendString("\nCorrect Password\nYou can use the buttons below to control your home\n");
+    142c:	8c e2       	ldi	r24, 0x2C	; 44
+    142e:	91 e0       	ldi	r25, 0x01	; 1
+    1430:	0e 94 c6 00 	call	0x18c	; 0x18c <MUSART_VoidSendString>
+				LOC_U8Entry_Point=THREE;
+    1434:	83 e0       	ldi	r24, 0x03	; 3
+    1436:	88 8b       	std	Y+16, r24	; 0x10
+				LOC_U8Log_Status=LOGGED_IN;
+    1438:	81 e0       	ldi	r24, 0x01	; 1
+    143a:	8b 8b       	std	Y+19, r24	; 0x13
+    143c:	0b cf       	rjmp	.-490    	; 0x1254 <APP_VOIDStart+0x7a>
+			}
+			else if (LOC_U8Entry_Point == THREE)
+    143e:	88 89       	ldd	r24, Y+16	; 0x10
+    1440:	83 30       	cpi	r24, 0x03	; 3
+    1442:	09 f0       	breq	.+2      	; 0x1446 <APP_VOIDStart+0x26c>
+    1444:	07 cf       	rjmp	.-498    	; 0x1254 <APP_VOIDStart+0x7a>
+			{
+				/*Scan the command from the user*/
+				u8 *LOC_RecievedCommand = MUSART_u8ReceiveString();
+    1446:	0e 94 04 01 	call	0x208	; 0x208 <MUSART_u8ReceiveString>
+    144a:	9b 83       	std	Y+3, r25	; 0x03
+    144c:	8a 83       	std	Y+2, r24	; 0x02
+				/*Check the command*/
+				if (APP_S8StringCompare(LOC_RecievedCommand,LOG_OUT_COMMAND) ==ZERO)
+    144e:	8a 81       	ldd	r24, Y+2	; 0x02
+    1450:	9b 81       	ldd	r25, Y+3	; 0x03
+    1452:	22 e7       	ldi	r18, 0x72	; 114
+    1454:	31 e0       	ldi	r19, 0x01	; 1
+    1456:	b9 01       	movw	r22, r18
+    1458:	0e 94 88 08 	call	0x1110	; 0x1110 <APP_S8StringCompare>
+    145c:	88 23       	and	r24, r24
+    145e:	69 f4       	brne	.+26     	; 0x147a <APP_VOIDStart+0x2a0>
+				{
+					LOC_U8Log_Status=LOGGED_OUT;
+    1460:	1b 8a       	std	Y+19, r1	; 0x13
+					MUSART_VoidSendString("You signed out!\n");
+    1462:	88 e7       	ldi	r24, 0x78	; 120
+    1464:	91 e0       	ldi	r25, 0x01	; 1
+    1466:	0e 94 c6 00 	call	0x18c	; 0x18c <MUSART_VoidSendString>
+					LOC_U8Entry_Point=ZERO;
+    146a:	18 8a       	std	Y+16, r1	; 0x10
+					LOC_U8Alarm_Status=ALARM_OFF;
+    146c:	1a 8a       	std	Y+18, r1	; 0x12
+					LOC_U8PSWD_Status=NOT_CORRECT;
+    146e:	1c 8a       	std	Y+20, r1	; 0x14
+					LOC_U8User_Status=NOT_FOUND;
+    1470:	1d 8a       	std	Y+21, r1	; 0x15
+					LOC_U8User_Index=ZERO;
+    1472:	1f 86       	std	Y+15, r1	; 0x0f
+					LOC_U8User_Counter=ZERO;
+    1474:	1e 86       	std	Y+14, r1	; 0x0e
+					LOC_U8PSWD_Counter=ZERO;
+    1476:	1d 86       	std	Y+13, r1	; 0x0d
+    1478:	ed ce       	rjmp	.-550    	; 0x1254 <APP_VOIDStart+0x7a>
+				}
+				else if(APP_S8StringCompare(LOC_RecievedCommand,LED_ON_COMMAND) ==ZERO)
+    147a:	8a 81       	ldd	r24, Y+2	; 0x02
+    147c:	9b 81       	ldd	r25, Y+3	; 0x03
+    147e:	29 e8       	ldi	r18, 0x89	; 137
+    1480:	31 e0       	ldi	r19, 0x01	; 1
+    1482:	b9 01       	movw	r22, r18
+    1484:	0e 94 88 08 	call	0x1110	; 0x1110 <APP_S8StringCompare>
+    1488:	88 23       	and	r24, r24
+    148a:	51 f4       	brne	.+20     	; 0x14a0 <APP_VOIDStart+0x2c6>
+				{
+					/*Initialization of PWM mode inside Timer*/
+					MTMR0_VOIDFastPWMInit();
+    148c:	0e 94 d2 01 	call	0x3a4	; 0x3a4 <MTMR0_VOIDFastPWMInit>
+					/*Setting the duty cycle to full intensity*/
+					MTMR0_VOIDSetDutyCycle(100);
+    1490:	84 e6       	ldi	r24, 0x64	; 100
+    1492:	0e 94 11 02 	call	0x422	; 0x422 <MTMR0_VOIDSetDutyCycle>
+					MUSART_VoidSendString("LED intensity is 100% \n");
+    1496:	8f e8       	ldi	r24, 0x8F	; 143
+    1498:	91 e0       	ldi	r25, 0x01	; 1
+    149a:	0e 94 c6 00 	call	0x18c	; 0x18c <MUSART_VoidSendString>
+    149e:	da ce       	rjmp	.-588    	; 0x1254 <APP_VOIDStart+0x7a>
+				}
+				else if (APP_S8StringCompare(LOC_RecievedCommand,LED_OFF_COMMAND) ==ZERO)
+    14a0:	8a 81       	ldd	r24, Y+2	; 0x02
+    14a2:	9b 81       	ldd	r25, Y+3	; 0x03
+    14a4:	27 ea       	ldi	r18, 0xA7	; 167
+    14a6:	31 e0       	ldi	r19, 0x01	; 1
+    14a8:	b9 01       	movw	r22, r18
+    14aa:	0e 94 88 08 	call	0x1110	; 0x1110 <APP_S8StringCompare>
+    14ae:	88 23       	and	r24, r24
+    14b0:	39 f4       	brne	.+14     	; 0x14c0 <APP_VOIDStart+0x2e6>
+				{
+					/*Disable the OC0 bit and Clock source*/
+					MTMR0_VOIDPWMOff();
+    14b2:	0e 94 3c 02 	call	0x478	; 0x478 <MTMR0_VOIDPWMOff>
+					MUSART_VoidSendString("LED intensity is 0% \n");
+    14b6:	8d ea       	ldi	r24, 0xAD	; 173
+    14b8:	91 e0       	ldi	r25, 0x01	; 1
+    14ba:	0e 94 c6 00 	call	0x18c	; 0x18c <MUSART_VoidSendString>
+    14be:	ca ce       	rjmp	.-620    	; 0x1254 <APP_VOIDStart+0x7a>
+				}
+				else if ((APP_S8StringCompare(LOC_RecievedCommand,DOOR_LOCK_COMMAND) ==ZERO)&&(LOC_U8Lock_Status == UNLOCKED))
+    14c0:	8a 81       	ldd	r24, Y+2	; 0x02
+    14c2:	9b 81       	ldd	r25, Y+3	; 0x03
+    14c4:	23 ec       	ldi	r18, 0xC3	; 195
+    14c6:	31 e0       	ldi	r19, 0x01	; 1
+    14c8:	b9 01       	movw	r22, r18
+    14ca:	0e 94 88 08 	call	0x1110	; 0x1110 <APP_S8StringCompare>
+    14ce:	88 23       	and	r24, r24
+    14d0:	61 f4       	brne	.+24     	; 0x14ea <APP_VOIDStart+0x310>
+    14d2:	89 89       	ldd	r24, Y+17	; 0x11
+    14d4:	88 23       	and	r24, r24
+    14d6:	49 f4       	brne	.+18     	; 0x14ea <APP_VOIDStart+0x310>
+				{
+					HMTR_VOIDRotateCCW();
+    14d8:	0e 94 54 07 	call	0xea8	; 0xea8 <HMTR_VOIDRotateCCW>
+					MUSART_VoidSendString("Door is Locked\n");
+    14dc:	89 ec       	ldi	r24, 0xC9	; 201
+    14de:	91 e0       	ldi	r25, 0x01	; 1
+    14e0:	0e 94 c6 00 	call	0x18c	; 0x18c <MUSART_VoidSendString>
+					LOC_U8Lock_Status = LOCKED ;
+    14e4:	81 e0       	ldi	r24, 0x01	; 1
+    14e6:	89 8b       	std	Y+17, r24	; 0x11
+    14e8:	b5 ce       	rjmp	.-662    	; 0x1254 <APP_VOIDStart+0x7a>
+				}
+				else if ((APP_S8StringCompare(LOC_RecievedCommand,DOOR_LOCK_COMMAND) ==ZERO)&&(LOC_U8Lock_Status == LOCKED))
+    14ea:	8a 81       	ldd	r24, Y+2	; 0x02
+    14ec:	9b 81       	ldd	r25, Y+3	; 0x03
+    14ee:	23 ec       	ldi	r18, 0xC3	; 195
+    14f0:	31 e0       	ldi	r19, 0x01	; 1
+    14f2:	b9 01       	movw	r22, r18
+    14f4:	0e 94 88 08 	call	0x1110	; 0x1110 <APP_S8StringCompare>
+    14f8:	88 23       	and	r24, r24
+    14fa:	41 f4       	brne	.+16     	; 0x150c <APP_VOIDStart+0x332>
+    14fc:	89 89       	ldd	r24, Y+17	; 0x11
+    14fe:	81 30       	cpi	r24, 0x01	; 1
+    1500:	29 f4       	brne	.+10     	; 0x150c <APP_VOIDStart+0x332>
+				{
+					MUSART_VoidSendString("Door is Already locked\n");
+    1502:	89 ed       	ldi	r24, 0xD9	; 217
+    1504:	91 e0       	ldi	r25, 0x01	; 1
+    1506:	0e 94 c6 00 	call	0x18c	; 0x18c <MUSART_VoidSendString>
+    150a:	a4 ce       	rjmp	.-696    	; 0x1254 <APP_VOIDStart+0x7a>
+				}
+				else if ((APP_S8StringCompare(LOC_RecievedCommand,DOOR_UNLOCK_COMMAND) ==ZERO)&&(LOC_U8Lock_Status == LOCKED))
+    150c:	8a 81       	ldd	r24, Y+2	; 0x02
+    150e:	9b 81       	ldd	r25, Y+3	; 0x03
+    1510:	21 ef       	ldi	r18, 0xF1	; 241
+    1512:	31 e0       	ldi	r19, 0x01	; 1
+    1514:	b9 01       	movw	r22, r18
+    1516:	0e 94 88 08 	call	0x1110	; 0x1110 <APP_S8StringCompare>
+    151a:	88 23       	and	r24, r24
+    151c:	59 f4       	brne	.+22     	; 0x1534 <APP_VOIDStart+0x35a>
+    151e:	89 89       	ldd	r24, Y+17	; 0x11
+    1520:	81 30       	cpi	r24, 0x01	; 1
+    1522:	41 f4       	brne	.+16     	; 0x1534 <APP_VOIDStart+0x35a>
+				{
+					HMTR_VOIDRotateCW();
+    1524:	0e 94 92 07 	call	0xf24	; 0xf24 <HMTR_VOIDRotateCW>
+					MUSART_VoidSendString("Door is Unlocked\n");
+    1528:	87 ef       	ldi	r24, 0xF7	; 247
+    152a:	91 e0       	ldi	r25, 0x01	; 1
+    152c:	0e 94 c6 00 	call	0x18c	; 0x18c <MUSART_VoidSendString>
+					LOC_U8Lock_Status = UNLOCKED ;
+    1530:	19 8a       	std	Y+17, r1	; 0x11
+    1532:	90 ce       	rjmp	.-736    	; 0x1254 <APP_VOIDStart+0x7a>
+				}
+				else if ((APP_S8StringCompare(LOC_RecievedCommand,DOOR_UNLOCK_COMMAND) ==ZERO)&&(LOC_U8Lock_Status == UNLOCKED))
+    1534:	8a 81       	ldd	r24, Y+2	; 0x02
+    1536:	9b 81       	ldd	r25, Y+3	; 0x03
+    1538:	21 ef       	ldi	r18, 0xF1	; 241
+    153a:	31 e0       	ldi	r19, 0x01	; 1
+    153c:	b9 01       	movw	r22, r18
+    153e:	0e 94 88 08 	call	0x1110	; 0x1110 <APP_S8StringCompare>
+    1542:	88 23       	and	r24, r24
+    1544:	41 f4       	brne	.+16     	; 0x1556 <APP_VOIDStart+0x37c>
+    1546:	89 89       	ldd	r24, Y+17	; 0x11
+    1548:	88 23       	and	r24, r24
+    154a:	29 f4       	brne	.+10     	; 0x1556 <APP_VOIDStart+0x37c>
+				{
+					MUSART_VoidSendString("Door is Already unlocked\n");
+    154c:	89 e0       	ldi	r24, 0x09	; 9
+    154e:	92 e0       	ldi	r25, 0x02	; 2
+    1550:	0e 94 c6 00 	call	0x18c	; 0x18c <MUSART_VoidSendString>
+    1554:	7f ce       	rjmp	.-770    	; 0x1254 <APP_VOIDStart+0x7a>
+				}
+				else if (APP_S8StringCompare(LOC_RecievedCommand,LED_INTENSITY25_COMMAND) ==ZERO)
+    1556:	8a 81       	ldd	r24, Y+2	; 0x02
+    1558:	9b 81       	ldd	r25, Y+3	; 0x03
+    155a:	23 e2       	ldi	r18, 0x23	; 35
+    155c:	32 e0       	ldi	r19, 0x02	; 2
+    155e:	b9 01       	movw	r22, r18
+    1560:	0e 94 88 08 	call	0x1110	; 0x1110 <APP_S8StringCompare>
+    1564:	88 23       	and	r24, r24
+    1566:	51 f4       	brne	.+20     	; 0x157c <APP_VOIDStart+0x3a2>
+				{
+					/*Initialization of PWM mode inside Timer*/
+					MTMR0_VOIDFastPWMInit();
+    1568:	0e 94 d2 01 	call	0x3a4	; 0x3a4 <MTMR0_VOIDFastPWMInit>
+					/*Setting the duty cycle to 25% intensity*/
+					MTMR0_VOIDSetDutyCycle(25);
+    156c:	89 e1       	ldi	r24, 0x19	; 25
+    156e:	0e 94 11 02 	call	0x422	; 0x422 <MTMR0_VOIDSetDutyCycle>
+					MUSART_VoidSendString("LED intensity is 25% \n");
+    1572:	89 e2       	ldi	r24, 0x29	; 41
+    1574:	92 e0       	ldi	r25, 0x02	; 2
+    1576:	0e 94 c6 00 	call	0x18c	; 0x18c <MUSART_VoidSendString>
+    157a:	6c ce       	rjmp	.-808    	; 0x1254 <APP_VOIDStart+0x7a>
+				}
+				else if (APP_S8StringCompare(LOC_RecievedCommand,LED_INTENSITY50_COMMAND) ==ZERO)
+    157c:	8a 81       	ldd	r24, Y+2	; 0x02
+    157e:	9b 81       	ldd	r25, Y+3	; 0x03
+    1580:	20 e4       	ldi	r18, 0x40	; 64
+    1582:	32 e0       	ldi	r19, 0x02	; 2
+    1584:	b9 01       	movw	r22, r18
+    1586:	0e 94 88 08 	call	0x1110	; 0x1110 <APP_S8StringCompare>
+    158a:	88 23       	and	r24, r24
+    158c:	51 f4       	brne	.+20     	; 0x15a2 <APP_VOIDStart+0x3c8>
+				{
+					/*Initialization of PWM mode inside Timer*/
+					MTMR0_VOIDFastPWMInit();
+    158e:	0e 94 d2 01 	call	0x3a4	; 0x3a4 <MTMR0_VOIDFastPWMInit>
+					/*Setting the duty cycle to 50% intensity*/
+					MTMR0_VOIDSetDutyCycle(50);
+    1592:	82 e3       	ldi	r24, 0x32	; 50
+    1594:	0e 94 11 02 	call	0x422	; 0x422 <MTMR0_VOIDSetDutyCycle>
+					MUSART_VoidSendString("LED intensity is 50% \n");
+    1598:	86 e4       	ldi	r24, 0x46	; 70
+    159a:	92 e0       	ldi	r25, 0x02	; 2
+    159c:	0e 94 c6 00 	call	0x18c	; 0x18c <MUSART_VoidSendString>
+    15a0:	59 ce       	rjmp	.-846    	; 0x1254 <APP_VOIDStart+0x7a>
+				}
+				else if (APP_S8StringCompare(LOC_RecievedCommand,LED_INTENSITY75_COMMAND) ==ZERO)
+    15a2:	8a 81       	ldd	r24, Y+2	; 0x02
+    15a4:	9b 81       	ldd	r25, Y+3	; 0x03
+    15a6:	2d e5       	ldi	r18, 0x5D	; 93
+    15a8:	32 e0       	ldi	r19, 0x02	; 2
+    15aa:	b9 01       	movw	r22, r18
+    15ac:	0e 94 88 08 	call	0x1110	; 0x1110 <APP_S8StringCompare>
+    15b0:	88 23       	and	r24, r24
+    15b2:	51 f4       	brne	.+20     	; 0x15c8 <APP_VOIDStart+0x3ee>
+				{
+					/*Initialization of PWM mode inside Timer*/
+					MTMR0_VOIDFastPWMInit();
+    15b4:	0e 94 d2 01 	call	0x3a4	; 0x3a4 <MTMR0_VOIDFastPWMInit>
+					/*Setting the duty cycle to 75% intensity*/
+					MTMR0_VOIDSetDutyCycle(75);
+    15b8:	8b e4       	ldi	r24, 0x4B	; 75
+    15ba:	0e 94 11 02 	call	0x422	; 0x422 <MTMR0_VOIDSetDutyCycle>
+					MUSART_VoidSendString("LED intensity is 75% \n");
+    15be:	83 e6       	ldi	r24, 0x63	; 99
+    15c0:	92 e0       	ldi	r25, 0x02	; 2
+    15c2:	0e 94 c6 00 	call	0x18c	; 0x18c <MUSART_VoidSendString>
+    15c6:	46 ce       	rjmp	.-884    	; 0x1254 <APP_VOIDStart+0x7a>
+				}
+				else if (APP_S8StringCompare(LOC_RecievedCommand,AC_ON_OFF_COMMAND) ==ZERO)
+    15c8:	8a 81       	ldd	r24, Y+2	; 0x02
+    15ca:	9b 81       	ldd	r25, Y+3	; 0x03
+    15cc:	2a e7       	ldi	r18, 0x7A	; 122
+    15ce:	32 e0       	ldi	r19, 0x02	; 2
+    15d0:	b9 01       	movw	r22, r18
+    15d2:	0e 94 88 08 	call	0x1110	; 0x1110 <APP_S8StringCompare>
+    15d6:	88 23       	and	r24, r24
+    15d8:	c1 f4       	brne	.+48     	; 0x160a <APP_VOIDStart+0x430>
+				{
+					if(LOC_U8PAC_Status == AC_OFF)
+    15da:	8c 85       	ldd	r24, Y+12	; 0x0c
+    15dc:	88 23       	and	r24, r24
+    15de:	49 f4       	brne	.+18     	; 0x15f2 <APP_VOIDStart+0x418>
+					{
+						HAC_VOIDOnOff();
+    15e0:	0e 94 56 08 	call	0x10ac	; 0x10ac <HAC_VOIDOnOff>
+						MUSART_VoidSendString("AC is ON\n");
+    15e4:	80 e8       	ldi	r24, 0x80	; 128
+    15e6:	92 e0       	ldi	r25, 0x02	; 2
+    15e8:	0e 94 c6 00 	call	0x18c	; 0x18c <MUSART_VoidSendString>
+						LOC_U8PAC_Status = AC_ON;
+    15ec:	81 e0       	ldi	r24, 0x01	; 1
+    15ee:	8c 87       	std	Y+12, r24	; 0x0c
+    15f0:	31 ce       	rjmp	.-926    	; 0x1254 <APP_VOIDStart+0x7a>
+					}
+					else if (LOC_U8PAC_Status == AC_ON)
+    15f2:	8c 85       	ldd	r24, Y+12	; 0x0c
+    15f4:	81 30       	cpi	r24, 0x01	; 1
+    15f6:	09 f0       	breq	.+2      	; 0x15fa <APP_VOIDStart+0x420>
+    15f8:	2d ce       	rjmp	.-934    	; 0x1254 <APP_VOIDStart+0x7a>
+					{
+						HAC_VOIDOnOff();
+    15fa:	0e 94 56 08 	call	0x10ac	; 0x10ac <HAC_VOIDOnOff>
+						MUSART_VoidSendString("AC is OFF\n");
+    15fe:	8a e8       	ldi	r24, 0x8A	; 138
+    1600:	92 e0       	ldi	r25, 0x02	; 2
+    1602:	0e 94 c6 00 	call	0x18c	; 0x18c <MUSART_VoidSendString>
+						LOC_U8PAC_Status = AC_OFF;
+    1606:	1c 86       	std	Y+12, r1	; 0x0c
+    1608:	25 ce       	rjmp	.-950    	; 0x1254 <APP_VOIDStart+0x7a>
+					}
+				}
+				else if (APP_S8StringCompare(LOC_RecievedCommand,GET_TEMP_COMMAND) ==ZERO)
+    160a:	8a 81       	ldd	r24, Y+2	; 0x02
+    160c:	9b 81       	ldd	r25, Y+3	; 0x03
+    160e:	25 e9       	ldi	r18, 0x95	; 149
+    1610:	32 e0       	ldi	r19, 0x02	; 2
+    1612:	b9 01       	movw	r22, r18
+    1614:	0e 94 88 08 	call	0x1110	; 0x1110 <APP_S8StringCompare>
+    1618:	88 23       	and	r24, r24
+    161a:	b9 f4       	brne	.+46     	; 0x164a <APP_VOIDStart+0x470>
+				{
+					HTEMP_U8GetTemp();
+    161c:	0e 94 2c 07 	call	0xe58	; 0xe58 <HTEMP_U8GetTemp>
+					u8 LOC_U8RecievedTemp = HTEMP_U8GetTemp();
+    1620:	0e 94 2c 07 	call	0xe58	; 0xe58 <HTEMP_U8GetTemp>
+    1624:	89 83       	std	Y+1, r24	; 0x01
+					MUSART_VoidSendString("The Temperature now is: ");
+    1626:	8b e9       	ldi	r24, 0x9B	; 155
+    1628:	92 e0       	ldi	r25, 0x02	; 2
+    162a:	0e 94 c6 00 	call	0x18c	; 0x18c <MUSART_VoidSendString>
+					MUSART_VOIDSendNumber(LOC_U8RecievedTemp);
+    162e:	89 81       	ldd	r24, Y+1	; 0x01
+    1630:	88 2f       	mov	r24, r24
+    1632:	90 e0       	ldi	r25, 0x00	; 0
+    1634:	a0 e0       	ldi	r26, 0x00	; 0
+    1636:	b0 e0       	ldi	r27, 0x00	; 0
+    1638:	bc 01       	movw	r22, r24
+    163a:	cd 01       	movw	r24, r26
+    163c:	0e 94 2f 01 	call	0x25e	; 0x25e <MUSART_VOIDSendNumber>
+					MUSART_VoidSendString("\n");
+    1640:	84 eb       	ldi	r24, 0xB4	; 180
+    1642:	92 e0       	ldi	r25, 0x02	; 2
+    1644:	0e 94 c6 00 	call	0x18c	; 0x18c <MUSART_VoidSendString>
+    1648:	05 ce       	rjmp	.-1014   	; 0x1254 <APP_VOIDStart+0x7a>
+				}
+				else
+				{
+					MUSART_VoidSendString("Please enter a proper command\n");
+    164a:	86 eb       	ldi	r24, 0xB6	; 182
+    164c:	92 e0       	ldi	r25, 0x02	; 2
+    164e:	0e 94 c6 00 	call	0x18c	; 0x18c <MUSART_VoidSendString>
+    1652:	00 ce       	rjmp	.-1024   	; 0x1254 <APP_VOIDStart+0x7a>
+
+00001654 <main>:
+
+/*Include of Application module*/
+#include "Application/APP_Interface.h"
+
+int main (void)
+{
+    1654:	df 93       	push	r29
+    1656:	cf 93       	push	r28
+    1658:	cd b7       	in	r28, 0x3d	; 61
+    165a:	de b7       	in	r29, 0x3e	; 62
+
+	/*Calling the app start function to execute the application*/
+	APP_VOIDStart();
+    165c:	0e 94 ed 08 	call	0x11da	; 0x11da <APP_VOIDStart>
+    1660:	ff cf       	rjmp	.-2      	; 0x1660 <main+0xc>
+
+00001662 <__mulsi3>:
+    1662:	62 9f       	mul	r22, r18
+    1664:	d0 01       	movw	r26, r0
+    1666:	73 9f       	mul	r23, r19
+    1668:	f0 01       	movw	r30, r0
+    166a:	82 9f       	mul	r24, r18
+    166c:	e0 0d       	add	r30, r0
+    166e:	f1 1d       	adc	r31, r1
+    1670:	64 9f       	mul	r22, r20
+    1672:	e0 0d       	add	r30, r0
+    1674:	f1 1d       	adc	r31, r1
+    1676:	92 9f       	mul	r25, r18
+    1678:	f0 0d       	add	r31, r0
+    167a:	83 9f       	mul	r24, r19
+    167c:	f0 0d       	add	r31, r0
+    167e:	74 9f       	mul	r23, r20
+    1680:	f0 0d       	add	r31, r0
+    1682:	65 9f       	mul	r22, r21
+    1684:	f0 0d       	add	r31, r0
+    1686:	99 27       	eor	r25, r25
+    1688:	72 9f       	mul	r23, r18
+    168a:	b0 0d       	add	r27, r0
+    168c:	e1 1d       	adc	r30, r1
+    168e:	f9 1f       	adc	r31, r25
+    1690:	63 9f       	mul	r22, r19
+    1692:	b0 0d       	add	r27, r0
+    1694:	e1 1d       	adc	r30, r1
+    1696:	f9 1f       	adc	r31, r25
+    1698:	bd 01       	movw	r22, r26
+    169a:	cf 01       	movw	r24, r30
+    169c:	11 24       	eor	r1, r1
+    169e:	08 95       	ret
+
+000016a0 <__udivmodqi4>:
+    16a0:	99 1b       	sub	r25, r25
+    16a2:	79 e0       	ldi	r23, 0x09	; 9
+    16a4:	04 c0       	rjmp	.+8      	; 0x16ae <__udivmodqi4_ep>
+
+000016a6 <__udivmodqi4_loop>:
+    16a6:	99 1f       	adc	r25, r25
+    16a8:	96 17       	cp	r25, r22
+    16aa:	08 f0       	brcs	.+2      	; 0x16ae <__udivmodqi4_ep>
+    16ac:	96 1b       	sub	r25, r22
+
+000016ae <__udivmodqi4_ep>:
+    16ae:	88 1f       	adc	r24, r24
+    16b0:	7a 95       	dec	r23
+    16b2:	c9 f7       	brne	.-14     	; 0x16a6 <__udivmodqi4_loop>
+    16b4:	80 95       	com	r24
+    16b6:	08 95       	ret
+
+000016b8 <__udivmodhi4>:
+    16b8:	aa 1b       	sub	r26, r26
+    16ba:	bb 1b       	sub	r27, r27
+    16bc:	51 e1       	ldi	r21, 0x11	; 17
+    16be:	07 c0       	rjmp	.+14     	; 0x16ce <__udivmodhi4_ep>
+
+000016c0 <__udivmodhi4_loop>:
+    16c0:	aa 1f       	adc	r26, r26
+    16c2:	bb 1f       	adc	r27, r27
+    16c4:	a6 17       	cp	r26, r22
+    16c6:	b7 07       	cpc	r27, r23
+    16c8:	10 f0       	brcs	.+4      	; 0x16ce <__udivmodhi4_ep>
+    16ca:	a6 1b       	sub	r26, r22
+    16cc:	b7 0b       	sbc	r27, r23
+
+000016ce <__udivmodhi4_ep>:
+    16ce:	88 1f       	adc	r24, r24
+    16d0:	99 1f       	adc	r25, r25
+    16d2:	5a 95       	dec	r21
+    16d4:	a9 f7       	brne	.-22     	; 0x16c0 <__udivmodhi4_loop>
+    16d6:	80 95       	com	r24
+    16d8:	90 95       	com	r25
+    16da:	bc 01       	movw	r22, r24
+    16dc:	cd 01       	movw	r24, r26
+    16de:	08 95       	ret
+
+000016e0 <__udivmodsi4>:
+    16e0:	a1 e2       	ldi	r26, 0x21	; 33
+    16e2:	1a 2e       	mov	r1, r26
+    16e4:	aa 1b       	sub	r26, r26
+    16e6:	bb 1b       	sub	r27, r27
+    16e8:	fd 01       	movw	r30, r26
+    16ea:	0d c0       	rjmp	.+26     	; 0x1706 <__udivmodsi4_ep>
+
+000016ec <__udivmodsi4_loop>:
+    16ec:	aa 1f       	adc	r26, r26
+    16ee:	bb 1f       	adc	r27, r27
+    16f0:	ee 1f       	adc	r30, r30
+    16f2:	ff 1f       	adc	r31, r31
+    16f4:	a2 17       	cp	r26, r18
+    16f6:	b3 07       	cpc	r27, r19
+    16f8:	e4 07       	cpc	r30, r20
+    16fa:	f5 07       	cpc	r31, r21
+    16fc:	20 f0       	brcs	.+8      	; 0x1706 <__udivmodsi4_ep>
+    16fe:	a2 1b       	sub	r26, r18
+    1700:	b3 0b       	sbc	r27, r19
+    1702:	e4 0b       	sbc	r30, r20
+    1704:	f5 0b       	sbc	r31, r21
+
+00001706 <__udivmodsi4_ep>:
+    1706:	66 1f       	adc	r22, r22
+    1708:	77 1f       	adc	r23, r23
+    170a:	88 1f       	adc	r24, r24
+    170c:	99 1f       	adc	r25, r25
+    170e:	1a 94       	dec	r1
+    1710:	69 f7       	brne	.-38     	; 0x16ec <__udivmodsi4_loop>
+    1712:	60 95       	com	r22
+    1714:	70 95       	com	r23
+    1716:	80 95       	com	r24
+    1718:	90 95       	com	r25
+    171a:	9b 01       	movw	r18, r22
+    171c:	ac 01       	movw	r20, r24
+    171e:	bd 01       	movw	r22, r26
+    1720:	cf 01       	movw	r24, r30
+    1722:	08 95       	ret
+
+00001724 <_exit>:
+    1724:	f8 94       	cli
+
+00001726 <__stop_program>:
+    1726:	ff cf       	rjmp	.-2      	; 0x1726 <__stop_program>

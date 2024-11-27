@@ -1,0 +1,560 @@
+Archive member included because of file (symbol)
+
+d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_mulsi3.o)
+                              ./MCAL/USART/USART_Program.o (__mulsi3)
+d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodqi4.o)
+                              ./HAL/Temperature Sensor/TEMPSENSOR_Program.o (__udivmodqi4)
+d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodhi4.o)
+                              ./MCAL/Timer/TIMER_Program.o (__udivmodhi4)
+d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodsi4.o)
+                              ./MCAL/USART/USART_Program.o (__udivmodsi4)
+d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+                              d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm32.o (exit)
+d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_copy_data.o)
+                              ./Application/APP_Program.o (__do_copy_data)
+d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_clear_bss.o)
+                              ./MCAL/USART/USART_Program.o (__do_clear_bss)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+text             0x00000000         0x00020000         xr
+data             0x00800060         0x0000ffa0         rw !x
+eeprom           0x00810000         0x00010000         rw !x
+fuse             0x00820000         0x00000400         rw !x
+lock             0x00830000         0x00000400         rw !x
+signature        0x00840000         0x00000400         rw !x
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm32.o
+LOAD ./MCAL/USART/USART_Program.o
+LOAD ./MCAL/Timer/TIMER_Program.o
+LOAD ./MCAL/DIO/MDIO_Program.o
+LOAD ./MCAL/ADC/ADC_Program.o
+LOAD ./HAL/Temperature Sensor/TEMPSENSOR_Program.o
+LOAD ./HAL/Motor/MOTOR_Program.o
+LOAD ./HAL/LED/HLED_Program.o
+LOAD ./HAL/Buzzer/HBUZZER_Program.o
+LOAD ./HAL/AC/HAC_Program.o
+LOAD ./Application/APP_Program.o
+LOAD ./main.o
+LOAD d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
+LOAD d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a
+LOAD d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
+
+.hash
+ *(.hash)
+
+.dynsym
+ *(.dynsym)
+
+.dynstr
+ *(.dynstr)
+
+.gnu.version
+ *(.gnu.version)
+
+.gnu.version_d
+ *(.gnu.version_d)
+
+.gnu.version_r
+ *(.gnu.version_r)
+
+.rel.init
+ *(.rel.init)
+
+.rela.init
+ *(.rela.init)
+
+.rel.text
+ *(.rel.text)
+ *(.rel.text.*)
+ *(.rel.gnu.linkonce.t*)
+
+.rela.text
+ *(.rela.text)
+ *(.rela.text.*)
+ *(.rela.gnu.linkonce.t*)
+
+.rel.fini
+ *(.rel.fini)
+
+.rela.fini
+ *(.rela.fini)
+
+.rel.rodata
+ *(.rel.rodata)
+ *(.rel.rodata.*)
+ *(.rel.gnu.linkonce.r*)
+
+.rela.rodata
+ *(.rela.rodata)
+ *(.rela.rodata.*)
+ *(.rela.gnu.linkonce.r*)
+
+.rel.data
+ *(.rel.data)
+ *(.rel.data.*)
+ *(.rel.gnu.linkonce.d*)
+
+.rela.data
+ *(.rela.data)
+ *(.rela.data.*)
+ *(.rela.gnu.linkonce.d*)
+
+.rel.ctors
+ *(.rel.ctors)
+
+.rela.ctors
+ *(.rela.ctors)
+
+.rel.dtors
+ *(.rel.dtors)
+
+.rela.dtors
+ *(.rela.dtors)
+
+.rel.got
+ *(.rel.got)
+
+.rela.got
+ *(.rela.got)
+
+.rel.bss
+ *(.rel.bss)
+
+.rela.bss
+ *(.rela.bss)
+
+.rel.plt
+ *(.rel.plt)
+
+.rela.plt
+ *(.rela.plt)
+
+.text           0x00000000     0x1728
+ *(.vectors)
+ .vectors       0x00000000       0x54 d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm32.o
+                0x00000000                __vectors
+                0x00000000                __vector_default
+ *(.vectors)
+ *(.progmem.gcc*)
+ *(.progmem*)
+                0x00000054                . = ALIGN (0x2)
+                0x00000054                __trampolines_start = .
+ *(.trampolines)
+ .trampolines   0x00000054        0x0 linker stubs
+ *(.trampolines*)
+                0x00000054                __trampolines_end = .
+ *(.jumptables)
+ *(.jumptables*)
+ *(.lowtext)
+ *(.lowtext*)
+                0x00000054                __ctors_start = .
+ *(.ctors)
+                0x00000054                __ctors_end = .
+                0x00000054                __dtors_start = .
+ *(.dtors)
+                0x00000054                __dtors_end = .
+ SORT(*)(.ctors)
+ SORT(*)(.dtors)
+ *(.init0)
+ .init0         0x00000054        0x0 d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm32.o
+                0x00000054                __init
+ *(.init0)
+ *(.init1)
+ *(.init1)
+ *(.init2)
+ .init2         0x00000054        0xc d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm32.o
+ *(.init2)
+ *(.init3)
+ *(.init3)
+ *(.init4)
+ .init4         0x00000060       0x16 d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_copy_data.o)
+                0x00000060                __do_copy_data
+ .init4         0x00000076       0x10 d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_clear_bss.o)
+                0x00000076                __do_clear_bss
+ *(.init4)
+ *(.init5)
+ *(.init5)
+ *(.init6)
+ *(.init6)
+ *(.init7)
+ *(.init7)
+ *(.init8)
+ *(.init8)
+ *(.init9)
+ .init9         0x00000086        0x8 d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm32.o
+ *(.init9)
+ *(.text)
+ .text          0x0000008e        0x4 d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm32.o
+                0x0000008e                __vector_1
+                0x0000008e                __vector_12
+                0x0000008e                __bad_interrupt
+                0x0000008e                __vector_6
+                0x0000008e                __vector_3
+                0x0000008e                __vector_11
+                0x0000008e                __vector_13
+                0x0000008e                __vector_17
+                0x0000008e                __vector_19
+                0x0000008e                __vector_7
+                0x0000008e                __vector_5
+                0x0000008e                __vector_4
+                0x0000008e                __vector_9
+                0x0000008e                __vector_2
+                0x0000008e                __vector_15
+                0x0000008e                __vector_8
+                0x0000008e                __vector_14
+                0x0000008e                __vector_10
+                0x0000008e                __vector_16
+                0x0000008e                __vector_18
+                0x0000008e                __vector_20
+ .text          0x00000092        0x0 ./MCAL/USART/USART_Program.o
+ .text          0x00000092        0x0 ./MCAL/Timer/TIMER_Program.o
+ .text          0x00000092        0x0 ./MCAL/DIO/MDIO_Program.o
+ .text          0x00000092        0x0 ./MCAL/ADC/ADC_Program.o
+ .text          0x00000092        0x0 ./HAL/Temperature Sensor/TEMPSENSOR_Program.o
+ .text          0x00000092        0x0 ./HAL/Motor/MOTOR_Program.o
+ .text          0x00000092        0x0 ./HAL/LED/HLED_Program.o
+ .text          0x00000092        0x0 ./HAL/Buzzer/HBUZZER_Program.o
+ .text          0x00000092        0x0 ./HAL/AC/HAC_Program.o
+ .text          0x00000092        0x0 ./Application/APP_Program.o
+ .text          0x00000092        0x0 ./main.o
+ .text          0x00000092        0x0 d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_mulsi3.o)
+ .text          0x00000092        0x0 d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodqi4.o)
+ .text          0x00000092        0x0 d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodhi4.o)
+ .text          0x00000092        0x0 d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodsi4.o)
+ .text          0x00000092        0x0 d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+ .text          0x00000092        0x0 d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_copy_data.o)
+ .text          0x00000092        0x0 d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_clear_bss.o)
+                0x00000092                . = ALIGN (0x2)
+ *(.text.*)
+ .text.MUSART_VoidInit
+                0x00000092       0xc6 ./MCAL/USART/USART_Program.o
+                0x00000092                MUSART_VoidInit
+ .text.MUSART_VoidSendChar
+                0x00000158       0x34 ./MCAL/USART/USART_Program.o
+                0x00000158                MUSART_VoidSendChar
+ .text.MUSART_VoidSendString
+                0x0000018c       0x56 ./MCAL/USART/USART_Program.o
+                0x0000018c                MUSART_VoidSendString
+ .text.MUSART_u8ReceiveChar
+                0x000001e2       0x26 ./MCAL/USART/USART_Program.o
+                0x000001e2                MUSART_u8ReceiveChar
+ .text.MUSART_u8ReceiveString
+                0x00000208       0x56 ./MCAL/USART/USART_Program.o
+                0x00000208                MUSART_u8ReceiveString
+ .text.MUSART_VOIDSendNumber
+                0x0000025e      0x146 ./MCAL/USART/USART_Program.o
+                0x0000025e                MUSART_VOIDSendNumber
+ .text.MTMR0_VOIDFastPWMInit
+                0x000003a4       0x7e ./MCAL/Timer/TIMER_Program.o
+                0x000003a4                MTMR0_VOIDFastPWMInit
+ .text.MTMR0_VOIDSetDutyCycle
+                0x00000422       0x56 ./MCAL/Timer/TIMER_Program.o
+                0x00000422                MTMR0_VOIDSetDutyCycle
+ .text.MTMR0_VOIDPWMOff
+                0x00000478       0x54 ./MCAL/Timer/TIMER_Program.o
+                0x00000478                MTMR0_VOIDPWMOff
+ .text.MTMR2_VOIDNormalInit
+                0x000004cc       0x54 ./MCAL/Timer/TIMER_Program.o
+                0x000004cc                MTMR2_VOIDNormalInit
+ .text.MTMR2_VOIDNormalStart
+                0x00000520       0xd2 ./MCAL/Timer/TIMER_Program.o
+                0x00000520                MTMR2_VOIDNormalStart
+ .text.MDIO_VOIDSetPinDirection
+                0x000005f2      0x1e4 ./MCAL/DIO/MDIO_Program.o
+                0x000005f2                MDIO_VOIDSetPinDirection
+ .text.MDIO_VOIDSetPortDirection
+                0x000007d6       0x82 ./MCAL/DIO/MDIO_Program.o
+                0x000007d6                MDIO_VOIDSetPortDirection
+ .text.MDIO_VOIDSetPinValue
+                0x00000858      0x1e4 ./MCAL/DIO/MDIO_Program.o
+                0x00000858                MDIO_VOIDSetPinValue
+ .text.MDIO_VOIDSetPortValue
+                0x00000a3c       0x82 ./MCAL/DIO/MDIO_Program.o
+                0x00000a3c                MDIO_VOIDSetPortValue
+ .text.MDIO_VOIDTogglePinValue
+                0x00000abe       0xfa ./MCAL/DIO/MDIO_Program.o
+                0x00000abe                MDIO_VOIDTogglePinValue
+ .text.MDIO_U8GetPinValue
+                0x00000bb8       0xf2 ./MCAL/DIO/MDIO_Program.o
+                0x00000bb8                MDIO_U8GetPinValue
+ .text.MDIO_U8GetPortValue
+                0x00000caa       0x82 ./MCAL/DIO/MDIO_Program.o
+                0x00000caa                MDIO_U8GetPortValue
+ .text.MADC_VOIDInit
+                0x00000d2c       0xb6 ./MCAL/ADC/ADC_Program.o
+                0x00000d2c                MADC_VOIDInit
+ .text.MADC_U8ReadValue
+                0x00000de2       0x50 ./MCAL/ADC/ADC_Program.o
+                0x00000de2                MADC_U8ReadValue
+ .text.HTEMP_VOIDInit
+                0x00000e32       0x26 ./HAL/Temperature Sensor/TEMPSENSOR_Program.o
+                0x00000e32                HTEMP_VOIDInit
+ .text.HTEMP_U8GetTemp
+                0x00000e58       0x50 ./HAL/Temperature Sensor/TEMPSENSOR_Program.o
+                0x00000e58                HTEMP_U8GetTemp
+ .text.HMTR_VOIDRotateCCW
+                0x00000ea8       0x7c ./HAL/Motor/MOTOR_Program.o
+                0x00000ea8                HMTR_VOIDRotateCCW
+ .text.HMTR_VOIDRotateCW
+                0x00000f24       0x7c ./HAL/Motor/MOTOR_Program.o
+                0x00000f24                HMTR_VOIDRotateCW
+ .text.HLED_VOIDInit
+                0x00000fa0       0x2e ./HAL/LED/HLED_Program.o
+                0x00000fa0                HLED_VOIDInit
+ .text.HLED_VOIDON
+                0x00000fce       0x1e ./HAL/LED/HLED_Program.o
+                0x00000fce                HLED_VOIDON
+ .text.HLED_VOIDOFF
+                0x00000fec       0x1e ./HAL/LED/HLED_Program.o
+                0x00000fec                HLED_VOIDOFF
+ .text.HBUZZER_VOIDInit
+                0x0000100a       0x2e ./HAL/Buzzer/HBUZZER_Program.o
+                0x0000100a                HBUZZER_VOIDInit
+ .text.HBUZZER_VOIDTriggerAlarm
+                0x00001038       0x1e ./HAL/Buzzer/HBUZZER_Program.o
+                0x00001038                HBUZZER_VOIDTriggerAlarm
+ .text.HBUZZER_VOIDStopAlarm
+                0x00001056       0x1e ./HAL/Buzzer/HBUZZER_Program.o
+                0x00001056                HBUZZER_VOIDStopAlarm
+ .text.HAC_VOIDInit
+                0x00001074       0x38 ./HAL/AC/HAC_Program.o
+                0x00001074                HAC_VOIDInit
+ .text.HAC_VOIDOnOff
+                0x000010ac       0x1c ./HAL/AC/HAC_Program.o
+                0x000010ac                HAC_VOIDOnOff
+ .text.APP_U8StringLength
+                0x000010c8       0x48 ./Application/APP_Program.o
+                0x000010c8                APP_U8StringLength
+ .text.APP_S8StringCompare
+                0x00001110       0xca ./Application/APP_Program.o
+                0x00001110                APP_S8StringCompare
+ .text.APP_VOIDStart
+                0x000011da      0x47a ./Application/APP_Program.o
+                0x000011da                APP_VOIDStart
+ .text.main     0x00001654        0xe ./main.o
+                0x00001654                main
+ .text.libgcc   0x00001662       0x3e d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_mulsi3.o)
+                0x00001662                __mulsi3
+ .text.libgcc   0x000016a0       0x18 d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodqi4.o)
+                0x000016a0                __udivmodqi4
+ .text.libgcc   0x000016b8       0x28 d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodhi4.o)
+                0x000016b8                __udivmodhi4
+ .text.libgcc   0x000016e0       0x44 d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodsi4.o)
+                0x000016e0                __udivmodsi4
+ .text.libgcc   0x00001724        0x0 d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+ .text.libgcc   0x00001724        0x0 d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_copy_data.o)
+ .text.libgcc   0x00001724        0x0 d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_clear_bss.o)
+                0x00001724                . = ALIGN (0x2)
+ *(.fini9)
+ .fini9         0x00001724        0x0 d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+                0x00001724                exit
+                0x00001724                _exit
+ *(.fini9)
+ *(.fini8)
+ *(.fini8)
+ *(.fini7)
+ *(.fini7)
+ *(.fini6)
+ *(.fini6)
+ *(.fini5)
+ *(.fini5)
+ *(.fini4)
+ *(.fini4)
+ *(.fini3)
+ *(.fini3)
+ *(.fini2)
+ *(.fini2)
+ *(.fini1)
+ *(.fini1)
+ *(.fini0)
+ .fini0         0x00001724        0x4 d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+ *(.fini0)
+                0x00001728                _etext = .
+
+.data           0x00800060      0x406 load address 0x00001728
+                0x00800060                PROVIDE (__data_start, .)
+ *(.data)
+ .data          0x00800060        0x0 d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm32.o
+ .data          0x00800060        0x0 ./MCAL/USART/USART_Program.o
+ .data          0x00800060        0x0 ./MCAL/Timer/TIMER_Program.o
+ .data          0x00800060        0x0 ./MCAL/DIO/MDIO_Program.o
+ .data          0x00800060        0x0 ./MCAL/ADC/ADC_Program.o
+ .data          0x00800060        0x0 ./HAL/Temperature Sensor/TEMPSENSOR_Program.o
+ .data          0x00800060        0x0 ./HAL/Motor/MOTOR_Program.o
+ .data          0x00800060        0x0 ./HAL/LED/HLED_Program.o
+ .data          0x00800060        0x0 ./HAL/Buzzer/HBUZZER_Program.o
+ .data          0x00800060        0x0 ./HAL/AC/HAC_Program.o
+ .data          0x00800060      0x275 ./Application/APP_Program.o
+ .data          0x008002d5        0x0 ./main.o
+ .data          0x008002d5        0x0 d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_mulsi3.o)
+ .data          0x008002d5        0x0 d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodqi4.o)
+ .data          0x008002d5        0x0 d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodhi4.o)
+ .data          0x008002d5        0x0 d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodsi4.o)
+ .data          0x008002d5        0x0 d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+ .data          0x008002d5        0x0 d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_copy_data.o)
+ .data          0x008002d5        0x0 d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_clear_bss.o)
+ *(.data*)
+ .data.Users    0x008002d5      0x190 ./Application/APP_Program.o
+                0x008002d5                Users
+ *(.rodata)
+ *(.rodata*)
+ *(.gnu.linkonce.d*)
+                0x00800466                . = ALIGN (0x2)
+ *fill*         0x00800465        0x1 00
+                0x00800466                _edata = .
+                0x00800466                PROVIDE (__data_end, .)
+
+.bss            0x00800466       0x26
+                0x00800466                PROVIDE (__bss_start, .)
+ *(.bss)
+ .bss           0x00800466        0x0 d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm32.o
+ .bss           0x00800466        0x0 ./MCAL/USART/USART_Program.o
+ .bss           0x00800466        0x0 ./MCAL/Timer/TIMER_Program.o
+ .bss           0x00800466        0x0 ./MCAL/DIO/MDIO_Program.o
+ .bss           0x00800466        0x0 ./MCAL/ADC/ADC_Program.o
+ .bss           0x00800466        0x0 ./HAL/Temperature Sensor/TEMPSENSOR_Program.o
+ .bss           0x00800466        0x0 ./HAL/Motor/MOTOR_Program.o
+ .bss           0x00800466        0x0 ./HAL/LED/HLED_Program.o
+ .bss           0x00800466        0x0 ./HAL/Buzzer/HBUZZER_Program.o
+ .bss           0x00800466        0x0 ./HAL/AC/HAC_Program.o
+ .bss           0x00800466        0x0 ./Application/APP_Program.o
+ .bss           0x00800466        0x0 ./main.o
+ .bss           0x00800466        0x0 d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_mulsi3.o)
+ .bss           0x00800466        0x0 d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodqi4.o)
+ .bss           0x00800466        0x0 d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodhi4.o)
+ .bss           0x00800466        0x0 d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodsi4.o)
+ .bss           0x00800466        0x0 d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+ .bss           0x00800466        0x0 d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_copy_data.o)
+ .bss           0x00800466        0x0 d:/embedded course/sdk/imt_sdk_win_64/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_clear_bss.o)
+ *(.bss*)
+ .bss.LOC_RXString.1261
+                0x00800466       0x20 ./MCAL/USART/USART_Program.o
+ .bss.GLOB_U8Port
+                0x00800486        0x1 ./HAL/LED/HLED_Program.o
+ .bss.GLOB_U8Pin
+                0x00800487        0x1 ./HAL/LED/HLED_Program.o
+ .bss.GLOB_U8Port
+                0x00800488        0x1 ./HAL/Buzzer/HBUZZER_Program.o
+ .bss.GLOB_U8Pin
+                0x00800489        0x1 ./HAL/Buzzer/HBUZZER_Program.o
+ .bss.GLOB_U8Port
+                0x0080048a        0x1 ./HAL/AC/HAC_Program.o
+ .bss.GLOB_U8Pin
+                0x0080048b        0x1 ./HAL/AC/HAC_Program.o
+ *(COMMON)
+                0x0080048c                PROVIDE (__bss_end, .)
+                0x00001728                __data_load_start = LOADADDR (.data)
+                0x00001b2e                __data_load_end = (__data_load_start + SIZEOF (.data))
+
+.noinit         0x0080048c        0x0
+                0x0080048c                PROVIDE (__noinit_start, .)
+ *(.noinit*)
+                0x0080048c                PROVIDE (__noinit_end, .)
+                0x0080048c                _end = .
+                0x0080048c                PROVIDE (__heap_start, .)
+
+.eeprom         0x00810000        0x0
+ *(.eeprom*)
+                0x00810000                __eeprom_end = .
+
+.fuse
+ *(.fuse)
+ *(.lfuse)
+ *(.hfuse)
+ *(.efuse)
+
+.lock
+ *(.lock*)
+
+.signature
+ *(.signature*)
+
+.stab           0x00000000     0x2b98
+ *(.stab)
+ .stab          0x00000000      0x54c ./MCAL/USART/USART_Program.o
+ .stab          0x0000054c      0x3d8 ./MCAL/Timer/TIMER_Program.o
+                                0x3e4 (size before relaxing)
+ .stab          0x00000924      0x660 ./MCAL/DIO/MDIO_Program.o
+                                0x66c (size before relaxing)
+ .stab          0x00000f84      0x2d0 ./MCAL/ADC/ADC_Program.o
+                                0x2dc (size before relaxing)
+ .stab          0x00001254      0x264 ./HAL/Temperature Sensor/TEMPSENSOR_Program.o
+                                0x270 (size before relaxing)
+ .stab          0x000014b8      0x33c ./HAL/Motor/MOTOR_Program.o
+                                0x348 (size before relaxing)
+ .stab          0x000017f4      0x264 ./HAL/LED/HLED_Program.o
+                                0x270 (size before relaxing)
+ .stab          0x00001a58      0x264 ./HAL/Buzzer/HBUZZER_Program.o
+                                0x270 (size before relaxing)
+ .stab          0x00001cbc      0x258 ./HAL/AC/HAC_Program.o
+                                0x264 (size before relaxing)
+ .stab          0x00001f14      0xb70 ./Application/APP_Program.o
+                                0xb7c (size before relaxing)
+ .stab          0x00002a84      0x114 ./main.o
+                                0x1c8 (size before relaxing)
+
+.stabstr        0x00000000     0x10dd
+ *(.stabstr)
+ .stabstr       0x00000000     0x10dd ./MCAL/USART/USART_Program.o
+
+.stab.excl
+ *(.stab.excl)
+
+.stab.exclstr
+ *(.stab.exclstr)
+
+.stab.index
+ *(.stab.index)
+
+.stab.indexstr
+ *(.stab.indexstr)
+
+.comment
+ *(.comment)
+
+.debug
+ *(.debug)
+
+.line
+ *(.line)
+
+.debug_srcinfo
+ *(.debug_srcinfo)
+
+.debug_sfnames
+ *(.debug_sfnames)
+
+.debug_aranges
+ *(.debug_aranges)
+
+.debug_pubnames
+ *(.debug_pubnames)
+
+.debug_info
+ *(.debug_info)
+ *(.gnu.linkonce.wi.*)
+
+.debug_abbrev
+ *(.debug_abbrev)
+
+.debug_line
+ *(.debug_line)
+
+.debug_frame
+ *(.debug_frame)
+
+.debug_str
+ *(.debug_str)
+
+.debug_loc
+ *(.debug_loc)
+
+.debug_macinfo
+ *(.debug_macinfo)
+OUTPUT(MobileControlledHome.elf elf32-avr)
+LOAD linker stubs
